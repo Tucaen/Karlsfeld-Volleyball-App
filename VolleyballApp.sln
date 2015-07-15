@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolleyballApp", "VolleyballApp\VolleyballApp.csproj", "{B3FE0A40-795F-4495-8E6D-F0ACC683B292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolleyballApp.UITests", "VolleyballApp.UITests\VolleyballApp.UITests.csproj", "{778E8537-8583-4664-A13B-53898762B0B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneDriveSDKPickerSampleAndroid", "..\..\..\onedrivepicker-1.0.0\samples\OneDriveSDKPickerSampleAndroid\OneDriveSDKPickerSampleAndroid.csproj", "{294ECC68-404E-4DED-B8EB-EAF192CDB323}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{294ECC68-404E-4DED-B8EB-EAF192CDB323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{294ECC68-404E-4DED-B8EB-EAF192CDB323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{294ECC68-404E-4DED-B8EB-EAF192CDB323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{294ECC68-404E-4DED-B8EB-EAF192CDB323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{778E8537-8583-4664-A13B-53898762B0B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{778E8537-8583-4664-A13B-53898762B0B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{778E8537-8583-4664-A13B-53898762B0B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{778E8537-8583-4664-A13B-53898762B0B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FE0A40-795F-4495-8E6D-F0ACC683B292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FE0A40-795F-4495-8E6D-F0ACC683B292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FE0A40-795F-4495-8E6D-F0ACC683B292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FE0A40-795F-4495-8E6D-F0ACC683B292}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

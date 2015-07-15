@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="de.win.volleyballapp">
+	<uses-sdk android:minSdkVersion="16" />
+	<application android:label="VolleyballApp" android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
+	</application>
+</manifest>
