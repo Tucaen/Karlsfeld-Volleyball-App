@@ -2,7 +2,6 @@
 using System.IO;
 using MySql.Data.MySqlClient;
 
-
 namespace VolleyballApp {
 	public class DB_Communicator {
 		static string connectionString;

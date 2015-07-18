@@ -46,6 +46,8 @@
       <HintPath>..\..\..\..\..\..\Program Files %28x86%29\MySQL\MySQL Connector Net 6.9.6\Assemblies\v2.0\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -57,6 +59,21 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
+    <None Include="..\..\..\MySQL\Scripts\Insert_Event.sql">
+      <Link>SQL\Insert_Event.sql</Link>
+    </None>
+    <None Include="..\..\..\MySQL\Scripts\Insert_User.sql">
+      <Link>SQL\Insert_User.sql</Link>
+    </None>
+    <None Include="..\..\..\MySQL\Scripts\Insert_User_To_Event.sql">
+      <Link>SQL\Insert_User_To_Event.sql</Link>
+    </None>
+    <None Include="..\..\..\MySQL\Scripts\Select_All_Events_For_User.sql">
+      <Link>SQL\Select_All_Events_For_User.sql</Link>
+    </None>
+    <None Include="..\..\..\MySQL\Scripts\Select_All_User_For_Event.sql">
+      <Link>SQL\Select_All_User_For_Event.sql</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -68,4 +85,7 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="SQL\" />
+  </ItemGroup>
 </Project>
