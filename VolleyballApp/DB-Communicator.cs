@@ -1,17 +1,13 @@
 ﻿using System;
 using System.IO;
-using MySql;
 using MySql.Data.MySqlClient;
 
 
-namespace VolleyballApp
-{
-	public class DB_Communicator
-	{
-		string connectionString;
+namespace VolleyballApp {
+	public class DB_Communicator {
+		static string connectionString;
 
-		public DB_Communicator ()
-		{
+		public DB_Communicator() {
 			connectionString = "SERVER=localhost;" +
 			"DATABASE=Volleyball_App_DB;" +
 			"UID=root;" +
@@ -19,15 +15,11 @@ namespace VolleyballApp
 		}
 
 		public void test() {
-			using (MySqlConnection connection = new MySqlConnection(connectionString))
-			{
+			using (MySqlConnection connection = new MySqlConnection(connectionString)) {
 				connection.Open();
-				try
-				{
+				try {
 					MySqlCommand authentification = new MySqlCommand("SELECT U_NAME FROM User WHERE U_Name == user");
-				}
-				catch (Exception )
-				{
+				} catch(Exception) {
 
 				}
 			}
