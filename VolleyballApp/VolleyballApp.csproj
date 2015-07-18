@@ -59,21 +59,11 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
-    <None Include="..\..\..\MySQL\Scripts\Insert_Event.sql">
-      <Link>SQL\Insert_Event.sql</Link>
-    </None>
-    <None Include="..\..\..\MySQL\Scripts\Insert_User.sql">
-      <Link>SQL\Insert_User.sql</Link>
-    </None>
-    <None Include="..\..\..\MySQL\Scripts\Insert_User_To_Event.sql">
-      <Link>SQL\Insert_User_To_Event.sql</Link>
-    </None>
-    <None Include="..\..\..\MySQL\Scripts\Select_All_Events_For_User.sql">
-      <Link>SQL\Select_All_Events_For_User.sql</Link>
-    </None>
-    <None Include="..\..\..\MySQL\Scripts\Select_All_User_For_Event.sql">
-      <Link>SQL\Select_All_User_For_Event.sql</Link>
-    </None>
+    <None Include="SQL\Insert_Event.sql" />
+    <None Include="SQL\Insert_User.sql" />
+    <None Include="SQL\Insert_User_To_Event.sql" />
+    <None Include="SQL\Select_All_Events_For_User.sql" />
+    <None Include="SQL\Select_All_User_For_Event.sql" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
