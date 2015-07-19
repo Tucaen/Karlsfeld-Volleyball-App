@@ -12,8 +12,6 @@ namespace VolleyballApp
 	[Activity (Label = "VolleyballApp", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
-
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
@@ -22,8 +20,7 @@ namespace VolleyballApp
 			SetContentView (Resource.Layout.Main);
 
 			DB_Communicator db = new DB_Communicator();
-			db.selectEventsForUser(2, DB_Communicator.State.Invited);
-		
+			db.SelectEventsForUser(2, DB_Communicator.State.Invited);
 		}
 	}
 }
