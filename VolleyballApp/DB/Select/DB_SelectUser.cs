@@ -8,6 +8,11 @@ namespace VolleyballApp {
 
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
+		/**
+		 * Concatenate a Uri with the given parameters.
+		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
+		 * which will be stored in the variable listUser.
+		 **/
 		public async void SelectUserForEvent(string host, string requestUserForEvent, int idEvent, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + requestUserForEvent + "?idEvent=" + idEvent + "&state="  + state);
@@ -24,6 +29,9 @@ namespace VolleyballApp {
 			}
 		}
 
+		/**
+		 * Creates a MySqlUser object for every row in the response string.
+		 **/
 		private List<MySqlUser> createUserFromResponse(string response) {
 			if(base.dbCommunicator.wasSuccesful(response)) {
 				string[] userInfo = response.Split('|');

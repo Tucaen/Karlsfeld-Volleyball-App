@@ -29,19 +29,29 @@ namespace VolleyballApp {
 			debug = true;
 		}
 
+		/**
+		 * Provides you with list of all events for a specific user and state.
+		 * If state is null all states will be selected.
+		 **/
 		public List<MySqlEvent> SelectEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
 			dbSelectEvent.SelectEventsForUser(host, requestEventsForUser, idUser, state);
 			return dbSelectEvent.listEvent;
 		}
 
-
-		public async List<MySqlUser> SelectUserForEvent(int idEvent, string state) {
+		/**
+		 * Provides you with list of all users for a specific event and state.
+		 * If state is null all states will be selected.
+		 **/
+		public List<MySqlUser> SelectUserForEvent(int idEvent, string state) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
 			dbSelectUser.SelectUserForEvent(host, requestEventsForUser, idEvent, state);
 			return dbSelectUser.listUser;
 		}
 
+		/**
+		 * Returns true if the mySQL-Statement was succesfully invoked else false.
+		 **/
 		public bool wasSuccesful(string response) {
 			return !response.Contains("FAILED");
 		}
