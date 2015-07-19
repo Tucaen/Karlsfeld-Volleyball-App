@@ -57,6 +57,9 @@
     <Compile Include="DB\Select\DB_Select.cs" />
     <Compile Include="DB\Select\DB_SelectEvent.cs" />
     <Compile Include="DB\Select\DB_SelectUser.cs" />
+    <Compile Include="DB\Insert\DB_Insert.cs" />
+    <Compile Include="DB\DB_Delete.cs" />
+    <Compile Include="DB\Update\DB_Update.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -70,6 +73,9 @@
     <None Include="PHP\dbConnection.php" />
     <None Include="PHP\Select\requestEventsForUser.php" />
     <None Include="PHP\Select\requestUserForEvent.php" />
+    <None Include="PHP\Delete\deleteUser.php" />
+    <None Include="PHP\Insert\insertUser.php" />
+    <None Include="PHP\Update\updateUser.php" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -88,5 +94,10 @@
     <Folder Include="DB\" />
     <Folder Include="DB\Select\" />
     <Folder Include="PHP\Select\" />
+    <Folder Include="DB\Insert\" />
+    <Folder Include="DB\Update\" />
+    <Folder Include="PHP\Insert\" />
+    <Folder Include="PHP\Update\" />
+    <Folder Include="PHP\Delete\" />
   </ItemGroup>
 </Project>

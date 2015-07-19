@@ -21,7 +21,11 @@ namespace VolleyballApp
 
 			DB_Communicator db = new DB_Communicator();
 //			db.SelectEventsForUser(2, DB_Communicator.State.Invited);
-			db.SelectEventsForUser(2, null);
+//			db.SelectEventsForUser(2, null);
+//			db.InsertUser("test test", "Spieler", "spieler", 0, "?");
+//			db.DeleteUser(8);
+//			db.InsertUser("Lukas Hoffmann", "Spieler", "spieler", 0, "?");
+			db.UpdateUser(7, null, null, null, 0, null);
 		}
 	}
 }

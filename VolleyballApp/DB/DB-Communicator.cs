@@ -50,6 +50,34 @@ namespace VolleyballApp {
 		}
 
 		/**
+		 * Inserts a user with the given parameters and userId = currentHighestId + 1
+		 **/
+		public bool InsertUser(string name, string role, string password, int number, string position) {
+			DB_Insert dbInsert = new DB_Insert(this);
+			dbInsert.InsertUser(host, name, role, password, number, position);
+			return dbInsert.success;
+		}
+
+		/**
+		 * Deletes a user with the given userId.
+		 **/
+		public bool DeleteUser(int idUser) {
+			DB_Delete dbDelete = new DB_Delete(this);
+			dbDelete.DeleteUser(host, idUser);
+			return dbDelete.success;
+
+		}
+
+		/**
+		 * Updates a user with the given userId with the given parameters.
+		 **/
+		public bool UpdateUser(int idUser, string name, string role, string password, int number, string position) {
+			DB_Update dbUpdate = new DB_Update(this);
+			dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
+			return dbUpdate.success;
+		}
+
+		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/
 		public bool wasSuccesful(string response) {

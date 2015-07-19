@@ -4,7 +4,7 @@ require_once(dirname('_FILE_').'/dbConnection.php');
 $connection = new ConnectionInfo();
 $connection->GetConnection();
 
-$idUser = $_GET["idEvent"];
+$idEvent = $_GET["idEvent"];
 if(isset($_GET["state"])) {
 	$state = $_GET["state"];
 } else {
