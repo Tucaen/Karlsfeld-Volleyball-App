@@ -18,15 +18,37 @@ namespace VolleyballApp {
 		static string requestEventsForUser = "php/requestEventsForUser.php";
 		static string requestUserForEvent = "php/requestUserForEvent.php";
 
-		public DB_Communicator() {
-			client = new HttpClient();
-			debug = false;
+		public class State {
+			public static string Invited = "eingeladen";
+			public static string Accepted = "zugesagt";
+			public static string Denied = "abgesagt";
 		}
 
-		public async void selectUserForEvent() {
-//			HttpGet httpGet = new HttpGet(requestEventsForUser);
+		public DB_Communicator() {
+			client = new HttpClient();
+			debug = true;
+		}
+
+		public async void SelectEventsForUser(int idUser, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
-			Uri uri = new Uri(host + requestUserForEvent);
+			Uri uri = new Uri(host + requestEventsForUser + "?idUser=" + idUser + "&state=" + state);
+
+			string responseText;
+			try {
+				response = await client.GetAsync(uri);
+				response.EnsureSuccessStatusCode();
+				responseText = await response.Content.ReadAsStringAsync();
+
+				createEventFromResponse(responseText);
+			} catch(Exception e) {
+				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
+			}
+		}
+
+
+		public async void SelectUserForEvent(int idEvent, string state) {
+			HttpResponseMessage response = new HttpResponseMessage();
+			Uri uri = new Uri(host + requestUserForEvent + "?idEvent=" + idEvent + "&state="  + state);
 
 			string responseText;
 			try {
@@ -37,6 +59,27 @@ namespace VolleyballApp {
 				createUserFromResponse(responseText);
 			} catch(Exception e) {
 				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
+			}
+		}
+
+		private List<MySqlEvent> createEventFromResponse(string response) {
+			if(wasSuccesful(response)) {
+				string[] eventInfo = response.Split('|');
+				List<MySqlEvent> listEvent = new List<MySqlEvent>();
+
+				int i = 0;
+				do {
+					if(debug) {
+						Console.WriteLine("Creating Event: " + eventInfo[i] + " " + eventInfo[i + 1] + " " + eventInfo[i + 2] + " " + eventInfo[i + 3] + " " + eventInfo[i + 4]);
+					}
+					listEvent.Add(new MySqlEvent(Convert.ToInt32(eventInfo[i]), eventInfo[i + 1], Convert.ToDateTime(eventInfo[i + 2]), Convert.ToDateTime(eventInfo[i + 3]), eventInfo[i + 4]));
+					i += 5;
+				} while(!eventInfo[i].Equals("<endoffile>")) ;
+
+				return listEvent;
+			} else {
+				Console.WriteLine("Invalid response for creating event!");
+				return null;
 			}
 		}
 

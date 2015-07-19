@@ -22,7 +22,7 @@ namespace VolleyballApp
 			SetContentView (Resource.Layout.Main);
 
 			DB_Communicator db = new DB_Communicator();
-			db.selectUserForEvent();
+			db.selectEventsForUser(2, DB_Communicator.State.Invited);
 		
 		}
 	}
