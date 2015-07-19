@@ -68,8 +68,8 @@
     <None Include="SQL\Select_All_Events_For_User.sql" />
     <None Include="SQL\Select_All_User_For_Event.sql" />
     <None Include="PHP\dbConnection.php" />
-    <None Include="PHP\requestEventsForUser.php" />
-    <None Include="PHP\requestUserForEvent.php" />
+    <None Include="PHP\Select\requestEventsForUser.php" />
+    <None Include="PHP\Select\requestUserForEvent.php" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -87,5 +87,6 @@
     <Folder Include="PHP\" />
     <Folder Include="DB\" />
     <Folder Include="DB\Select\" />
+    <Folder Include="PHP\Select\" />
   </ItemGroup>
 </Project>
