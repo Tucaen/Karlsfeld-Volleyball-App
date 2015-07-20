@@ -1,13 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Collections.Specialized;
-using System.Text;
-using Android.App;
-using System.Net.Http;
-using Org.Apache.Http.Impl.Client;
-using Org.Apache.Http.Client.Methods;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 
 namespace VolleyballApp {
@@ -15,8 +11,6 @@ namespace VolleyballApp {
 		public bool debug { get; set; }
 		public HttpClient client { get; set; }
 		static string host = "http://10.0.3.2/";
-		static string requestEventsForUser = "php/requestEventsForUser.php";
-		static string requestUserForEvent = "php/requestUserForEvent.php";
 
 		public class State {
 			public static string Invited = "eingeladen";
@@ -29,13 +23,19 @@ namespace VolleyballApp {
 			debug = true;
 		}
 
+		public async Task<bool> login(string username, string password) {
+			DB_SelectUser dbUser = new DB_SelectUser(this);
+			return await dbUser.validateLogin(host, username, password);
+		}
+
 		/**
 		 * Provides you with list of all events for a specific user and state.
 		 * If state is null all states will be selected.
 		 **/
-		public List<MySqlEvent> SelectEventsForUser(int idUser, string state) {
+		public async Task<List<MySqlEvent>> SelectEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			dbSelectEvent.SelectEventsForUser(host, requestEventsForUser, idUser, state);
+			bool success = await dbSelectEvent.SelectEventsForUser(host, idUser, state);
+
 			return dbSelectEvent.listEvent;
 		}
 
@@ -43,38 +43,35 @@ namespace VolleyballApp {
 		 * Provides you with list of all users for a specific event and state.
 		 * If state is null all states will be selected.
 		 **/
-		public List<MySqlUser> SelectUserForEvent(int idEvent, string state) {
+		public async Task<List<MySqlUser>> SelectUserForEvent(int idEvent, string state) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
-			dbSelectUser.SelectUserForEvent(host, requestEventsForUser, idEvent, state);
+			bool success = await dbSelectUser.SelectUserForEvent(host, idEvent, state);
 			return dbSelectUser.listUser;
 		}
 
 		/**
 		 * Inserts a user with the given parameters and userId = currentHighestId + 1
 		 **/
-		public bool InsertUser(string name, string role, string password, int number, string position) {
+		public async Task<bool> InsertUser(string name, string role, string password, int number, string position) {
 			DB_Insert dbInsert = new DB_Insert(this);
-			dbInsert.InsertUser(host, name, role, password, number, position);
-			return dbInsert.success;
+			return await dbInsert.InsertUser(host, name, role, password, number, position);
 		}
 
 		/**
 		 * Deletes a user with the given userId.
 		 **/
-		public bool DeleteUser(int idUser) {
+		public async Task<bool> DeleteUser(int idUser) {
 			DB_Delete dbDelete = new DB_Delete(this);
-			dbDelete.DeleteUser(host, idUser);
-			return dbDelete.success;
+			return await dbDelete.DeleteUser(host, idUser);
 
 		}
 
 		/**
 		 * Updates a user with the given userId with the given parameters.
 		 **/
-		public bool UpdateUser(int idUser, string name, string role, string password, int number, string position) {
+		public async Task<bool> UpdateUser(int idUser, string name, string role, string password, int number, string position) {
 			DB_Update dbUpdate = new DB_Update(this);
-			dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
-			return dbUpdate.success;
+			return await dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
 		}
 
 		/**

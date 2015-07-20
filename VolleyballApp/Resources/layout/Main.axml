@@ -4,10 +4,4 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
-    <Button
-        android:text="OneDrive Picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/OneDrivePicker" />
-</LinearLayout>
+    android:minHeight="25px" />

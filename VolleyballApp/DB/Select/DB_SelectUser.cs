@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
@@ -8,14 +9,37 @@ namespace VolleyballApp {
 
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
+		public async Task<bool> validateLogin(string host, string username, string password) {
+			HttpResponseMessage response = new HttpResponseMessage();
+			Uri uri = new Uri(host + "php/validateLogin.php?username=" + username + "&password="  + password);
+
+			string responseText;
+			try {
+				response = await client.GetAsync(uri);
+				response.EnsureSuccessStatusCode();
+				responseText = await response.Content.ReadAsStringAsync();
+				if(debug) {
+					Console.WriteLine("Login response: " + responseText);
+				}
+				if(dbCommunicator.wasSuccesful(responseText)) {
+					return true;
+				}
+			} catch(Exception e) {
+				Console.WriteLine("Error while loging in: " + e.Message);
+				return false;
+			}
+			return false;
+		}
+
+
 		/**
 		 * Concatenate a Uri with the given parameters.
 		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
 		 * which will be stored in the variable listUser.
 		 **/
-		public async void SelectUserForEvent(string host, string requestUserForEvent, int idEvent, string state) {
+		public async Task<bool> SelectUserForEvent(string host, int idEvent, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
-			Uri uri = new Uri(host + requestUserForEvent + "?idEvent=" + idEvent + "&state="  + state);
+			Uri uri = new Uri(host + "php/requestUserForEvent.php?idEvent=" + idEvent + "&state="  + state);
 
 			string responseText;
 			try {
@@ -24,8 +48,10 @@ namespace VolleyballApp {
 				responseText = await response.Content.ReadAsStringAsync();
 
 				listUser = createUserFromResponse(responseText);
+				return true;
 			} catch(Exception e) {
 				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
+				return false;
 			}
 		}
 
