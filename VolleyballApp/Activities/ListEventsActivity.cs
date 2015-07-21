@@ -16,14 +16,18 @@ namespace VolleyballApp {
 	public class ListEventsActivity : Activity {
 		ListView listView;
 		List<MySqlEvent> listEvents;
+		MySqlUser user;
+
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.ListEvents);
 			listView = FindViewById<ListView>(Resource.Id.listEvents);
 
+			user = MySqlUser.GetUserFromPreferences(this);
+
 			DB_Communicator db = new DB_Communicator();
 			Console.WriteLine("Created DB_Communicator");
-  			listEvents = db.SelectEventsForUser(1, null).Result;
+			listEvents = db.SelectEventsForUser(user.idUser, null).Result;
 			Console.WriteLine("Passed terrifying point of selecting all events for this user");
 			listView.Adapter = new ListEventsAdapter(this, listEvents);
 

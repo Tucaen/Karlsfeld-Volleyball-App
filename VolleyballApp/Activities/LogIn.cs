@@ -10,10 +10,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Preferences;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp - Login", MainLauncher = true, Icon = "@drawable/icon")]	
 	public class LogIn : Activity {
+		MySqlUser user;
+
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 
@@ -27,7 +30,12 @@ namespace VolleyballApp {
 				EditText username = FindViewById<EditText>(Resource.Id.usernameText);
 				EditText password = FindViewById<EditText>(Resource.Id.passwordText);
 
-				if(await db.login(username.Text, password.Text)) {
+				user = await db.login(username.Text, password.Text);
+
+				if(user != null) {
+					//storing user information for usage in other activities
+					user.StoreUserInPreferences(this, user);
+
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
 					Intent i = new Intent(this, typeof(ListEventsActivity));
 					StartActivity(i);
@@ -35,9 +43,9 @@ namespace VolleyballApp {
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
 				}
 			};
-
-
 		}
+
+
 	}
 }
 

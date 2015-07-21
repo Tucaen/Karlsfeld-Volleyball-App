@@ -7,26 +7,25 @@ namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
-		public async Task<bool> validateLogin(string host, string username, string password) {
+		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/validateLogin.php?username=" + username + "&password="  + password);
 
+			MySqlUser user = null;
 			string responseText;
 			try {
 				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
 				response.EnsureSuccessStatusCode();
 				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
-				if(debug) {
+				user  = createUserFromResponse(responseText)[0];
+
+				if(debug) 
 					Console.WriteLine("Login response: " + responseText);
-				}
-				if(dbCommunicator.wasSuccesful(responseText)) {
-					return true;
-				}
+				
 			} catch(Exception e) {
 				Console.WriteLine("Error while loging in: " + e.Message);
-				return false;
 			}
-			return false;
+			return user;
 		}
 
 

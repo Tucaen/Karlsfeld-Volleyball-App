@@ -14,11 +14,12 @@ if(isset($_GET["username"]) && isset($_GET["password"])) {
 	if($subquery === FALSE) {
 		echo "FAILED LOGIN - username or password is wrong"; 
 	} else {
-		$values = mysql_fetch_assoc($subquery);
-		if($values == false) {
+		$row = mysql_fetch_assoc($subquery);
+		if($row == false) {
 			echo "FAILED LOGIN - username or password is wrong";
 		} else {
-			echo "Login for user [$username] [$password] was successful!";
+			echo $row['idUser']. '|' . $row['Name'] . '|' . $row['Role'] . '|' . $row['Password']. '|' . $row['Number'] . '|' . $row['Position'] . '|';
+			echo "<endoffile>";
 		}
 	}
 } else {

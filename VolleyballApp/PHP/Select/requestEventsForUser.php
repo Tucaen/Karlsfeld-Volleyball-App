@@ -31,7 +31,7 @@ if($query === FALSE) {
 }
 
 while($row = mysql_fetch_array($query)) {
-	echo $row['idEvent']. '|' . $row['Name'] . '|' . $row['StartDate'] . '|' . $row['EndDate']. '|' . $row['Location'] . '|';
+	echo $row['idEvent']. '|' . $row['Name'] . '|' . $row['StartDate'] . '|' . $row['EndDate']. '|' . $row['Location'] . '|' . $row['Status'] . '|';
 }
 echo "<endoffile>";
 ?>
