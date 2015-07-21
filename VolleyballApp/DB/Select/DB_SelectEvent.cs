@@ -25,11 +25,10 @@ namespace VolleyballApp {
 				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 
 				listEvent = createEventFromResponse(responseText);
-				return listEvent;
 			} catch(Exception e) {
 				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
-				return listEvent;
 			}
+			return listEvent;
 		}
 
 		/**
