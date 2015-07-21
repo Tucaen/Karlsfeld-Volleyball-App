@@ -34,9 +34,7 @@ namespace VolleyballApp {
 		 **/
 		public async Task<List<MySqlEvent>> SelectEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			bool success = await dbSelectEvent.SelectEventsForUser(host, idUser, state);
-
-			return dbSelectEvent.listEvent;
+			return await dbSelectEvent.SelectEventsForUser(host, idUser, state);
 		}
 
 		/**

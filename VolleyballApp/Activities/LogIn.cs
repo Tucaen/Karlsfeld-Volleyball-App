@@ -29,7 +29,7 @@ namespace VolleyballApp {
 
 				if(await db.login(username.Text, password.Text)) {
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
-					Intent i = new Intent(this, typeof(ListEvents));
+					Intent i = new Intent(this, typeof(ListEventsActivity));
 					StartActivity(i);
 				} else {
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();

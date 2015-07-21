@@ -2,11 +2,11 @@
 
 namespace VolleyballApp {
 	public class MySqlEvent {
-		private int idEvent { get; set; }
-		private string name { get; set; }
-		private DateTime startDate { get; set; }
-		private DateTime endDate { get; set; }
-		private string location { get; set; }
+		public int idEvent { get; set; }
+		public string name { get; set; }
+		public DateTime startDate { get; set; }
+		public DateTime endDate { get; set; }
+		public string location { get; set; }
 
 		public MySqlEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location) {
 			this.idEvent = idEvent;
