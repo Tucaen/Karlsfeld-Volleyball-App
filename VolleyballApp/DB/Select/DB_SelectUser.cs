@@ -15,9 +15,9 @@ namespace VolleyballApp {
 
 			string responseText;
 			try {
-				response = await client.GetAsync(uri);
+				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
 				response.EnsureSuccessStatusCode();
-				responseText = await response.Content.ReadAsStringAsync();
+				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 				if(debug) {
 					Console.WriteLine("Login response: " + responseText);
 				}
