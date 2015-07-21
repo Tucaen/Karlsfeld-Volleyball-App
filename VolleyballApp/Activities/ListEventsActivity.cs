@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 
 namespace VolleyballApp {
-	[Activity (Label = "VolleyballApp - Events", MainLauncher = true)]			
+	[Activity (Label = "VolleyballApp - Events", MainLauncher = false)]			
 	public class ListEventsActivity : Activity {
 		ListView listView;
 		List<MySqlEvent> listEvents;

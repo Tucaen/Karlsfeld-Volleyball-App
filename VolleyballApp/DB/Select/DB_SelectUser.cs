@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
-		public List<MySqlUser> listUser { get; set; }
-
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
 		public async Task<bool> validateLogin(string host, string username, string password) {
@@ -37,22 +35,22 @@ namespace VolleyballApp {
 		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
 		 * which will be stored in the variable listUser.
 		 **/
-		public async Task<bool> SelectUserForEvent(string host, int idEvent, string state) {
+		public async Task<List<MySqlUser>> SelectUserForEvent(string host, int idEvent, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/requestUserForEvent.php?idEvent=" + idEvent + "&state="  + state);
 
+			List<MySqlUser> listUser = null;
 			string responseText;
 			try {
-				response = await client.GetAsync(uri);
+				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
 				response.EnsureSuccessStatusCode();
-				responseText = await response.Content.ReadAsStringAsync();
+				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 
 				listUser = createUserFromResponse(responseText);
-				return true;
 			} catch(Exception e) {
 				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
-				return false;
 			}
+			return listUser;
 		}
 
 		/**

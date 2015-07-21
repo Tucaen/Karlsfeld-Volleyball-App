@@ -12,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 
 namespace VolleyballApp {
-	[Activity(Label = "Login", MainLauncher = false, Icon = "@drawable/icon")]	
+	[Activity(Label = "VolleyballApp - Login", MainLauncher = true, Icon = "@drawable/icon")]	
 	public class LogIn : Activity {
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
