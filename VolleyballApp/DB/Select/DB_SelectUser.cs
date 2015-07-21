@@ -1,32 +1,55 @@
 ﻿using System;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
-		public List<MySqlUser> listUser { get; set; }
-
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
+
+		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
+			HttpResponseMessage response = new HttpResponseMessage();
+			Uri uri = new Uri(host + "php/validateLogin.php?username=" + username + "&password="  + password);
+
+			MySqlUser user = null;
+			string responseText;
+			try {
+				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
+				response.EnsureSuccessStatusCode();
+				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
+				user  = createUserFromResponse(responseText)[0];
+
+				if(debug) 
+					Console.WriteLine("Login response: " + responseText);
+				
+			} catch(Exception e) {
+				Console.WriteLine("Error while loging in: " + e.Message);
+			}
+			return user;
+		}
+
 
 		/**
 		 * Concatenate a Uri with the given parameters.
 		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
 		 * which will be stored in the variable listUser.
 		 **/
-		public async void SelectUserForEvent(string host, string requestUserForEvent, int idEvent, string state) {
+		public async Task<List<MySqlUser>> SelectUserForEvent(string host, int idEvent, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
-			Uri uri = new Uri(host + requestUserForEvent + "?idEvent=" + idEvent + "&state="  + state);
+			Uri uri = new Uri(host + "php/requestUserForEvent.php?idEvent=" + idEvent + "&state="  + state);
 
+			List<MySqlUser> listUser = null;
 			string responseText;
 			try {
-				response = await client.GetAsync(uri);
+				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
 				response.EnsureSuccessStatusCode();
-				responseText = await response.Content.ReadAsStringAsync();
+				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 
 				listUser = createUserFromResponse(responseText);
 			} catch(Exception e) {
 				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
 			}
+			return listUser;
 		}
 
 		/**
