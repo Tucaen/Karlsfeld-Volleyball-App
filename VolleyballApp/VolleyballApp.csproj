@@ -58,9 +58,9 @@
     <Compile Include="DB\Select\DB_SelectUser.cs" />
     <Compile Include="DB\Insert\DB_Insert.cs" />
     <Compile Include="DB\Update\DB_Update.cs" />
-    <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\LogIn.cs" />
     <Compile Include="DB\Delete\DB_Delete.cs" />
+    <Compile Include="Activities\ListEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -78,9 +78,9 @@
     <None Include="PHP\Insert\insertUser.php" />
     <None Include="PHP\Update\updateUser.php" />
     <None Include="PHP\validateLogin.php" />
+    <None Include="Dokumentation\Tasks.xlsx" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
@@ -88,6 +88,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\LogIn.axml" />
+    <AndroidResource Include="Resources\layout\ListEvents.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -104,5 +105,6 @@
     <Folder Include="PHP\Delete\" />
     <Folder Include="Activities\" />
     <Folder Include="DB\Delete\" />
+    <Folder Include="Dokumentation\" />
   </ItemGroup>
 </Project>

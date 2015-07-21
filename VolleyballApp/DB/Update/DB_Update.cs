@@ -19,6 +19,7 @@ namespace VolleyballApp {
 		 * You can check if the insert was succesful in the succes variable.
 		 **/
 		public async Task<bool> UpdateUser(string host, int idUser, string name, string role, string password, int number, string position) {
+//		public async void UpdateUser(string host, int idUser, string name, string role, string password, int number, string position) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/updateUser.php" + "?idUser=" + idUser + "&name=" + name + "&role=" + role + "&password=" + password + "&number=" + number + "&position=" + position);
 
@@ -37,7 +38,7 @@ namespace VolleyballApp {
 				}
 			} catch(Exception e) {
 				Console.WriteLine("Error while updating data from MySQL: " + e.Message);
-				return false;
+//				return false;
 			}
 			return false;
 		}

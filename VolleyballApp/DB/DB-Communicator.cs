@@ -73,6 +73,11 @@ namespace VolleyballApp {
 			DB_Update dbUpdate = new DB_Update(this);
 			return await dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
 		}
+//		public async void UpdateUser(int idUser, string name, string role, string password, int number, string position) {
+//			DB_Update dbUpdate = new DB_Update(this);
+//			dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
+////			return dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
+//		}
 
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.

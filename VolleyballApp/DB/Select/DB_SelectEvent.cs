@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	class DB_SelectEvent : DB_Select{
@@ -13,7 +14,7 @@ namespace VolleyballApp {
 		 * If uri invokation was succesfull a list with all events for the given userId and state will be created,
 		 * which will be stored in the variable listEvent.
 		 **/
-		public async void SelectEventsForUser(string host, int idUser, string state) {
+		public async Task<bool> SelectEventsForUser(string host, int idUser, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/requestEventsForUser.php?idUser=" + idUser + "&state=" + state);
 
@@ -24,8 +25,10 @@ namespace VolleyballApp {
 				responseText = await response.Content.ReadAsStringAsync();
 
 				listEvent = createEventFromResponse(responseText);
+				return true;
 			} catch(Exception e) {
 				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
+				return false;
 			}
 		}
 
