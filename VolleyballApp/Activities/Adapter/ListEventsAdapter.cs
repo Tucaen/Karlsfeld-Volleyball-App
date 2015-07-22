@@ -18,8 +18,8 @@ namespace VolleyballApp
 			this.context = context;
 			this.listEvents = listEvents;
 
-			Console.WriteLine("Event[0] = " + listEvents[0].idEvent + " " + listEvents[0].name + " " + listEvents[0].startDate + " " + listEvents[0].endDate + " " + listEvents[0].endDate);
-			context.FindViewById<TextView>(Resource.Layout.EventView);
+//			Console.WriteLine("Event[0] = " + listEvents[0].idEvent + " " + listEvents[0].name + " " + listEvents[0].startDate + " " + listEvents[0].endDate + " " + listEvents[0].endDate);
+			context.FindViewById<TextView>(Resource.Layout.EventListView);
 		}
 
 		public override long GetItemId(int position) {
@@ -36,7 +36,7 @@ namespace VolleyballApp
 			View view = convertView;
 
 			if (view == null) // no view to re-use, create new
-				view = context.LayoutInflater.Inflate(Resource.Layout.EventView, null);
+				view = context.LayoutInflater.Inflate(Resource.Layout.EventListView, null);
 			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
 			if(item.startDate.Day == item.endDate.Day) {

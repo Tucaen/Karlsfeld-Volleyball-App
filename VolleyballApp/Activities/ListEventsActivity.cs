@@ -26,17 +26,18 @@ namespace VolleyballApp {
 			user = MySqlUser.GetUserFromPreferences(this);
 
 			DB_Communicator db = new DB_Communicator();
-			Console.WriteLine("Created DB_Communicator");
 			listEvents = db.SelectEventsForUser(user.idUser, null).Result;
-			Console.WriteLine("Passed terrifying point of selecting all events for this user");
 			listView.Adapter = new ListEventsAdapter(this, listEvents);
 
 			listView.ItemClick += OnListItemClick;
 		}
 
 		void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
+			Console.WriteLine("Item [" + listEvents[e.Position] + "] was clicked");
 			ListView listView = sender as ListView;
-			Console.WriteLine("Item was clicked");
+			Intent i = new Intent(this, typeof(EventDetails));
+			i.PutExtra("idEvent", listEvents[e.Position].idEvent);
+			StartActivity(i);
 		}
 	}
 }

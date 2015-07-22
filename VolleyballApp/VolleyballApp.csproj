@@ -62,6 +62,8 @@
     <Compile Include="DB\Delete\DB_Delete.cs" />
     <Compile Include="Activities\Adapter\ListEventsAdapter.cs" />
     <Compile Include="Activities\ListEventsActivity.cs" />
+    <Compile Include="Activities\EventDetails.cs" />
+    <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -90,7 +92,9 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\LogIn.axml" />
     <AndroidResource Include="Resources\layout\ListEvents.axml" />
-    <AndroidResource Include="Resources\layout\EventView.axml" />
+    <AndroidResource Include="Resources\layout\EventDetails.axml" />
+    <AndroidResource Include="Resources\layout\EventListView.axml" />
+    <AndroidResource Include="Resources\layout\UserListView.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

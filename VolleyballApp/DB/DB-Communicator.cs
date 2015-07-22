@@ -25,7 +25,7 @@ namespace VolleyballApp {
 
 		public async Task<MySqlUser> login(string username, string password) {
 			DB_SelectUser dbUser = new DB_SelectUser(this);
-			return await dbUser.validateLogin(host, username, password);
+			return await dbUser.validateLogin(host, username, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		/**

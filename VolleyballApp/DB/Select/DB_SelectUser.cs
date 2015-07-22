@@ -10,11 +10,14 @@ namespace VolleyballApp {
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/validateLogin.php?username=" + username + "&password="  + password);
+			if(debug) 
+				Console.WriteLine("Login uri: " + uri);
 
 			MySqlUser user = null;
 			string responseText;
 			try {
 				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
+				Console.WriteLine("selectuser - response statuscode = " + response.StatusCode);
 				response.EnsureSuccessStatusCode();
 				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 				user  = createUserFromResponse(responseText)[0];
@@ -23,7 +26,7 @@ namespace VolleyballApp {
 					Console.WriteLine("Login response: " + responseText);
 				
 			} catch(Exception e) {
-				Console.WriteLine("Error while loging in: " + e.Message);
+				Console.WriteLine("Error while loging in: " + e.Message + " Source: "  + e.InnerException + " | " + e.StackTrace);
 			}
 			return user;
 		}
