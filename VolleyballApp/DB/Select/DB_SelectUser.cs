@@ -62,16 +62,16 @@ namespace VolleyballApp {
 			if(base.dbCommunicator.wasSuccesful(response)) {
 				string[] userInfo = response.Split('|');
 				List<MySqlUser> listUser = new List<MySqlUser>();
-
-				int i = 0;
-				do {
-					if(debug) {
-						Console.WriteLine("Creating User: " + userInfo[i] + " " + userInfo[i + 1] + " " + userInfo[i + 2] + " " + userInfo[i + 3] + " " + userInfo[i + 4] + " " + userInfo[i + 5]);
-					}
-					listUser.Add(new MySqlUser(Convert.ToInt32(userInfo[i]), userInfo[i + 1], userInfo[i + 2], userInfo[i + 3], Convert.ToInt32(userInfo[i + 4]), userInfo[i + 5]));
-					i += 6;
-				} while(!userInfo[i].Equals("<endoffile>")) ;
-
+				if(!userInfo[0].Equals("<endoffile>")) {
+					int i = 0;
+					do {
+						if(debug) {
+							Console.WriteLine("Creating User: " + userInfo[i] + " " + userInfo[i + 1] + " " + userInfo[i + 2] + " " + userInfo[i + 3] + " " + userInfo[i + 4] + " " + userInfo[i + 5]);
+						}
+						listUser.Add(new MySqlUser(Convert.ToInt32(userInfo[i]), userInfo[i + 1], userInfo[i + 2], userInfo[i + 3], Convert.ToInt32(userInfo[i + 4]), userInfo[i + 5]));
+						i += 6;
+					} while(!userInfo[i].Equals("<endoffile>")) ;
+				}
 				return listUser;
 			} else {
 				Console.WriteLine("Invalid response for creating user!");

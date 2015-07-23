@@ -22,7 +22,7 @@ namespace VolleyballApp {
 			listView = FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Accepted);
 
 			DB_Communicator db = new DB_Communicator();
-
+			Console.WriteLine("Get idEvent = " + this.Intent.Extras.Get("idEvent"));
 			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get("idEvent")), DB_Communicator.State.Accepted).Result;
 
 			listView.Adapter = new ListUserAdapter(this, listUser);

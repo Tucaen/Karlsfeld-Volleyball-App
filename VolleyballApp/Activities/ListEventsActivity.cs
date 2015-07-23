@@ -36,6 +36,7 @@ namespace VolleyballApp {
 			Console.WriteLine("Item [" + listEvents[e.Position] + "] was clicked");
 			ListView listView = sender as ListView;
 			Intent i = new Intent(this, typeof(EventDetails));
+			Console.WriteLine("Put idEvent = " + listEvents[e.Position].idEvent);
 			i.PutExtra("idEvent", listEvents[e.Position].idEvent);
 			StartActivity(i);
 		}
