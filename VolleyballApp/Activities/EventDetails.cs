@@ -21,17 +21,13 @@ namespace VolleyballApp {
 			SetContentView(Resource.Layout.EventDetails);
 			listView = FindViewById<ListView>(Resource.Id.EventDetails_ListUser);
 
-			FindViewById<TextView>(Resource.Id.EventDetails_eventLocation).Text = this.Intent.Extras.Get(MySqlEvent.location_string);
-			FindViewById<TextView>(Resource.Id.EventDetails_eventState).Text = "(" + this.Intent.Extras.Get(MySqlEvent.state_string) + ")";
-			FindViewById<TextView>(Resource.Id.EventDetails_eventTitle).Text = this.Intent.Extras.Get(MySqlEvent.name_string);
-			DateTime startDate  = this.Intent.Extras.Get(MySqlEvent.startDate_string);
-			DateTime endDate  = this.Intent.Extras.Get(MySqlEvent.endDate_string);
-
-			if(startDate.Day == endDate.Day) {
-				FindViewById<TextView>(Resource.Id.EventDetails_eventTime).Text = startDate.ToString("dd.MM.yy HH:MM") + " - " + endDate.ToString("HH:MM");
-			} else {
-				FindViewById<TextView>(Resource.Id.EventDetails_eventTime).Text = startDate.ToString("dd.MM.yy HH:MM") + " - " + endDate.ToString("dd.MM.yy HH:MM");
-			}
+			FindViewById<TextView>(Resource.Id.EventDetails_eventLocation).Text = Convert.ToString(this.Intent.Extras.Get(MySqlEvent.location_string));
+			FindViewById<TextView>(Resource.Id.EventDetails_eventState).Text = "(" + Convert.ToString(this.Intent.Extras.Get(MySqlUser.GetUserFromPreferences(this).state) + ")");
+			FindViewById<TextView>(Resource.Id.EventDetails_eventTitle).Text = Convert.ToString(this.Intent.Extras.Get(MySqlEvent.name_string));
+			Console.WriteLine("startDate = " + this.Intent.Extras.Get(MySqlEvent.startDate_string));
+			DateTime startDate  = Convert.ToDateTime(Convert.ToString(this.Intent.Extras.Get(MySqlEvent.startDate_string)));
+			DateTime endDate  = Convert.ToDateTime(Convert.ToString(this.Intent.Extras.Get(MySqlEvent.endDate_string)));
+			FindViewById<TextView>(Resource.Id.EventDetails_eventTime).Text = MySqlEvent.convertDateToString(startDate, endDate);
 
 			DB_Communicator db = new DB_Communicator();
 			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get(MySqlEvent.idEvent_string)), null).Result;

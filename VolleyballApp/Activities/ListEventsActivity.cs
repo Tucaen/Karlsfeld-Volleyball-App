@@ -38,8 +38,8 @@ namespace VolleyballApp {
 			i.PutExtra(MySqlEvent.idEvent_string, listEvents[e.Position].idEvent);
 			i.PutExtra(MySqlEvent.name_string, listEvents[e.Position].name);
 			i.PutExtra(MySqlEvent.location_string, listEvents[e.Position].location);
-			i.PutExtra(MySqlEvent.startDate_string, listEvents[e.Position].startDate);
-			i.PutExtra(MySqlEvent.endDate_string, listEvents[e.Position].endDate);
+			i.PutExtra(MySqlEvent.startDate_string, Convert.ToString(listEvents[e.Position].startDate));
+			i.PutExtra(MySqlEvent.endDate_string, Convert.ToString(listEvents[e.Position].endDate));
 			StartActivity(i);
 		}
 	}

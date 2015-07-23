@@ -27,6 +27,16 @@ namespace VolleyballApp {
 			this.location = location;
 			this.state = state;
 		}
+
+		public static string convertDateToString(DateTime startDate, DateTime endDate) {
+			string retValue = "";
+			if(startDate.Day == endDate.Day) {
+				retValue = startDate.ToString("dd.MM.yy HH:mm") + " - " + endDate.ToString("HH:mm");
+			} else {
+				retValue = startDate.ToString("dd.MM.yy HH:mm") + " - " + endDate.ToString("dd.MM.yy HH:mm");
+			}
+			return retValue;
+		}
 	}
 }
 

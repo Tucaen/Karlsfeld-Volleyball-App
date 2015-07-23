@@ -39,11 +39,7 @@ namespace VolleyballApp
 				view = context.LayoutInflater.Inflate(Resource.Layout.EventListView, null);
 			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
-			if(item.startDate.Day == item.endDate.Day) {
-				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:MM") + " - " + item.endDate.ToString("HH:MM");
-			} else {
-				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:MM") + " - " + item.endDate.ToString("dd.MM.yy HH:MM");
-			}
+			view.FindViewById<TextView>(Resource.Id.Date).Text = MySqlEvent.convertDateToString(item.startDate, item.endDate);
 			return view;
 		}
 	}

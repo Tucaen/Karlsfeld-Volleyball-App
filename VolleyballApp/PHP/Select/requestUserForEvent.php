@@ -32,7 +32,7 @@ if($query === FALSE) {
 }
 
 while($row = mysql_fetch_array($query)) {
-	echo $row['idUser']. '|' . $row['Name'] . '|' . $row['Role'] . '|' . $row['Password']. '|' . $row['Number'] . '|' . $row['Position'] . '|';
+	echo $row['idUser']. '|' . $row['Name'] . '|' . $row['Role'] . '|' . $row['Password']. '|' . $row['Number'] . '|' . $row['Position'] . '|' . $row['Status'] . '|';
 }
 echo "<endoffile>";
 ?>

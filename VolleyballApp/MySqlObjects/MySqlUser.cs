@@ -10,14 +10,16 @@ namespace VolleyballApp {
 		public string password{ get; set; }
 		public int number{ get; set; }
 		public string position{ get; set; }
+		public string state { get; set; }
 
-		public MySqlUser(int idUser, string name, string role, string password, int number, string position) {
+		public MySqlUser(int idUser, string name, string role, string password, int number, string position, string state) {
 			this.idUser = idUser;
 			this.name = name;
 			this.role = role;
 			this.password = password;
 			this.number = number;
 			this.position = position;
+			this.state = state;
 		}
 
 		public void StoreUserInPreferences(Context context, MySqlUser user) {
@@ -30,6 +32,7 @@ namespace VolleyballApp {
 			editor.PutString("password", user.password);
 			editor.PutInt("number", user.number);
 			editor.PutString("position", user.position);
+			editor.PutString("state", user.state);
 			editor.Commit();
 		}
 
@@ -40,7 +43,8 @@ namespace VolleyballApp {
 				prefs.GetString("role", ""),
 				prefs.GetString("password", ""),
 				prefs.GetInt("number", 0),
-				prefs.GetString("position", ""));
+				prefs.GetString("position", ""),
+				prefs.GetString("state", ""));
 		}
 	}
 }
