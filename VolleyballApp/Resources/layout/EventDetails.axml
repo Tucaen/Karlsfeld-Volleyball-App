@@ -35,7 +35,7 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/EventDetails_ListUser_Accepted" />
+        android:id="@+id/EventDetails_ListUser" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"

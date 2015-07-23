@@ -64,7 +64,7 @@ namespace VolleyballApp
 			public const int Date = 2131034121;
 			
 			// aapt resource value: 0x7f050003
-			public const int EventDetails_ListUser_Accepted = 2131034115;
+			public const int EventDetails_ListUser = 2131034115;
 			
 			// aapt resource value: 0x7f050006
 			public const int Text = 2131034118;
