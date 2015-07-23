@@ -35,7 +35,11 @@ namespace VolleyballApp {
 		void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
 			ListView listView = sender as ListView;
 			Intent i = new Intent(this, typeof(EventDetails));
-			i.PutExtra("idEvent", listEvents[e.Position].idEvent);
+			i.PutExtra(MySqlEvent.idEvent_string, listEvents[e.Position].idEvent);
+			i.PutExtra(MySqlEvent.name_string, listEvents[e.Position].name);
+			i.PutExtra(MySqlEvent.location_string, listEvents[e.Position].location);
+			i.PutExtra(MySqlEvent.startDate_string, listEvents[e.Position].startDate);
+			i.PutExtra(MySqlEvent.endDate_string, listEvents[e.Position].endDate);
 			StartActivity(i);
 		}
 	}

@@ -21,8 +21,20 @@ namespace VolleyballApp {
 			SetContentView(Resource.Layout.EventDetails);
 			listView = FindViewById<ListView>(Resource.Id.EventDetails_ListUser);
 
+			FindViewById<TextView>(Resource.Id.EventDetails_eventLocation).Text = this.Intent.Extras.Get(MySqlEvent.location_string);
+			FindViewById<TextView>(Resource.Id.EventDetails_eventState).Text = "(" + this.Intent.Extras.Get(MySqlEvent.state_string) + ")";
+			FindViewById<TextView>(Resource.Id.EventDetails_eventTitle).Text = this.Intent.Extras.Get(MySqlEvent.name_string);
+			DateTime startDate  = this.Intent.Extras.Get(MySqlEvent.startDate_string);
+			DateTime endDate  = this.Intent.Extras.Get(MySqlEvent.endDate_string);
+
+			if(startDate.Day == endDate.Day) {
+				FindViewById<TextView>(Resource.Id.EventDetails_eventTime).Text = startDate.ToString("dd.MM.yy HH:MM") + " - " + endDate.ToString("HH:MM");
+			} else {
+				FindViewById<TextView>(Resource.Id.EventDetails_eventTime).Text = startDate.ToString("dd.MM.yy HH:MM") + " - " + endDate.ToString("dd.MM.yy HH:MM");
+			}
+
 			DB_Communicator db = new DB_Communicator();
-			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get("idEvent")), null).Result;
+			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get(MySqlEvent.idEvent_string)), null).Result;
 
 			listView.Adapter = new ListUserAdapter(this, listUser);
 		}
