@@ -12,18 +12,17 @@ using Android.Views;
 using Android.Widget;
 
 namespace VolleyballApp {
-	[Activity(Label = "EventDetails")]			
+	[Activity(Label = "Volleyball App - EventDetails")]			
 	public class EventDetails : Activity {
 		ListView listView;
 		List<MySqlUser> listUser;
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.EventDetails);
-			listView = FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Accepted);
+			listView = FindViewById<ListView>(Resource.Id.EventDetails_ListUser);
 
 			DB_Communicator db = new DB_Communicator();
-
-			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get("idEvent")), DB_Communicator.State.Accepted).Result;
+			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get("idEvent")), null).Result;
 
 			listView.Adapter = new ListUserAdapter(this, listUser);
 		}

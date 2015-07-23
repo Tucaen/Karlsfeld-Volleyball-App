@@ -33,7 +33,6 @@ namespace VolleyballApp {
 		}
 
 		void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
-			Console.WriteLine("Item [" + listEvents[e.Position] + "] was clicked");
 			ListView listView = sender as ListView;
 			Intent i = new Intent(this, typeof(EventDetails));
 			i.PutExtra("idEvent", listEvents[e.Position].idEvent);
