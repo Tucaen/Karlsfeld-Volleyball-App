@@ -82,6 +82,7 @@
     <None Include="PHP\Update\updateUser.php" />
     <None Include="PHP\validateLogin.php" />
     <None Include="Dokumentation\Tasks.xlsx" />
+    <None Include="PHP\Update\updateState.php" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

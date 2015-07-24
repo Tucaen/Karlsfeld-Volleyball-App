@@ -15,14 +15,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="20dip"
+            android:textSize="20dp"
             android:textStyle="bold"
             android:id="@+id/EventDetails_eventTitle" />
         <TextView
             android:text="EventState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dip"
+            android:textSize="18dp"
+            android:paddingLeft="10dp"
             android:textColor="#FFFFFF"
             android:id="@+id/EventDetails_eventState" />
     </LinearLayout>
@@ -30,6 +31,7 @@
         android:text="EventLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
         android:layout_marginLeft="5dp"
         android:textColor="#FFFFFF"
         android:id="@+id/EventDetails_eventLocation" />
@@ -37,6 +39,7 @@
         android:text="EventTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
         android:layout_marginLeft="5dp"
         android:textColor="#FFFFFF"
         android:id="@+id/EventDetails_eventTime" />
@@ -44,6 +47,7 @@
         android:text="Leute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:textColor="#FFFFFF"
@@ -53,11 +57,13 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:id="@+id/EventDetails_ListUser" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="0.0dp">
         <Button
             android:text="Zusagen"

@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.Content;
 using Android.Preferences;
+using System.Collections.Generic;
 
 namespace VolleyballApp {
 	public class MySqlUser {
@@ -45,6 +46,14 @@ namespace VolleyballApp {
 				prefs.GetInt("number", 0),
 				prefs.GetString("position", ""),
 				prefs.GetString("state", ""));
+		}
+
+		public static MySqlUser GetUserFromList(int idUser, List<MySqlUser> listUser) {
+			for(int i = 0; i < listUser.Count; i++) {
+				if(listUser[i].idUser == idUser)
+					return listUser[i];
+			}
+			return null;
 		}
 	}
 }

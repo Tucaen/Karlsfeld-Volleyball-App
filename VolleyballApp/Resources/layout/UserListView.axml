@@ -8,15 +8,18 @@
     android:minWidth="25px"
     android:minHeight="25px">
     <TextView
+        android:text="Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="16dp"
         android:textColor="#FFFFFF"
         android:id="@+id/UserListViewName" />
     <TextView
+        android:text="(state)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dip"
+        android:layout_marginLeft="5dp"
+        android:textSize="16dp"
         android:textColor="#FFFFFF"
         android:id="@+id/UserListViewState" />
 </LinearLayout>

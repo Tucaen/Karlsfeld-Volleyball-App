@@ -10,7 +10,7 @@ namespace VolleyballApp {
 	public class DB_Communicator {
 		public bool debug { get; set; }
 		public HttpClient client { get; set; }
-		static string host = "http://10.0.3.2/";
+		public static string host = "http://10.0.3.2/";  
 
 		public class State {
 			public static string Invited = "eingeladen";
@@ -68,13 +68,13 @@ namespace VolleyballApp {
 		 **/
 		public async Task<bool> UpdateUser(int idUser, string name, string role, string password, int number, string position) {
 			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
+			return await dbUpdate.UpdateUser(idUser, name, role, password, number, position);
 		}
-//		public async void UpdateUser(int idUser, string name, string role, string password, int number, string position) {
-//			DB_Update dbUpdate = new DB_Update(this);
-//			dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
-////			return dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
-//		}
+
+		public async Task<bool> UpdateState(int idUser, int idEvent, string state) {
+			DB_Update dbUpdate = new DB_Update(this);
+			return await dbUpdate.UpdateState(idUser, idEvent, state);
+		}
 
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
