@@ -35,6 +35,7 @@ namespace VolleyballApp {
 			DateTime endDate  = Convert.ToDateTime(Convert.ToString(this.Intent.Extras.Get(MySqlEvent.endDate_string)));
 			FindViewById<TextView>(Resource.Id.EventDetails_eventTime).Text = MySqlEvent.convertDateToString(startDate, endDate);
 
+			listUser.Sort();
 			listView.Adapter = new ListUserAdapter(this, listUser);
 
 			FindViewById<Button>(Resource.Id.EventDetails_eventZusagen).Click += async (object sender, EventArgs e) => {

@@ -4,7 +4,7 @@ using Android.Preferences;
 using System.Collections.Generic;
 
 namespace VolleyballApp {
-	public class MySqlUser {
+	public class MySqlUser : IComparable<MySqlUser> {
 		public int idUser{ get; set; }
 		public string name{ get; set; }
 		public string role{ get; set; }
@@ -54,6 +54,20 @@ namespace VolleyballApp {
 					return listUser[i];
 			}
 			return null;
+		}
+
+
+		public int CompareTo(MySqlUser other) {
+			if(state.Equals(other.state))
+				return name.CompareTo(other.name);
+
+			if(state.Equals(DB_Communicator.State.Accepted))
+				return -1;
+				
+			if(state.Equals(DB_Communicator.State.Denied) && other.state.Equals(DB_Communicator.State.Invited))
+				return -1;
+
+			return 1;
 		}
 	}
 }

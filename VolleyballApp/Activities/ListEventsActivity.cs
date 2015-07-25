@@ -42,6 +42,12 @@ namespace VolleyballApp {
 			i.PutExtra(MySqlEvent.endDate_string, Convert.ToString(listEvents[e.Position].endDate));
 			StartActivity(i);
 		}
+		
+		protected override void OnRestart() {
+			base.OnRestart();
+			Finish();
+			StartActivity(new Intent(this, typeof(ListEventsActivity)));
+		}
 	}
 }
 
