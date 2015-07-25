@@ -18,7 +18,7 @@ if(isset($_GET["username"]) && isset($_GET["password"])) {
 		if($row == false) {
 			echo "FAILED LOGIN - username or password is wrong";
 		} else {
-			echo $row['idUser']. '|' . $row['Name'] . '|' . $row['Role'] . '|' . $row['Password']. '|' . $row['Number'] . '|' . $row['Position'] . '|';
+			echo $row['idUser']. '|' . $row['Name'] . '|' . $row['Role'] . '|' . $row['Password']. '|' . $row['Number'] . '|' . $row['Position'] . '|' . '' . '|';
 			echo "<endoffile>";
 		}
 	}
