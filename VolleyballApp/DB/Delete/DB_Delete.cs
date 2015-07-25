@@ -16,17 +16,24 @@ namespace VolleyballApp {
 
 		/**
 		 * Delets a user with the given userId.
-		 * You can check if the insert was succesful in the succes variable.
 		 **/
-		public async Task<bool> DeleteUser(string host, int idUser) {
-			HttpResponseMessage response = new HttpResponseMessage();
-			Uri uri = new Uri(host + "php/deleteUser.php" + "?idUser=" + idUser);
+		public async Task<bool> DeleteUser(int idUser) {
+			Uri uri = new Uri(DB_Communicator.host + "php/deleteUser.php" + "?idUser=" + idUser);
+			return await executeDelete(uri);
+		}
 
+		public async Task<bool> DeleteEvent(int idEvent) {
+			Uri uri = new Uri(DB_Communicator.host + "php/deleteEvent.php" + "?idEvent=" + idEvent);
+			return await executeDelete(uri);
+		}
+
+		private async Task<bool> executeDelete(Uri uri) {
+			HttpResponseMessage response = new HttpResponseMessage();
 			string responseText;
 			try {
-				response = await client.GetAsync(uri);
+				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
 				response.EnsureSuccessStatusCode();
-				responseText = await response.Content.ReadAsStringAsync();
+				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 
 				if(dbCommunicator.wasSuccesful(responseText)) {
 					return true;
@@ -36,7 +43,7 @@ namespace VolleyballApp {
 					Console.WriteLine("Delete response: " + responseText);
 				}
 			} catch(Exception e) {
-				Console.WriteLine("Error while selecting data from MySQL: " + e.Message);
+				Console.WriteLine("Error while deleting data from MySQL: " + e.Message);
 				return false;
 			}
 			return false;

@@ -18,9 +18,9 @@ namespace VolleyballApp {
 		 * Inserts a user with the given parameters and userId = currentHighestId + 1.
 		 * You can check if the insert was succesful in the succes variable.
 		 **/
-		public async Task<bool> InsertUser(string host, string name, string role, string password, int number, string position) {
+		public async Task<bool> InsertUser(string name, string role, string password, int number, string position) {
 			HttpResponseMessage response = new HttpResponseMessage();
-			Uri uri = new Uri(host + "php/insertUser.php" + "?name=" + name + "&role=" + role + "&password=" + password + "&number=" + number + "&position=" + position);
+			Uri uri = new Uri(DB_Communicator.host + "php/insertUser.php" + "?name=" + name + "&role=" + role + "&password=" + password + "&number=" + number + "&position=" + position);
 
 			string responseText;
 			try {

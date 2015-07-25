@@ -36,9 +36,9 @@ namespace VolleyballApp {
 			HttpResponseMessage response = new HttpResponseMessage();
 			string responseText;
 			try {
-				response = await client.GetAsync(uri);
+				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
 				response.EnsureSuccessStatusCode();
-				responseText = await response.Content.ReadAsStringAsync();
+				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 
 				if(dbCommunicator.wasSuccesful(responseText)) {
 					return true;

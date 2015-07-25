@@ -46,6 +46,7 @@ namespace VolleyballApp {
 					i.PutExtra(MySqlEvent.location_string, Convert.ToString(this.Intent.Extras.Get(MySqlEvent.location_string)));
 					i.PutExtra(MySqlEvent.startDate_string, Convert.ToString(this.Intent.Extras.Get(MySqlEvent.startDate_string)));
 					i.PutExtra(MySqlEvent.endDate_string, Convert.ToString(this.Intent.Extras.Get(MySqlEvent.endDate_string)));
+					Finish();
 					StartActivity(i);
 				}
 			};
@@ -59,6 +60,7 @@ namespace VolleyballApp {
 					i.PutExtra(MySqlEvent.location_string, Convert.ToString(this.Intent.Extras.Get(MySqlEvent.location_string)));
 					i.PutExtra(MySqlEvent.startDate_string, Convert.ToString(this.Intent.Extras.Get(MySqlEvent.startDate_string)));
 					i.PutExtra(MySqlEvent.endDate_string, Convert.ToString(this.Intent.Extras.Get(MySqlEvent.endDate_string)));
+					Finish();
 					StartActivity(i);
 				}
 			};

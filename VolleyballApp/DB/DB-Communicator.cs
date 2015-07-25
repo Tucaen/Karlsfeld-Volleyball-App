@@ -25,7 +25,7 @@ namespace VolleyballApp {
 
 		public async Task<MySqlUser> login(string username, string password) {
 			DB_SelectUser dbUser = new DB_SelectUser(this);
-			return await dbUser.validateLogin(host, username, password).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbUser.validateLogin(username, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		/**
@@ -34,7 +34,7 @@ namespace VolleyballApp {
 		 **/
 		public async Task<List<MySqlEvent>> SelectEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			return await dbSelectEvent.SelectEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectEvent.SelectEventsForUser(idUser, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		/**
@@ -43,7 +43,7 @@ namespace VolleyballApp {
 		 **/
 		public async Task<List<MySqlUser>> SelectUserForEvent(int idEvent, string state) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
-			return await dbSelectUser.SelectUserForEvent(host, idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectUser.SelectUserForEvent(idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		/**
@@ -51,7 +51,7 @@ namespace VolleyballApp {
 		 **/
 		public async Task<bool> InsertUser(string name, string role, string password, int number, string position) {
 			DB_Insert dbInsert = new DB_Insert(this);
-			return await dbInsert.InsertUser(host, name, role, password, number, position);
+			return await dbInsert.InsertUser(name, role, password, number, position);
 		}
 
 		/**
@@ -59,7 +59,7 @@ namespace VolleyballApp {
 		 **/
 		public async Task<bool> DeleteUser(int idUser) {
 			DB_Delete dbDelete = new DB_Delete(this);
-			return await dbDelete.DeleteUser(host, idUser);
+			return await dbDelete.DeleteUser(idUser);
 
 		}
 

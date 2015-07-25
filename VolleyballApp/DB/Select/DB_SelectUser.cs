@@ -7,7 +7,7 @@ namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
-		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
+		public async Task<MySqlUser> validateLogin(string username, string password) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/validateLogin.php?username=" + username + "&password="  + password);
 			if(debug) 
@@ -37,7 +37,7 @@ namespace VolleyballApp {
 		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
 		 * which will be stored in the variable listUser.
 		 **/
-		public async Task<List<MySqlUser>> SelectUserForEvent(string host, int idEvent, string state) {
+		public async Task<List<MySqlUser>> SelectUserForEvent(int idEvent, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/requestUserForEvent.php?idEvent=" + idEvent + "&state="  + state);
 

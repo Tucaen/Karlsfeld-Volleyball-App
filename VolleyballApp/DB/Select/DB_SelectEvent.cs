@@ -13,7 +13,7 @@ namespace VolleyballApp {
 		 * If uri invokation was succesfull a list with all events for the given userId and state will be created,
 		 * which will be stored in the variable listEvent.
 		 **/
-		public async Task<List<MySqlEvent>> SelectEventsForUser(string host, int idUser, string state) {
+		public async Task<List<MySqlEvent>> SelectEventsForUser(int idUser, string state) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "php/requestEventsForUser.php?idUser=" + idUser + "&state=" + state);
 

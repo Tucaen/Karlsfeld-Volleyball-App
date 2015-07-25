@@ -38,6 +38,7 @@ namespace VolleyballApp {
 
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
 					Intent i = new Intent(this, typeof(ListEventsActivity));
+					Finish();
 					StartActivity(i);
 				} else {
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
