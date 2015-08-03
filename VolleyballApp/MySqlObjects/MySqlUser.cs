@@ -56,7 +56,10 @@ namespace VolleyballApp {
 			return null;
 		}
 
-
+		/**
+		 * Sorts the user for state (accepted, denied, invited).
+		 * If they have the same state the are sorted alphabetically after name.
+		 **/
 		public int CompareTo(MySqlUser other) {
 			if(state.Equals(other.state))
 				return name.CompareTo(other.name);

@@ -13,7 +13,7 @@ using Android.Widget;
 using Android.Preferences;
 
 namespace VolleyballApp {
-	[Activity(Label = "VolleyballApp - Login", MainLauncher = true, Icon = "@drawable/icon")]	
+	[Activity(Label = "VolleyballApp - Login", MainLauncher = false, Icon = "@drawable/icon")]	
 	public class LogIn : Activity {
 		MySqlUser user;
 

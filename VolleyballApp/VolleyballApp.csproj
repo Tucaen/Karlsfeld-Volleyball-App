@@ -46,6 +46,12 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.2.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -64,6 +70,9 @@
     <Compile Include="Activities\ListEventsActivity.cs" />
     <Compile Include="Activities\EventDetails.cs" />
     <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
+    <Compile Include="Activities\SlideMenuActivity.cs" />
+    <Compile Include="Resources\MyActionBarDrawerToggle.cs" />
+    <Compile Include="Activities\Adapter\SlideMenuItemAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -85,6 +94,7 @@
     <None Include="PHP\Update\updateState.php" />
     <None Include="PHP\Delete\deleteEvent.php" />
     <None Include="PHP\Insert\insertEvent.php" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -98,6 +108,9 @@
     <AndroidResource Include="Resources\layout\EventDetails.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />
     <AndroidResource Include="Resources\layout\UserListView.axml" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\layout\SlideMenu.axml" />
+    <AndroidResource Include="Resources\layout\SlideMenuItems.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -116,5 +129,11 @@
     <Folder Include="DB\Delete\" />
     <Folder Include="Dokumentation\" />
     <Folder Include="Activities\Adapter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportv7appcompat">
+      <Version>22.2.0.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>
