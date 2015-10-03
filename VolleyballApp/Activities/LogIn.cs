@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Preferences;
+using System.Net;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp - Login", MainLauncher = true, Icon = "@drawable/icon")]	
@@ -18,7 +19,17 @@ namespace VolleyballApp {
 		MySqlUser user;
 
 		protected override void OnCreate(Bundle bundle) {
+			// You may use ServicePointManager here
+			ServicePointManager
+				.ServerCertificateValidationCallback +=
+					(sender, cert, chain, sslPolicyErrors) => true;
+
 			base.OnCreate(bundle);
+
+//			global::Xamarin.Forms.Forms.Init(this, bundle);
+//			LoadApplication(new App());
+
+//			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.LogIn);
 
@@ -29,7 +40,7 @@ namespace VolleyballApp {
 			btnLogin.Click += async (object sender, EventArgs e) => {
 				EditText username = FindViewById<EditText>(Resource.Id.usernameText);
 				EditText password = FindViewById<EditText>(Resource.Id.passwordText);
-
+			
 				user = await db.login(username.Text, password.Text);
 
 				if(user != null) {

@@ -4,13 +4,19 @@ using System.Net;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Java.Security.Cert;
+using Android.App;
+using Javax.Net.Ssl;
+using Java.Security;
+using System.Json;
 
 
 namespace VolleyballApp {
 	public class DB_Communicator {
 		public bool debug { get; set; }
 		public HttpClient client { get; set; }
-		static string host = "http://10.0.3.2/";
+		static string host = "https://psymax.onthewifi.com:10815/"; 
+//		static string host = "http://10.0.3.2/";
 
 		public class State {
 			public static string Invited = "eingeladen";
@@ -81,6 +87,14 @@ namespace VolleyballApp {
 		 **/
 		public bool wasSuccesful(string response) {
 			return !response.Contains("FAILED");
+		}
+
+		public string convertAndInitializeToString(JsonValue value) {
+			return (value == null) ? "" : value.ToString();
+		}
+
+		public int convertAndInitializeToInt(JsonValue value) {
+			return (value == null) ? 0 : Convert.ToInt32(value.ToString());
 		}
 	}
 }

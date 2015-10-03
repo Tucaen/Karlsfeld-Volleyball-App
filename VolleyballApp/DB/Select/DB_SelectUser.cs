@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Json;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
@@ -9,7 +10,7 @@ namespace VolleyballApp {
 
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			HttpResponseMessage response = new HttpResponseMessage();
-			Uri uri = new Uri(host + "php/validateLogin.php?username=" + username + "&password="  + password);
+			Uri uri = new Uri(host + "service/user/login.php?email=" + username + "&password="  + password);
 			if(debug) 
 				Console.WriteLine("Login uri: " + uri);
 
@@ -17,16 +18,16 @@ namespace VolleyballApp {
 			string responseText;
 			try {
 				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
-				Console.WriteLine("selectuser - response statuscode = " + response.StatusCode);
+				Console.WriteLine("DB_SelectUser.validateLogin() - response statuscode = " + response.StatusCode);
 				response.EnsureSuccessStatusCode();
 				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
-				user  = createUserFromResponse(responseText)[0];
-
+				
 				if(debug) 
 					Console.WriteLine("Login response: " + responseText);
 				
+				user  = createUserFromResponse(responseText)[0];
 			} catch(Exception e) {
-				Console.WriteLine("Error while loging in: " + e.Message + " Source: "  + e.InnerException + " | " + e.StackTrace);
+				Console.WriteLine("Error while loging in: " + e.Message + "\n Source: "  + e.InnerException + " | " + e.StackTrace);
 			}
 			return user;
 		}
@@ -59,24 +60,21 @@ namespace VolleyballApp {
 		 * Creates a MySqlUser object for every row in the response string.
 		 **/
 		private List<MySqlUser> createUserFromResponse(string response) {
-			if(base.dbCommunicator.wasSuccesful(response)) {
-				string[] userInfo = response.Split('|');
-				List<MySqlUser> listUser = new List<MySqlUser>();
-				if(!userInfo[0].Equals("<endoffile>")) {
-					int i = 0;
-					do {
-						if(debug) {
-							Console.WriteLine("Creating User: " + userInfo[i] + " " + userInfo[i + 1] + " " + userInfo[i + 2] + " " + userInfo[i + 3] + " " + userInfo[i + 4] + " " + userInfo[i + 5]);
-						}
-						listUser.Add(new MySqlUser(Convert.ToInt32(userInfo[i]), userInfo[i + 1], userInfo[i + 2], userInfo[i + 3], Convert.ToInt32(userInfo[i + 4]), userInfo[i + 5]));
-						i += 6;
-					} while(!userInfo[i].Equals("<endoffile>")) ;
-				}
-				return listUser;
-			} else {
-				Console.WriteLine("Invalid response for creating user!");
-				return null;
-			}
+			JsonValue json = JsonValue.Parse(response);
+			List<MySqlUser> listUser = new List<MySqlUser>();
+			JsonValue user = json["data"]["User"];
+			Console.WriteLine("DB_SelectUser.createUserFromResponse() - json data: " + json["data"].ToString());
+
+			listUser.Add(new MySqlUser(dbCommunicator.convertAndInitializeToInt(user["id"]),
+				dbCommunicator.convertAndInitializeToString(user["name"]),
+				dbCommunicator.convertAndInitializeToString(user["email"]),
+				dbCommunicator.convertAndInitializeToString(user["state"]),
+				dbCommunicator.convertAndInitializeToString(user["role"]),
+				"",
+				dbCommunicator.convertAndInitializeToInt(user["number"]),
+				dbCommunicator.convertAndInitializeToString(user["position"])));
+
+			return listUser;
 		}
 	}
 }

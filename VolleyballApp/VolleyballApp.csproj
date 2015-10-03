@@ -46,6 +46,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -74,14 +75,23 @@
     <None Include="SQL\Insert_User_To_Event.sql" />
     <None Include="SQL\Select_All_Events_For_User.sql" />
     <None Include="SQL\Select_All_User_For_Event.sql" />
-    <None Include="PHP\dbConnection.php" />
-    <None Include="PHP\Select\requestEventsForUser.php" />
-    <None Include="PHP\Select\requestUserForEvent.php" />
-    <None Include="PHP\Delete\deleteUser.php" />
-    <None Include="PHP\Insert\insertUser.php" />
-    <None Include="PHP\Update\updateUser.php" />
-    <None Include="PHP\validateLogin.php" />
     <None Include="Dokumentation\Tasks.xlsx" />
+    <None Include="php\db.php" />
+    <None Include="php\phpinfo.php" />
+    <None Include="php\volleyball_app_db.sql" />
+    <None Include="php\beans\attendence.php" />
+    <None Include="php\beans\dbbean.php" />
+    <None Include="php\beans\dbexception.php" />
+    <None Include="php\beans\event.php" />
+    <None Include="php\beans\user.php" />
+    <None Include="php\beans\user_right.php" />
+    <None Include="php\beans\user_right_description.php" />
+    <None Include="php\service\event\load_event.php" />
+    <None Include="php\service\user\login.php" />
+    <None Include="php\service\user\logout.php" />
+    <None Include="php\service\user\register.php" />
+    <None Include="php\service\user\update_userinfo.php" />
+    <None Include="php\util\response_util.php" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -95,23 +105,22 @@
     <AndroidResource Include="Resources\layout\EventDetails.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />
     <AndroidResource Include="Resources\layout\UserListView.axml" />
+    <AndroidResource Include="Resources\raw\server.crt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="SQL\" />
     <Folder Include="MySqlObjects\" />
-    <Folder Include="PHP\" />
     <Folder Include="DB\" />
     <Folder Include="DB\Select\" />
-    <Folder Include="PHP\Select\" />
     <Folder Include="DB\Insert\" />
     <Folder Include="DB\Update\" />
-    <Folder Include="PHP\Insert\" />
-    <Folder Include="PHP\Update\" />
-    <Folder Include="PHP\Delete\" />
     <Folder Include="Activities\" />
     <Folder Include="DB\Delete\" />
     <Folder Include="Dokumentation\" />
     <Folder Include="Activities\Adapter\" />
+    <Folder Include="php\" />
+    <Folder Include="certificate\" />
+    <Folder Include="Resources\raw\" />
   </ItemGroup>
 </Project>
