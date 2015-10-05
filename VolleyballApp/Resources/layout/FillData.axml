@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="Name:"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationNameLabel"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5.0dp"
+        android:layout_marginRight="0.0dp" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationNameData"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5.0dp"
+        android:layout_below="@id/registrationNameLabel" />
+    <TextView
+        android:text="Vorname:"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationFirstnameLabel"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5.0dp"
+        android:layout_marginRight="0.0dp"
+        android:layout_below="@id/registrationNameData" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationFirstnameData"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5.0dp"
+        android:layout_below="@id/registrationFirstnameLabel" />
+<!--number-->
+<!--position-->
+</RelativeLayout>

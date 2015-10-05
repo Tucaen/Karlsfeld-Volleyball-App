@@ -8,6 +8,22 @@ namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
+		public async Task<JsonValue> register(string host, string email, string password) {
+//			HttpResponseMessage response = new HttpResponseMessage();
+			Uri uri = new Uri(host + "service/user/register.php?email=" + email + "&password="  + password);
+			if(debug) 
+				Console.WriteLine("Registration uri: " + uri);
+
+			HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
+			response.EnsureSuccessStatusCode();
+			string responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
+
+			if(debug) 
+				Console.WriteLine("DB_SelectUser.register() - response: " + responseText);
+			
+			return JsonValue.Parse(responseText);
+		}
+
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			HttpResponseMessage response = new HttpResponseMessage();
 			Uri uri = new Uri(host + "service/user/login.php?email=" + username + "&password="  + password);
@@ -18,7 +34,6 @@ namespace VolleyballApp {
 			string responseText;
 			try {
 				response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
-				Console.WriteLine("DB_SelectUser.validateLogin() - response statuscode = " + response.StatusCode);
 				response.EnsureSuccessStatusCode();
 				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
 				

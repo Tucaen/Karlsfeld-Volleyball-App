@@ -34,6 +34,11 @@ namespace VolleyballApp {
 			return await dbUser.validateLogin(host, username, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
+		public async Task<JsonValue> register(string email, string password) {
+			DB_SelectUser dbUser = new DB_SelectUser(this);
+			return await dbUser.register(host, email, password).ConfigureAwait(continueOnCapturedContext:false);
+		}
+
 		/**
 		 * Provides you with list of all events for a specific user and state.
 		 * If state is null all states will be selected.

@@ -48,11 +48,23 @@ namespace VolleyballApp {
 					user.StoreUserInPreferences(this, user);
 
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
-					Intent i = new Intent(this, typeof(ListEventsActivity));
+
+					Intent i = null;
+					if(user.state.Equals("FILLDATA"))
+						i = new Intent(this, typeof(FillDataActivity));
+					else 
+						i = new Intent(this, typeof(MainActivity));	
+							StartActivity(i);
+					
 					StartActivity(i);
 				} else {
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
 				}
+			};
+
+			FindViewById<TextView>(Resource.Id.registrierenText).Click += (object sender, EventArgs e) => {
+				Intent i = new Intent(this, typeof(RegistrationActivity));
+				StartActivity(i);
 			};
 		}
 

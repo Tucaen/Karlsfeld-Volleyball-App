@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<!--    Email-->
+    <TextView
+        android:text="Email:"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationEmailLabel"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5.0dp"
+        android:layout_marginRight="0.0dp" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationEmailData"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5.0dp"
+        android:layout_below="@id/registrationEmailLabel" />
+<!--    Password-->
+    <TextView
+        android:text="Passwort:"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationPasswordLabel"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5.0dp"
+        android:layout_marginRight="0.0dp"
+        android:layout_below="@id/registrationEmailData" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registrationPasswordData"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5.0dp"
+        android:layout_below="@id/registrationPasswordLabel" />
+    <Button
+        android:text="Registrieren"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/registrationPasswordData"
+        android:layout_marginTop="15dp"
+        android:id="@+id/btnRegistration" />
+</RelativeLayout>

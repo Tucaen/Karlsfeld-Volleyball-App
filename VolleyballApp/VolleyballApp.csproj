@@ -62,9 +62,13 @@
     <Compile Include="Activities\LogIn.cs" />
     <Compile Include="DB\Delete\DB_Delete.cs" />
     <Compile Include="Activities\Adapter\ListEventsAdapter.cs" />
-    <Compile Include="Activities\ListEventsActivity.cs" />
     <Compile Include="Activities\EventDetails.cs" />
     <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Fragment\Events\EventsFragment.cs" />
+    <Compile Include="Fragment\Events\NoEventsFragment.cs" />
+    <Compile Include="Activities\RegistrationActivity.cs" />
+    <Compile Include="Activities\FillDataActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -103,9 +107,13 @@
     <AndroidResource Include="Resources\layout\LogIn.axml" />
     <AndroidResource Include="Resources\layout\ListEvents.axml" />
     <AndroidResource Include="Resources\layout\EventDetails.axml" />
-    <AndroidResource Include="Resources\layout\EventListView.axml" />
     <AndroidResource Include="Resources\layout\UserListView.axml" />
     <AndroidResource Include="Resources\raw\server.crt" />
+    <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\layout\EventsFragment.axml" />
+    <AndroidResource Include="Resources\layout\NoEventsFoundFragment.axml" />
+    <AndroidResource Include="Resources\layout\FillData.axml" />
+    <AndroidResource Include="Resources\layout\Registration.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -122,5 +130,7 @@
     <Folder Include="php\" />
     <Folder Include="certificate\" />
     <Folder Include="Resources\raw\" />
+    <Folder Include="Fragment\" />
+    <Folder Include="Fragment\Events\" />
   </ItemGroup>
 </Project>
