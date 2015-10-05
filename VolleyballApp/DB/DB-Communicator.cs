@@ -77,9 +77,12 @@ namespace VolleyballApp {
 		/**
 		 * Updates a user with the given userId with the given parameters.
 		 **/
-		public async Task<bool> UpdateUser(int idUser, string name, string role, string password, int number, string position) {
+		public async Task<JsonValue> UpdateUser(string name) {
+			return await UpdateUser(name, "", 0, "");
+		}
+		public async Task<JsonValue> UpdateUser(string name, string role, int number, string position) {
 			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
+			return await dbUpdate.UpdateUser(host, name, role, number, position);
 		}
 //		public async void UpdateUser(int idUser, string name, string role, string password, int number, string position) {
 //			DB_Update dbUpdate = new DB_Update(this);

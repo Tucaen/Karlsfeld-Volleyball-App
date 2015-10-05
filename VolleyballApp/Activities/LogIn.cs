@@ -50,11 +50,10 @@ namespace VolleyballApp {
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
 
 					Intent i = null;
-					if(user.state.Equals("FILLDATA"))
+					if(user.state.Equals("\"FILLDATA\""))
 						i = new Intent(this, typeof(FillDataActivity));
 					else 
 						i = new Intent(this, typeof(MainActivity));	
-							StartActivity(i);
 					
 					StartActivity(i);
 				} else {
