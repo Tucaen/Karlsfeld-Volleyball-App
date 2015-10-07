@@ -17,16 +17,11 @@ namespace VolleyballApp {
 
 		/**
 		 * Updates a user with the given id with the given parameters.
-		 * You can check if the insert was succesful in the succes variable.
+		 * You can check if the insert was succesful in the state variable.
 		 **/
 		public async Task<JsonValue> UpdateUser(string host, string name, string role, int number, string position) {
-			Uri uri = new Uri(host + "service/user/update_userinfo.php" + "?name=" + name + "&role=" + role + "&number=" + number + "&position=" + position);
-			if(debug) 
-				Console.WriteLine("DB_Update.UpdateUser() - uri: " + uri);
-			
-			HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
-			response.EnsureSuccessStatusCode();
-			string responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
+			string responseText = await dbCommunicator.makeWebRequest("service/user/update_userinfo.php" + "?name=" + name 
+				+ "&role=" + role + "&number=" + number + "&position=" + position, "DB_Update.UpdateUser()");
 
 			return JsonValue.Parse(responseText);
 		}

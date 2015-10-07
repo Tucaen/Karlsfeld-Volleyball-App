@@ -14,20 +14,10 @@ namespace VolleyballApp {
 		 * which will be stored in the variable listEvent.
 		 **/
 		public async Task<List<MySqlEvent>> SelectEventsForUser(string host, int idUser, string state) {
-			HttpResponseMessage response = new HttpResponseMessage();
-//			Uri uri = new Uri(host + "php/requestEventsForUser.php?idUser=" + idUser + "&state=" + state);
+//			string responseText = await dbCommunicator.makeWebRequest("php/requestEventsForUser.php?idUser=" + idUser + "&state=" + state, "SelectEventsForUser");
 
 			List<MySqlEvent> listEvent = new List<MySqlEvent>();
-//			string responseText;
-//			try {
-//				response = await base.client.GetAsync(uri).ConfigureAwait(continueOnCapturedContext:false);
-//				response.EnsureSuccessStatusCode();
-//				responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext:false);
-//
-//				listEvent = createEventFromResponse(responseText);
-//			} catch(Exception e) {
-//				Console.WriteLine("DB_SelectEvent.SelectEventsForUser() - Error while selecting data from MySQL: " + e.Message);
-//			}
+			//listEvent = createEventFromResponse(responseText);
 			return listEvent;
 		}
 

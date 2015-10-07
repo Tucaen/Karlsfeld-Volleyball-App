@@ -13,8 +13,10 @@ using System.Json;
 
 namespace VolleyballApp {
 	public class DB_Communicator {
+		public static DB_Communicator db;
 		public bool debug { get; set; }
 		public HttpClient client { get; set; }
+		public CookieContainer cookieContainer { get; set; }
 		static string host = "https://psymax.onthewifi.com:10815/"; 
 //		static string host = "http://10.0.3.2/";
 
@@ -26,7 +28,14 @@ namespace VolleyballApp {
 
 		public DB_Communicator() {
 			client = new HttpClient();
+			cookieContainer = new CookieContainer();
 			debug = true;
+		}
+
+		public static DB_Communicator getInstance() {
+			if(db == null)
+				db = new DB_Communicator();
+			return db;
 		}
 
 		public async Task<MySqlUser> login(string username, string password) {
@@ -84,11 +93,6 @@ namespace VolleyballApp {
 			DB_Update dbUpdate = new DB_Update(this);
 			return await dbUpdate.UpdateUser(host, name, role, number, position);
 		}
-//		public async void UpdateUser(int idUser, string name, string role, string password, int number, string position) {
-//			DB_Update dbUpdate = new DB_Update(this);
-//			dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
-////			return dbUpdate.UpdateUser(host, idUser, name, role, password, number, position);
-//		}
 
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
@@ -103,6 +107,26 @@ namespace VolleyballApp {
 
 		public int convertAndInitializeToInt(JsonValue value) {
 			return (value == null) ? 0 : Convert.ToInt32(value.ToString());
+		}
+
+		public async Task<string> makeWebRequest(string phpService, string type) {
+			Uri uri = new Uri(host + phpService);
+			if(debug) 
+				Console.WriteLine(type + " - uri: " + uri);
+
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+			request.CookieContainer = cookieContainer;
+			Console.WriteLine("CookieContainer.Count before GetResponse: " + request.CookieContainer.Count + " | " + cookieContainer.Count);
+
+			WebResponse response = await request.GetResponseAsync().ConfigureAwait(continueOnCapturedContext:false);
+			Console.WriteLine("CookieContainer.Count after GetResponse: " + request.CookieContainer.Count + " | " + cookieContainer.Count);
+			StreamReader sr = new StreamReader(response.GetResponseStream());
+			string responseText = sr.ReadToEnd();
+
+			if(debug) 
+				Console.WriteLine(type + " - response: " + responseText);
+			
+			return responseText;
 		}
 	}
 }

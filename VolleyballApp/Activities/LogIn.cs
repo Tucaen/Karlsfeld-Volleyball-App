@@ -33,7 +33,7 @@ namespace VolleyballApp {
 
 			SetContentView(Resource.Layout.LogIn);
 
-			DB_Communicator db = new DB_Communicator();
+			DB_Communicator db = DB_Communicator.getInstance();
 
 			Button btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
 

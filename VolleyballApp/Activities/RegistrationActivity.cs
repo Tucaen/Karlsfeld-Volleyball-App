@@ -26,7 +26,7 @@ namespace VolleyballApp {
 				EditText email = FindViewById<EditText>(Resource.Id.registrationEmailData);
 				EditText password = FindViewById<EditText>(Resource.Id.registrationPasswordData);
 
-				DB_Communicator db = new DB_Communicator();
+				DB_Communicator db = DB_Communicator.getInstance();
 
 				JsonValue json = await db.register(email.Text, password.Text);
 

@@ -21,7 +21,7 @@ namespace VolleyballApp {
 			SetContentView(Resource.Layout.EventDetails);
 			listView = FindViewById<ListView>(Resource.Id.EventDetails_ListUser);
 
-			DB_Communicator db = new DB_Communicator();
+			DB_Communicator db = DB_Communicator.getInstance();
 			listUser = db.SelectUserForEvent(Convert.ToInt32(this.Intent.Extras.Get("idEvent")), null).Result;
 
 			listView.Adapter = new ListUserAdapter(this, listUser);

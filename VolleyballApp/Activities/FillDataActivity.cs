@@ -25,7 +25,7 @@ namespace VolleyballApp {
 				EditText name = FindViewById<EditText>(Resource.Id.fillDataNameData);
 				EditText firstname = FindViewById<EditText>(Resource.Id.fillDataFirstnameData);
 				Console.WriteLine("trying to update name to '" + firstname.Text + " " + name.Text + "'.");
-				JsonValue json = await new DB_Communicator().UpdateUser(firstname.Text + " " + name.Text);
+				JsonValue json = await DB_Communicator.getInstance().UpdateUser(firstname.Text + " " + name.Text);
 
 				Toast.MakeText(this, json["message"].ToString(), ToastLength.Long).Show();
 
