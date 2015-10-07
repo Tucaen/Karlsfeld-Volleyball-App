@@ -57,10 +57,8 @@
     <Compile Include="DB\Select\DB_Select.cs" />
     <Compile Include="DB\Select\DB_SelectEvent.cs" />
     <Compile Include="DB\Select\DB_SelectUser.cs" />
-    <Compile Include="DB\Insert\DB_Insert.cs" />
     <Compile Include="DB\Update\DB_Update.cs" />
     <Compile Include="Activities\LogIn.cs" />
-    <Compile Include="DB\Delete\DB_Delete.cs" />
     <Compile Include="Activities\Adapter\ListEventsAdapter.cs" />
     <Compile Include="Activities\EventDetails.cs" />
     <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
@@ -105,7 +103,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\LogIn.axml" />
-    <AndroidResource Include="Resources\layout\ListEvents.axml" />
     <AndroidResource Include="Resources\layout\EventDetails.axml" />
     <AndroidResource Include="Resources\layout\UserListView.axml" />
     <AndroidResource Include="Resources\raw\server.crt" />
@@ -114,6 +111,7 @@
     <AndroidResource Include="Resources\layout\NoEventsFoundFragment.axml" />
     <AndroidResource Include="Resources\layout\FillData.axml" />
     <AndroidResource Include="Resources\layout\Registration.axml" />
+    <AndroidResource Include="Resources\layout\EventListView.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

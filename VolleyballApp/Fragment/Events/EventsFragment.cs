@@ -34,10 +34,11 @@ namespace VolleyballApp {
 				//display text that there are currently no events
 				view = inflater.Inflate(Resource.Layout.NoEventsFoundFragment, container, false);
 			} else {
-				listView = Activity.FindViewById<ListView>(Resource.Id.listEvents);
-				listView.Adapter = new ListEventsAdapter(this.Activity, listEvents);
-				listView.ItemClick += OnListItemClick;
 				view = inflater.Inflate(Resource.Layout.EventsFragment, container, false);
+				listView = view.FindViewById<ListView>(Resource.Id.listEvents);
+				Console.WriteLine("EventsFragment.OnCreateView got a listView");
+				listView.Adapter = new ListEventsAdapter(this, listEvents);
+				listView.ItemClick += OnListItemClick;
 			}
 			return view;
 		}

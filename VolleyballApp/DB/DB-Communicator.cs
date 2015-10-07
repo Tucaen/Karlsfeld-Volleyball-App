@@ -67,23 +67,6 @@ namespace VolleyballApp {
 		}
 
 		/**
-		 * Inserts a user with the given parameters and userId = currentHighestId + 1
-		 **/
-		public async Task<bool> InsertUser(string name, string role, string password, int number, string position) {
-			DB_Insert dbInsert = new DB_Insert(this);
-			return await dbInsert.InsertUser(host, name, role, password, number, position);
-		}
-
-		/**
-		 * Deletes a user with the given userId.
-		 **/
-		public async Task<bool> DeleteUser(int idUser) {
-			DB_Delete dbDelete = new DB_Delete(this);
-			return await dbDelete.DeleteUser(host, idUser);
-
-		}
-
-		/**
 		 * Updates a user with the given userId with the given parameters.
 		 **/
 		public async Task<JsonValue> UpdateUser(string name) {
@@ -97,8 +80,8 @@ namespace VolleyballApp {
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/
-		public bool wasSuccesful(string response) {
-			return !response.Contains("FAILED");
+		public bool wasSuccesful(JsonValue json) {
+			return json["state"].ToString().Equals("\"ok\"");
 		}
 
 		public string convertAndInitializeToString(JsonValue value) {

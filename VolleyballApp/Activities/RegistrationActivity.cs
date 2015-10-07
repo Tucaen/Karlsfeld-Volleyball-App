@@ -30,7 +30,7 @@ namespace VolleyballApp {
 
 				JsonValue json = await db.register(email.Text, password.Text);
 
-				if(json["state"].ToString().Equals("\"ok\"")) {
+				if(db.wasSuccesful(json)) {
 					user = await db.login(email.Text, password.Text);
 					user.StoreUserInPreferences(this, user);
 

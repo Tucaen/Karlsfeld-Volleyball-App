@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Json;
 
 namespace VolleyballApp {
 	class DB_SelectEvent : DB_Select{
@@ -17,6 +18,11 @@ namespace VolleyballApp {
 //			string responseText = await dbCommunicator.makeWebRequest("php/requestEventsForUser.php?idUser=" + idUser + "&state=" + state, "SelectEventsForUser");
 
 			List<MySqlEvent> listEvent = new List<MySqlEvent>();
+
+			//FOR TESTING ONLY
+			listEvent.Add(new MySqlEvent(1, "Test", new DateTime(2015, 10, 17, 10, 0, 0), new DateTime(2015, 10, 17, 19, 0, 0), "München", "eingeladen"));
+			//FOR TESTING ONLY
+
 			//listEvent = createEventFromResponse(responseText);
 			return listEvent;
 		}
@@ -25,7 +31,9 @@ namespace VolleyballApp {
 		 * Creates a MySqlEvent for every row in the response string.
 		 **/
 		private List<MySqlEvent> createEventFromResponse(string response) {
-			if(base.dbCommunicator.wasSuccesful(response)) {
+			JsonValue json = JsonValue.Parse(response);
+
+			if(base.dbCommunicator.wasSuccesful(json)) {
 				string[] eventInfo = response.Split('|');
 				List<MySqlEvent> listEvent = new List<MySqlEvent>();
 

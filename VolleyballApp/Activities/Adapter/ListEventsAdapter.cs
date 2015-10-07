@@ -12,14 +12,14 @@ namespace VolleyballApp
 {
 	public class ListEventsAdapter : BaseAdapter<MySqlEvent> {
 		List<MySqlEvent> listEvents;
-		Activity context;
+		Fragment context;
 
-		public ListEventsAdapter(Activity context, List<MySqlEvent> listEvents) : base() {
+		public ListEventsAdapter(Fragment context, List<MySqlEvent> listEvents) : base() {
 			this.context = context;
 			this.listEvents = listEvents;
 
-//			Console.WriteLine("Event[0] = " + listEvents[0].idEvent + " " + listEvents[0].name + " " + listEvents[0].startDate + " " + listEvents[0].endDate + " " + listEvents[0].endDate);
-			context.FindViewById<TextView>(Resource.Layout.EventsFragment);
+			Console.WriteLine("Event[0] = " + listEvents[0].idEvent + " " + listEvents[0].name + " " + listEvents[0].startDate + " " + listEvents[0].endDate + " " + listEvents[0].endDate);
+			context.Activity.FindViewById<TextView>(Resource.Layout.EventListView);
 		}
 
 		public override long GetItemId(int position) {
@@ -36,7 +36,8 @@ namespace VolleyballApp
 			View view = convertView;
 
 			if (view == null) // no view to re-use, create new
-				view = context.LayoutInflater.Inflate(Resource.Layout.EventsFragment, null);
+				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.EventListView, null);
+			
 			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
 			if(item.startDate.Day == item.endDate.Day) {
