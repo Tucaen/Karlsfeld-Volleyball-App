@@ -13,6 +13,7 @@ using System.Json;
 
 namespace VolleyballApp {
 	public class DB_Communicator {
+		public static int JSON_TYPE_INT = 0, JSON_TYPE_STRING = 1;
 		public static DB_Communicator db;
 		public bool debug { get; set; }
 		public HttpClient client { get; set; }
@@ -90,6 +91,11 @@ namespace VolleyballApp {
 
 		public int convertAndInitializeToInt(JsonValue value) {
 			return (value == null) ? 0 : Convert.ToInt32(value.ToString());
+		}
+
+		public JsonValue containsKey(JsonValue value, string key, int type) {
+			JsonValue nullValue = (type == JSON_TYPE_STRING) ? new JsonPrimitive("") : new JsonPrimitive(0);
+			return (value.ContainsKey(key)) ? value[key] : nullValue;
 		}
 
 		public async Task<string> makeWebRequest(string phpService, string type) {

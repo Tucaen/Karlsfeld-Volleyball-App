@@ -44,14 +44,14 @@ namespace VolleyballApp {
 			JsonValue user = json["data"]["User"];
 			Console.WriteLine("DB_SelectUser.createUserFromResponse() - json data: " + json["data"].ToString());
 
-			listUser.Add(new MySqlUser(dbCommunicator.convertAndInitializeToInt(user["id"]),
-				dbCommunicator.convertAndInitializeToString(user["name"]),
-				dbCommunicator.convertAndInitializeToString(user["email"]),
-				dbCommunicator.convertAndInitializeToString(user["state"]),
-				dbCommunicator.convertAndInitializeToString(user["role"]),
+			listUser.Add(new MySqlUser(dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
 				"",
-				dbCommunicator.convertAndInitializeToInt(user["number"]),
-				dbCommunicator.convertAndInitializeToString(user["position"])));
+				dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))));
 
 			return listUser;
 		}

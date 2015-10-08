@@ -20,7 +20,7 @@ namespace VolleyballApp {
 			List<MySqlEvent> listEvent = new List<MySqlEvent>();
 
 			//FOR TESTING ONLY
-			listEvent.Add(new MySqlEvent(1, "Test", new DateTime(2015, 10, 17, 10, 0, 0), new DateTime(2015, 10, 17, 19, 0, 0), "München", "eingeladen"));
+//			listEvent.Add(new MySqlEvent(1, "Test", new DateTime(2015, 10, 17, 10, 0, 0), new DateTime(2015, 10, 17, 19, 0, 0), "München", "eingeladen"));
 			//FOR TESTING ONLY
 
 			//listEvent = createEventFromResponse(responseText);
