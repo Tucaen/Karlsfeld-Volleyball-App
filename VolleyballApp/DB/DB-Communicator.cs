@@ -13,7 +13,7 @@ using System.Json;
 
 namespace VolleyballApp {
 	public class DB_Communicator {
-		public static int JSON_TYPE_INT = 0, JSON_TYPE_STRING = 1;
+		public const int JSON_TYPE_INT = 0, JSON_TYPE_STRING = 1, JSON_TYPE_DATE = 2;
 		public static DB_Communicator db;
 		public bool debug { get; set; }
 		public HttpClient client { get; set; }
@@ -93,8 +93,24 @@ namespace VolleyballApp {
 			return (value == null) ? 0 : Convert.ToInt32(value.ToString());
 		}
 
+		public DateTime convertAndInitializeToDateTime(JsonValue value) {
+			return (value == null) ? new DateTime() : Convert.ToDateTime(value.ToString().Replace("\"", ""));
+		}
+
 		public JsonValue containsKey(JsonValue value, string key, int type) {
-			JsonValue nullValue = (type == JSON_TYPE_STRING) ? new JsonPrimitive("") : new JsonPrimitive(0);
+			JsonPrimitive nullValue = new JsonPrimitive("");
+			switch(type) {
+			case JSON_TYPE_INT:
+				nullValue = new JsonPrimitive(0);
+				break;
+			case 1:
+				nullValue = new JsonPrimitive("");
+				break;
+			case 2:
+				nullValue = new JsonPrimitive(new DateTime());
+				break;
+			}
+				
 			return (value.ContainsKey(key)) ? value[key] : nullValue;
 		}
 
@@ -105,10 +121,8 @@ namespace VolleyballApp {
 
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 			request.CookieContainer = cookieContainer;
-			Console.WriteLine("CookieContainer.Count before GetResponse: " + request.CookieContainer.Count + " | " + cookieContainer.Count);
 
 			WebResponse response = await request.GetResponseAsync().ConfigureAwait(continueOnCapturedContext:false);
-			Console.WriteLine("CookieContainer.Count after GetResponse: " + request.CookieContainer.Count + " | " + cookieContainer.Count);
 			StreamReader sr = new StreamReader(response.GetResponseStream());
 			string responseText = sr.ReadToEnd();
 

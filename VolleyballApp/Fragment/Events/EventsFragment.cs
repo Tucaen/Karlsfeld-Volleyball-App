@@ -11,25 +11,27 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	public class EventsFragment : Fragment {
 		ListView listView;
 		List<MySqlEvent> listEvents;
 		MySqlUser user;
+		DB_Communicator db;
 
 		public override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
 			//Get all events for the logged in user
-			DB_Communicator db = new DB_Communicator();
+			db = DB_Communicator.getInstance();
 			user = MySqlUser.GetUserFromPreferences(this.Activity);
-			listEvents = db.SelectEventsForUser(user.idUser, null).Result;
-
-
+			listEvents = new List<MySqlEvent>();
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = null;
+			initializeEventList(listEvents);
+
 			if(listEvents.Count == 0) {
 				//display text that there are currently no events
 				view = inflater.Inflate(Resource.Layout.NoEventsFoundFragment, container, false);
@@ -48,6 +50,10 @@ namespace VolleyballApp {
 			Intent i = new Intent(this.Activity, typeof(EventDetails));
 			i.PutExtra("idEvent", listEvents[e.Position].idEvent);
 			StartActivity(i);
+		}
+
+		private async void initializeEventList(List<MySqlEvent> listEvents) {
+			listEvents = await db.SelectEventsForUser(user.idUser, null);
 		}
 	}
 }

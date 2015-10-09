@@ -10,47 +10,34 @@ namespace VolleyballApp {
 		public DB_SelectEvent(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
 		/**
-		 * Concatenate a Uri with the given parameters.
-		 * If uri invokation was succesfull a list with all events for the given userId and state will be created,
-		 * which will be stored in the variable listEvent.
+		 * Returns a list with all events for the given userId and state.
 		 **/
 		public async Task<List<MySqlEvent>> SelectEventsForUser(string host, int idUser, string state) {
-//			string responseText = await dbCommunicator.makeWebRequest("php/requestEventsForUser.php?idUser=" + idUser + "&state=" + state, "SelectEventsForUser");
+			string responseText = await dbCommunicator.makeWebRequest("service/user/load_user.php?id=" + idUser + "&loadAttendences=true", "DB_SelectEvent.SelectEventsForUser()");
 
-			List<MySqlEvent> listEvent = new List<MySqlEvent>();
-
-			//FOR TESTING ONLY
-//			listEvent.Add(new MySqlEvent(1, "Test", new DateTime(2015, 10, 17, 10, 0, 0), new DateTime(2015, 10, 17, 19, 0, 0), "München", "eingeladen"));
-			//FOR TESTING ONLY
-
-			//listEvent = createEventFromResponse(responseText);
-			return listEvent;
+			return createEventFromResponse(responseText);
 		}
 
 		/**
 		 * Creates a MySqlEvent for every row in the response string.
 		 **/
-		private List<MySqlEvent> createEventFromResponse(string response) {
-			JsonValue json = JsonValue.Parse(response);
+		private List<MySqlEvent> createEventFromResponse(string responseText) {
+			JsonValue json = JsonArray.Parse(responseText);
+			List<MySqlEvent> listEvent = new List<MySqlEvent>();
 
-			if(base.dbCommunicator.wasSuccesful(json)) {
-				string[] eventInfo = response.Split('|');
-				List<MySqlEvent> listEvent = new List<MySqlEvent>();
-
-				int i = 0;
-				do {
-					if(debug) {
-						Console.WriteLine("Creating Event: " + eventInfo[i] + " " + eventInfo[i + 1] + " " + eventInfo[i + 2] + " " + eventInfo[i + 3] + " " + eventInfo[i + 4] + " " + eventInfo[i+5]);
-					}
-					listEvent.Add(new MySqlEvent(Convert.ToInt32(eventInfo[i]), eventInfo[i + 1], Convert.ToDateTime(eventInfo[i + 2]), Convert.ToDateTime(eventInfo[i + 3]), eventInfo[i + 4], eventInfo[i + 5]));
-					i += 6;
-				} while(!eventInfo[i].Equals("<endoffile>")) ;
-
-				return listEvent;
-			} else {
-				Console.WriteLine("Invalid response for creating event!");
-				return null;
+			if(json["data"][0]["User"].ContainsKey("attendences")) {
+				foreach(JsonValue e in json["data"][0]["User"]["attendences"]) {
+					Console.WriteLine("createEventFromResponse- creating event - " + e["Event"].ToString());
+						listEvent.Add(new MySqlEvent(
+						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(e["Event"], "id", DB_Communicator.JSON_TYPE_INT)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Event"], "name", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(e["Event"], "startDate", DB_Communicator.JSON_TYPE_DATE)),
+						dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(e["Event"], "endDate", DB_Communicator.JSON_TYPE_DATE)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Event"], "location", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Event"], "state", DB_Communicator.JSON_TYPE_STRING))));
+				}
 			}
+			return listEvent;
 		}
 	}
 }

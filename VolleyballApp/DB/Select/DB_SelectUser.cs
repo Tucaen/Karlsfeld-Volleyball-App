@@ -42,9 +42,9 @@ namespace VolleyballApp {
 			JsonValue json = JsonValue.Parse(response);
 			List<MySqlUser> listUser = new List<MySqlUser>();
 			JsonValue user = json["data"]["User"];
-			Console.WriteLine("DB_SelectUser.createUserFromResponse() - json data: " + json["data"].ToString());
 
-			listUser.Add(new MySqlUser(dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+			listUser.Add(new MySqlUser(dbCommunicator.convertAndInitializeToInt(
+				dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
 				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),

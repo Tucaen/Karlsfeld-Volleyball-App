@@ -72,11 +72,6 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
-    <None Include="SQL\Insert_Event.sql" />
-    <None Include="SQL\Insert_User.sql" />
-    <None Include="SQL\Insert_User_To_Event.sql" />
-    <None Include="SQL\Select_All_Events_For_User.sql" />
-    <None Include="SQL\Select_All_User_For_Event.sql" />
     <None Include="Dokumentation\Tasks.xlsx" />
     <None Include="php\db.php" />
     <None Include="php\phpinfo.php" />
@@ -115,7 +110,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="SQL\" />
     <Folder Include="MySqlObjects\" />
     <Folder Include="DB\" />
     <Folder Include="DB\Select\" />
