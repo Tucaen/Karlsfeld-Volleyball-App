@@ -14,14 +14,17 @@ using Android.Widget;
 namespace VolleyballApp {
 	[Activity(Label = "MainActivity")]			
 	public class MainActivity : Activity {
+		FragmentTransaction trans;
+
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.Main);
 
-			var trans = FragmentManager.BeginTransaction();
+			trans = FragmentManager.BeginTransaction();
 			trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), "EventsFragment");
 			trans.Commit();
+
 		}
 	}
 }

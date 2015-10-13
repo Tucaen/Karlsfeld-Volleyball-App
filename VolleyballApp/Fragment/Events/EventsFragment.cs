@@ -17,20 +17,20 @@ namespace VolleyballApp {
 	public class EventsFragment : Fragment {
 		ListView listView;
 		List<MySqlEvent> listEvents;
-		MySqlUser user;
-		DB_Communicator db;
+//		MySqlUser user;
+//		DB_Communicator db;
+		View view;
 
 		public override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
+
 			//Get all events for the logged in user
-			db = DB_Communicator.getInstance();
-			user = MySqlUser.GetUserFromPreferences(this.Activity);
-			listEvents = new List<MySqlEvent>();
+			Console.WriteLine("Trying to load events from preferences...");
+			listEvents = MySqlEvent.GetListEventsFromPreferences(this.Activity.Intent);
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View view = null;
-			initializeEventList(listEvents);
+			view = null;
 
 			if(listEvents.Count == 0) {
 				//display text that there are currently no events
@@ -38,7 +38,6 @@ namespace VolleyballApp {
 			} else {
 				view = inflater.Inflate(Resource.Layout.EventsFragment, container, false);
 				listView = view.FindViewById<ListView>(Resource.Id.listEvents);
-				Console.WriteLine("EventsFragment.OnCreateView got a listView");
 				listView.Adapter = new ListEventsAdapter(this, listEvents);
 				listView.ItemClick += OnListItemClick;
 			}
@@ -52,9 +51,14 @@ namespace VolleyballApp {
 			StartActivity(i);
 		}
 
-		private async void initializeEventList(List<MySqlEvent> listEvents) {
-			listEvents = await db.SelectEventsForUser(user.idUser, null);
-		}
+//		private async Task<List<MySqlEvent>> initializeEventList(List<MySqlEvent> listEvents) {
+//			//show loading screen
+//			Console.WriteLine("before fetching events");
+//			listEvents = await db.SelectEventsForUser(user.idUser, null);
+//			Console.WriteLine("after fetching events");
+//			//dismiss loading screen
+//			return listEvents;
+//		}
 	}
 }
 

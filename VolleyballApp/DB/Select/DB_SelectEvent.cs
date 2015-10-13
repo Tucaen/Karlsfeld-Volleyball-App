@@ -27,14 +27,15 @@ namespace VolleyballApp {
 
 			if(json["data"][0]["User"].ContainsKey("attendences")) {
 				foreach(JsonValue e in json["data"][0]["User"]["attendences"]) {
-					Console.WriteLine("createEventFromResponse- creating event - " + e["Event"].ToString());
+					JsonValue jsonEvent = e["Attendence"]["eventObj"]["Event"];
+					Console.WriteLine("createEventFromResponse- creating event - " + e["Attendence"].ToString());
 						listEvent.Add(new MySqlEvent(
-						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(e["Event"], "id", DB_Communicator.JSON_TYPE_INT)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Event"], "name", DB_Communicator.JSON_TYPE_STRING)),
-						dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(e["Event"], "startDate", DB_Communicator.JSON_TYPE_DATE)),
-						dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(e["Event"], "endDate", DB_Communicator.JSON_TYPE_DATE)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Event"], "location", DB_Communicator.JSON_TYPE_STRING)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Event"], "state", DB_Communicator.JSON_TYPE_STRING))));
+						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(jsonEvent, "id", DB_Communicator.JSON_TYPE_INT)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(jsonEvent, "name", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(jsonEvent, "startDate", DB_Communicator.JSON_TYPE_DATE)),
+						dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(jsonEvent, "endDate", DB_Communicator.JSON_TYPE_DATE)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(jsonEvent, "location", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
 				}
 			}
 			return listEvent;

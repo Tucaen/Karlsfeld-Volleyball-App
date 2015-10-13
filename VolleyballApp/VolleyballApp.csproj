@@ -47,6 +47,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Json" />
+    <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -107,6 +108,7 @@
     <AndroidResource Include="Resources\layout\FillData.axml" />
     <AndroidResource Include="Resources\layout\Registration.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />
+    <AndroidResource Include="Resources\layout\LoadingEventsFragment.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

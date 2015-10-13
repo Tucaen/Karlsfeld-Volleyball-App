@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Preferences;
 using System.Net;
+using System.Threading;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp - Login", MainLauncher = true, Icon = "@drawable/icon")]	
@@ -38,6 +39,11 @@ namespace VolleyballApp {
 			Button btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
 
 			btnLogin.Click += async (object sender, EventArgs e) => {
+				ProgressDialog dialog = ProgressDialog.Show(this, "Please wait", "Loading...");
+				dialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+				dialog.SetCancelable(false);
+				dialog.Indeterminate = true;
+
 				EditText username = FindViewById<EditText>(Resource.Id.usernameText);
 				EditText password = FindViewById<EditText>(Resource.Id.passwordText);
 			
@@ -50,12 +56,21 @@ namespace VolleyballApp {
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
 
 					Intent i = null;
-					if(user.state.Equals("\"FILLDATA\""))
+					if(user.state.Equals("\"FILLDATA\"")) {
 						i = new Intent(this, typeof(FillDataActivity));
-					else 
-						i = new Intent(this, typeof(MainActivity));	
+						StartActivity(i);
+					} else {
+						List<MySqlEvent> listEvents = new List<MySqlEvent>();
+						new Thread(new ThreadStart(async delegate {
+							listEvents = await db.SelectEventsForUser(user.idUser, null);
+							Console.WriteLine("ListEvents.Count in loginThread: " + listEvents.Count);
+							MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
+							RunOnUiThread(() => dialog.Dismiss());
+							i = new Intent(this, typeof(MainActivity));	
+							StartActivity(i);
+						})).Start();
+					}
 					
-					StartActivity(i);
 				} else {
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
 				}
