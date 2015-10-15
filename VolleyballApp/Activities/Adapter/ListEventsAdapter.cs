@@ -41,9 +41,9 @@ namespace VolleyballApp
 			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
 			if(item.startDate.Day == item.endDate.Day) {
-				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:MM") + " - " + item.endDate.ToString("HH:MM");
+				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
 			} else {
-				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:MM") + " - " + item.endDate.ToString("dd.MM.yy HH:MM");
+				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
 			}
 			return view;
 		}

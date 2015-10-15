@@ -86,11 +86,11 @@ namespace VolleyballApp {
 		}
 
 		public string convertAndInitializeToString(JsonValue value) {
-			return (value == null) ? "" : value.ToString();
+			return (value == null) ? "" : value.ToString().Replace("\"", "");
 		}
 
 		public int convertAndInitializeToInt(JsonValue value) {
-			return (value == null) ? 0 : Convert.ToInt32(value.ToString());
+			return (value == null) ? 0 : Convert.ToInt32(value.ToString().Replace("\"", ""));
 		}
 
 		public DateTime convertAndInitializeToDateTime(JsonValue value) {

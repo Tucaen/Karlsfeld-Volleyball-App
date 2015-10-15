@@ -1,15 +1,12 @@
 ﻿using System;
-using Android.OS;
 using Android.Content;
 using System.Collections.Generic;
 using Java.Interop;
-
-using Object = Java.Lang.Object;
+using Android.OS;
 using System.Linq;
 
-
 namespace VolleyballApp {
-	public class MySqlEvent : Object, IParcelable {
+	public class MySqlEvent : MySqlObject {
 		public int idEvent { get; set; }
 		public string name { get; set; }
 		public DateTime startDate { get; set; }
@@ -39,7 +36,7 @@ namespace VolleyballApp {
 			MySqlEvent[] tempArray = intent.GetParcelableArrayListExtra("listEvents").Cast<MySqlEvent>().ToArray();
 		}
 
-		public static List<MySqlEvent> GetListEventsFromPreferences(Intent intent) {
+		public static List<MySqlEvent> GetListEventsFromPreferences() {
 			List<MySqlEvent> listEvents = new List<MySqlEvent>();
 			MySqlEvent[] array = MySqlEvent.intent.GetParcelableArrayListExtra("listEvents").Cast<MySqlEvent>().ToArray();
 			for(int i = 0; i < array.Length; i++) {
@@ -53,10 +50,6 @@ namespace VolleyballApp {
 		}
 
 		#region ParcelableImplementation
-		public int DescribeContents() {
-			return 0;
-		}
-		
 		public MySqlEvent(Parcel p) {
 			this.idEvent = p.ReadInt();
 			this.name = p.ReadString();
@@ -66,7 +59,7 @@ namespace VolleyballApp {
 			this.state = p.ReadString();
 		}
 		
-		public void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {
+		public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {
 			dest.WriteInt(idEvent);
 			dest.WriteString(name);
 			dest.WriteString(startDate.ToString());
@@ -81,23 +74,6 @@ namespace VolleyballApp {
 		[ExportField ("CREATOR")]
 		public static MyParcelableCreator<MySqlEvent> InitializeCreator() {
 			return _creator;
-		}
-
-		public class MyParcelableCreator<T> : Object, IParcelableCreator where T : Object, new() {
-
-			private readonly Func<Parcel, T> _createFunc;
-
-			public MyParcelableCreator(Func<Parcel, T> createFromParcelFunc) {
-				_createFunc = createFromParcelFunc;
-			}
-
-			public Object CreateFromParcel (Parcel source) {
-				return _createFunc(source);
-			}
-
-			public Object[] NewArray (int size) {
-				return new Object[size];
-			}
 		}
 		#endregion
 	}

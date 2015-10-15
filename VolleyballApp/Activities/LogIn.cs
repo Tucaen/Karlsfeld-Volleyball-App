@@ -63,14 +63,12 @@ namespace VolleyballApp {
 						List<MySqlEvent> listEvents = new List<MySqlEvent>();
 						new Thread(new ThreadStart(async delegate {
 							listEvents = await db.SelectEventsForUser(user.idUser, null);
-							Console.WriteLine("ListEvents.Count in loginThread: " + listEvents.Count);
 							MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
 							RunOnUiThread(() => dialog.Dismiss());
 							i = new Intent(this, typeof(MainActivity));	
 							StartActivity(i);
 						})).Start();
 					}
-					
 				} else {
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
 				}

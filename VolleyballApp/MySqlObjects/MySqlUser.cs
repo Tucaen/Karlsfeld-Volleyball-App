@@ -1,9 +1,13 @@
 ﻿using System;
 using Android.Content;
 using Android.Preferences;
+using Android.OS;
+using Java.Interop;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VolleyballApp {
-	public class MySqlUser {
+	public class MySqlUser : MySqlObject {
 		public int idUser{ get; set; }
 		public string name{ get; set; }
 		public string email{ get; set; }
@@ -12,6 +16,10 @@ namespace VolleyballApp {
 		public string password{ get; set; }
 		public int number{ get; set; }
 		public string position{ get; set; }
+		private static Intent intent;
+		private static readonly string LIST_USER = "listUser";
+
+		public MySqlUser() {}
 
 		public MySqlUser(int idUser, string name, string email, string state, string role, string password, int number, string position) {
 			this.idUser = idUser;
@@ -25,7 +33,6 @@ namespace VolleyballApp {
 		}
 
 		public void StoreUserInPreferences(Context context, MySqlUser user) {
-			
 			ISharedPreferences prefs = context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 			ISharedPreferencesEditor editor = prefs.Edit();
 			editor.PutInt("idUser", user.idUser);
@@ -50,6 +57,57 @@ namespace VolleyballApp {
 				prefs.GetInt("number", 0),
 				prefs.GetString("position", ""));
 		}
+
+		public static void StoreUserListInPreferences(Intent intent, List<MySqlUser> listUser) {
+			MySqlUser.intent = intent;
+			MySqlUser[] array = new MySqlUser[listUser.Count];
+			for(int i = 0; i < array.Length; i++) {
+				array[i] = listUser[i];
+			}
+			intent.PutParcelableArrayListExtra(LIST_USER, array);
+			MySqlUser[] tempArray = intent.GetParcelableArrayListExtra(LIST_USER).Cast<MySqlUser>().ToArray();
+		}
+
+		public static List<MySqlUser> GetListUserFromPreferences() {
+			List<MySqlUser> listUser = new List<MySqlUser>();
+			MySqlUser[] array = MySqlUser.intent.GetParcelableArrayListExtra(LIST_USER).Cast<MySqlUser>().ToArray();
+			for(int i = 0; i < array.Length; i++) {
+				listUser.Add(array[i]);
+			}
+			return listUser;
+		}
+
+		#region ParcelableImplementation
+		public MySqlUser(Parcel p) {
+			this.idUser = p.ReadInt();
+			this.name = p.ReadString();
+			this.email = p.ReadString();
+			this.state = p.ReadString();
+			this.role = p.ReadString();
+			this.password = p.ReadString();
+			this.number = p.ReadInt();
+			this.position = p.ReadString();
+		}
+
+		public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {
+			dest.WriteInt(idUser);
+			dest.WriteString(name);
+			dest.WriteString(email);
+			dest.WriteString(state);
+			dest.WriteString(role);
+			dest.WriteString(password);
+			dest.WriteInt(number);
+			dest.WriteString(position);
+		}
+
+		public static readonly MyParcelableCreator<MySqlUser> _creator 
+		= new MyParcelableCreator<MySqlUser>((parcel) => new MySqlUser(parcel));
+
+		[ExportField ("CREATOR")]
+		public static MyParcelableCreator<MySqlUser> InitializeCreator() {
+			return _creator;
+		}
+		#endregion
 	}
 }
 

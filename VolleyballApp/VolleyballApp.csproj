@@ -61,13 +61,14 @@
     <Compile Include="DB\Update\DB_Update.cs" />
     <Compile Include="Activities\LogIn.cs" />
     <Compile Include="Activities\Adapter\ListEventsAdapter.cs" />
-    <Compile Include="Activities\EventDetails.cs" />
     <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Fragment\Events\EventsFragment.cs" />
     <Compile Include="Fragment\Events\NoEventsFragment.cs" />
     <Compile Include="Activities\RegistrationActivity.cs" />
     <Compile Include="Activities\FillDataActivity.cs" />
+    <Compile Include="Activities\EventDetailsFragment.cs" />
+    <Compile Include="MySqlObjects\MySqlObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

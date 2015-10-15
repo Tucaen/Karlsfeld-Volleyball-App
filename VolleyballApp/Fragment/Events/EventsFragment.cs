@@ -12,21 +12,19 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace VolleyballApp {
 	public class EventsFragment : Fragment {
 		ListView listView;
 		List<MySqlEvent> listEvents;
-//		MySqlUser user;
-//		DB_Communicator db;
 		View view;
 
 		public override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
 
 			//Get all events for the logged in user
-			Console.WriteLine("Trying to load events from preferences...");
-			listEvents = MySqlEvent.GetListEventsFromPreferences(this.Activity.Intent);
+			listEvents = MySqlEvent.GetListEventsFromPreferences();
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,24 +39,14 @@ namespace VolleyballApp {
 				listView.Adapter = new ListEventsAdapter(this, listEvents);
 				listView.ItemClick += OnListItemClick;
 			}
+
 			return view;
 		}
 
 		void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
-			ListView listView = sender as ListView;
-			Intent i = new Intent(this.Activity, typeof(EventDetails));
-			i.PutExtra("idEvent", listEvents[e.Position].idEvent);
-			StartActivity(i);
+			MainActivity mainActivity = (MainActivity) this.Activity;
+			mainActivity.OnListEventClicked(e, listEvents);
 		}
-
-//		private async Task<List<MySqlEvent>> initializeEventList(List<MySqlEvent> listEvents) {
-//			//show loading screen
-//			Console.WriteLine("before fetching events");
-//			listEvents = await db.SelectEventsForUser(user.idUser, null);
-//			Console.WriteLine("after fetching events");
-//			//dismiss loading screen
-//			return listEvents;
-//		}
 	}
 }
 

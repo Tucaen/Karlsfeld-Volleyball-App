@@ -7,9 +7,9 @@ using Android.Views;
 namespace VolleyballApp {
 	public class ListUserAdapter : BaseAdapter<MySqlUser> {
 		List<MySqlUser> listUser;
-		Activity context;
+		Fragment context;
 
-		public ListUserAdapter(Activity context, List<MySqlUser> listUser) : base() {
+		public ListUserAdapter(Fragment context, List<MySqlUser> listUser) : base() {
 			this.context = context;
 			this.listUser = listUser;
 		}
@@ -28,7 +28,7 @@ namespace VolleyballApp {
 			View view = convertView;
 
 			if (view == null) // no view to re-use, create new
-				view = context.LayoutInflater.Inflate(Resource.Layout.UserListView, null);
+				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.UserListView, null);
 			view.FindViewById<TextView>(Resource.Id.UserListViewName).Text = item.name;
 			return view;
 		}
