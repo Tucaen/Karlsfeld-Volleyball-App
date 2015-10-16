@@ -109,7 +109,6 @@
     <AndroidResource Include="Resources\layout\FillData.axml" />
     <AndroidResource Include="Resources\layout\Registration.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />
-    <AndroidResource Include="Resources\layout\LoadingEventsFragment.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

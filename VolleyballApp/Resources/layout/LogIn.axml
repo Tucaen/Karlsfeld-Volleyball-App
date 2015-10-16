@@ -3,26 +3,33 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#000000"
     android:minWidth="25px"
     android:minHeight="25px">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/usernameText"
-        android:text="Username"
+        android:hint="Username"
+        android:textColorHint="#6699FF"
+        android:textColor="@android:color/white"
         android:inputType="textEmailAddress"
         android:layout_marginTop="10dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/passwordText"
-        android:text="Passwort"
+        android:hint="Passwort"
+        android:textColorHint="#6699FF"
+        android:textColor="@android:color/white"
         android:inputType="textPassword"
         android:layout_marginTop="10dp" />
     <Button
         android:text="Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@android:color/darker_gray"
         android:id="@+id/btnLogin"
         android:layout_marginTop="10dp" />
     <TextView
@@ -32,6 +39,7 @@
         android:clickable="true"
         android:id="@+id/registrierenText"
         android:text="Registrieren"
+        android:textColor="@android:color/white"
         android:layout_gravity="center"
         android:layout_marginTop="10dp" />
 </LinearLayout>

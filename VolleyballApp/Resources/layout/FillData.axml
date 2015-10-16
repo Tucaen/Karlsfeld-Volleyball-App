@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@android:color/background_dark"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
@@ -9,6 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/fillDataNameLabel"
         android:textSize="20sp"
+        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5.0dp"
         android:layout_marginRight="0.0dp" />
@@ -16,6 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fillDataNameData"
+        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
         android:layout_below="@id/fillDataNameLabel" />
@@ -23,6 +26,7 @@
         android:text="Vorname:"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
         android:id="@+id/fillDataFirstnameLabel"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
@@ -32,6 +36,7 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
         android:id="@+id/fillDataFirstnameData"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
@@ -42,6 +47,8 @@
         android:text="Ok"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@android:color/darker_gray"
         android:layout_below="@id/fillDataFirstnameData"
         android:id="@+id/btnFillDataOk" />
 </RelativeLayout>

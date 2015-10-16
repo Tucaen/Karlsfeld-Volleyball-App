@@ -21,16 +21,9 @@ namespace VolleyballApp {
 
 		protected override void OnCreate(Bundle bundle) {
 			// You may use ServicePointManager here
-			ServicePointManager
-				.ServerCertificateValidationCallback +=
-					(sender, cert, chain, sslPolicyErrors) => true;
+			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
 			base.OnCreate(bundle);
-
-//			global::Xamarin.Forms.Forms.Init(this, bundle);
-//			LoadApplication(new App());
-
-//			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.LogIn);
 
@@ -39,6 +32,7 @@ namespace VolleyballApp {
 			Button btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
 
 			btnLogin.Click += async (object sender, EventArgs e) => {
+//				new Thread(new ThreadStart(async delegate {
 				ProgressDialog dialog = ProgressDialog.Show(this, "Please wait", "Loading...");
 				dialog.SetProgressStyle(ProgressDialogStyle.Spinner);
 				dialog.SetCancelable(false);
@@ -56,20 +50,19 @@ namespace VolleyballApp {
 					Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
 
 					Intent i = null;
-					if(user.state.Equals("\"FILLDATA\"")) {
+					if(user.state.Equals("\"FILLDATA\"") || user.state.Equals("FILLDATA")) {
 						i = new Intent(this, typeof(FillDataActivity));
-						StartActivity(i);
 					} else {
 						List<MySqlEvent> listEvents = new List<MySqlEvent>();
-						new Thread(new ThreadStart(async delegate {
-							listEvents = await db.SelectEventsForUser(user.idUser, null);
-							MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
-							RunOnUiThread(() => dialog.Dismiss());
-							i = new Intent(this, typeof(MainActivity));	
-							StartActivity(i);
-						})).Start();
+						listEvents = await db.SelectEventsForUser(user.idUser, null);
+						MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
+						i = new Intent(this, typeof(MainActivity));	
 					}
+					dialog.Dismiss();
+					StartActivity(i);
+					Finish();
 				} else {
+					dialog.Dismiss();
 					Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
 				}
 			};

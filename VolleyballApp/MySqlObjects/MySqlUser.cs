@@ -16,12 +16,18 @@ namespace VolleyballApp {
 		public string password{ get; set; }
 		public int number{ get; set; }
 		public string position{ get; set; }
+		public string eventState{ get; set; }
+
 		private static Intent intent;
 		private static readonly string LIST_USER = "listUser";
 
 		public MySqlUser() {}
 
-		public MySqlUser(int idUser, string name, string email, string state, string role, string password, int number, string position) {
+		public MySqlUser(int idUser, string name, string email, string state, string role, string password, int number, string position)
+			: this(idUser, name, email, state, role, password, number, position, "") {
+		}
+
+		public MySqlUser(int idUser, string name, string email, string state, string role, string password, int number, string position, string eventState) {
 			this.idUser = idUser;
 			this.name = name;
 			this.email = email;
@@ -30,6 +36,7 @@ namespace VolleyballApp {
 			this.password = password;
 			this.number = number;
 			this.position = position;
+			this.eventState = eventState;
 		}
 
 		public void StoreUserInPreferences(Context context, MySqlUser user) {

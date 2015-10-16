@@ -16,6 +16,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/TitleText1"
+                android:text="TitleText1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
@@ -23,6 +24,7 @@
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/TitleText2"
+                android:text="TitleText2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14dip"
@@ -32,6 +34,7 @@
         </LinearLayout>
         <TextView
             android:id="@+id/Date"
+            android:text="Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dip"

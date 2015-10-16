@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@android:color/background_dark"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 <!--    Email-->
@@ -10,6 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/registrationEmailLabel"
         android:textSize="15sp"
+        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5.0dp"
         android:layout_marginRight="0.0dp" />
@@ -17,6 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/registrationEmailData"
+        android:textColor="@android:color/white"
         android:inputType="textEmailAddress"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
@@ -27,6 +30,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/registrationPasswordLabel"
+        android:textColor="@android:color/white"
         android:textSize="15sp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5.0dp"
@@ -36,6 +40,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/registrationPasswordData"
+        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
         android:layout_below="@id/registrationPasswordLabel" />
@@ -43,6 +48,8 @@
         android:text="Registrieren"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@android:color/darker_gray"
         android:layout_below="@id/registrationPasswordData"
         android:layout_marginTop="15dp"
         android:id="@+id/btnRegistration" />

@@ -23,7 +23,6 @@ namespace VolleyballApp {
 			return user;
 		}
 
-
 		/**
 		 * Concatenate a Uri with the given parameters.
 		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
@@ -40,19 +39,21 @@ namespace VolleyballApp {
 		 **/
 		private MySqlUser createUserFromResponse(string response) {
 			JsonValue json = JsonValue.Parse(response);
-			JsonValue user = json["data"]["User"];
-
-			return new MySqlUser(dbCommunicator.convertAndInitializeToInt(
-				dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
-				"",
-				dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)));
+			if(dbCommunicator.wasSuccesful(json)) {
+				JsonValue user = json["data"]["User"];
+				
+				return new MySqlUser(
+					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
+					"",
+					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)));
+			}
+			return null;
 		}
-
 
 		/**Creates a list of user who attend an event*/
 		private List<MySqlUser> createUserListFromResponse(string response) {
@@ -62,15 +63,16 @@ namespace VolleyballApp {
 
 			foreach (JsonValue u in attendences) {
 				JsonValue user = u["Attendence"]["userObj"]["User"];
-				listUser.Add(new MySqlUser(dbCommunicator.convertAndInitializeToInt(
-					dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+				listUser.Add(new MySqlUser(
+					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
+					"", //state e.g. "FILLDATA" or "FINAL"; isn't send
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
-					"",
+					"", //password; isn't send
 					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))));
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)),
+					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(u["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
 			}
 
 			return listUser;

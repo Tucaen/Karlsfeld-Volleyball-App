@@ -26,6 +26,28 @@ namespace VolleyballApp {
 			this.state = state;
 		}
 
+		public void StoreEventInPreferences(Context context, MySqlEvent e) {
+			ISharedPreferences prefs = context.GetSharedPreferences("eventinformation", FileCreationMode.Private);
+			ISharedPreferencesEditor editor = prefs.Edit();
+			editor.PutInt("idEvent", e.idEvent);
+			editor.PutString("eventName", e.name);
+			editor.PutString("eventLocation", e.location);
+			editor.PutString("eventState", e.state);
+			editor.PutString("eventStartDate", e.startDate.ToString());
+			editor.PutString("eventEndDate", e.endDate.ToString());
+			editor.Commit();
+		}
+
+		public static MySqlEvent GetEventFromPreferences(Context context) {
+			ISharedPreferences prefs = context.GetSharedPreferences("eventinformation", FileCreationMode.Private);
+			return new MySqlEvent(prefs.GetInt("idEvent", 0),
+				prefs.GetString("eventName", ""),
+				Convert.ToDateTime(prefs.GetString("eventStartDate", "")),
+				Convert.ToDateTime(prefs.GetString("eventEndDate", "")),
+				prefs.GetString("eventLocation", ""),
+				prefs.GetString("eventState", ""));
+		}
+
 		public static void StoreEventListInPreferences(Intent intent, List<MySqlEvent> listEvents) {
 			MySqlEvent.intent = intent;
 			MySqlEvent[] array = new MySqlEvent[listEvents.Count];

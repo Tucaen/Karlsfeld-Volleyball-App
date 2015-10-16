@@ -18,7 +18,7 @@ namespace VolleyballApp
 			this.context = context;
 			this.listEvents = listEvents;
 
-			Console.WriteLine("Event[0] = " + listEvents[0].idEvent + " " + listEvents[0].name + " " + listEvents[0].startDate + " " + listEvents[0].endDate + " " + listEvents[0].endDate);
+			Console.WriteLine("Event[0] = " + listEvents[0]);
 			context.Activity.FindViewById<TextView>(Resource.Layout.EventListView);
 		}
 
@@ -40,11 +40,10 @@ namespace VolleyballApp
 			
 			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
-			if(item.startDate.Day == item.endDate.Day) {
-				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
-			} else {
-				view.FindViewById<TextView>(Resource.Id.Date).Text = item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
-			}
+
+			MainActivity main = (MainActivity)this.context.Activity;
+			view.FindViewById<TextView>(Resource.Id.Date).Text = main.convertDateForLayout(item);
+
 			return view;
 		}
 	}

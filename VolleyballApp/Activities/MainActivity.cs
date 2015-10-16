@@ -34,7 +34,10 @@ namespace VolleyballApp {
 			dialog.SetCancelable(false);
 			dialog.Indeterminate = true;
 
-			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(listEvents[e.Position].idEvent, "");
+			MySqlEvent clickedEvent = listEvents[e.Position];
+			clickedEvent.StoreEventInPreferences(this, clickedEvent);
+
+			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
 			dialog.Dismiss();
@@ -42,8 +45,15 @@ namespace VolleyballApp {
 			trans = FragmentManager.BeginTransaction();
 			trans.AddToBackStack(EVENTS_FRAGMENT);
 			trans.Replace(Resource.Id.fragmentContainer, new EventDetailsFragment());
-//			trans.Add(Resource.Id.fragmentContainer, new EventDetailsFragment(), EVENT_DETAILS_FRAGMENT);
 			trans.Commit();
+		}
+
+		public string convertDateForLayout(MySqlEvent item) {
+			if(item.startDate.Day == item.endDate.Day && item.startDate.Month == item.endDate.Month && item.startDate.Year == item.endDate.Year) {
+				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
+			} else {
+				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
+			}
 		}
 	}
 }

@@ -82,7 +82,7 @@ namespace VolleyballApp {
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/
 		public bool wasSuccesful(JsonValue json) {
-			return json["state"].ToString().Equals("\"ok\"");
+			return json["state"].ToString().Equals("\"ok\"") || json["state"].ToString().Equals("ok");
 		}
 
 		public string convertAndInitializeToString(JsonValue value) {
