@@ -33,7 +33,7 @@ namespace VolleyballApp {
 			view.FindViewById<TextView>(Resource.Id.eventTitle).Text = _event.name;
 			view.FindViewById<TextView>(Resource.Id.eventState).Text = "(" + getLoggedInUser(user.idUser).eventState + ")";
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
-			view.FindViewById<TextView>(Resource.Id.eventTime).Text = main.convertDateForLayout(_event);
+			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
 			listView = view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser);
 			listView.Adapter = new ListUserAdapter(this, listUser);

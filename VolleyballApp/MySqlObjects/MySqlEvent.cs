@@ -15,6 +15,7 @@ namespace VolleyballApp {
 		public string state { get; set; }
 		private static Intent intent;
 
+		/** Constructor for Parcelable **/
 		public MySqlEvent(){}
 
 		public MySqlEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state) {
@@ -65,6 +66,18 @@ namespace VolleyballApp {
 				listEvents.Add(array[i]);
 			}
 			return listEvents;
+		}
+
+		/** Converts the start and end date of an Event
+		 *	If the the dates occur on the same day the output format will be dd.MM.yy HH:mm - HH:mm
+		 *	else dd.MM.yy HH:mm - dd.MM.yy HH:mm
+		 **/
+		public string convertDateForLayout(MySqlEvent item) {
+			if(item.startDate.Day == item.endDate.Day && item.startDate.Month == item.endDate.Month && item.startDate.Year == item.endDate.Year) {
+				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
+			} else {
+				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
+			}
 		}
 
 		public override string ToString() {

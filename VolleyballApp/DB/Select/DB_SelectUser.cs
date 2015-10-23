@@ -20,6 +20,9 @@ namespace VolleyballApp {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
 			
 			MySqlUser user  = createUserFromResponse(responseText);
+			if(debug)
+				Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
+			
 			return user;
 		}
 

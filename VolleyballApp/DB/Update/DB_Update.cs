@@ -6,12 +6,10 @@ using System.Json;
 namespace VolleyballApp {
 	public class DB_Update {
 		public DB_Communicator dbCommunicator { get; set; }
-		public HttpClient client { get; set; }
 		public bool debug { get; set; }
 
 		public DB_Update(DB_Communicator dbCommunicator) {
 			this.dbCommunicator = dbCommunicator;
-			this.client = dbCommunicator.client;
 			this.debug = dbCommunicator.debug;
 		}
 

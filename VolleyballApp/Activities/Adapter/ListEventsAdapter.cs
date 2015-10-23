@@ -42,7 +42,7 @@ namespace VolleyballApp
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
 
 			MainActivity main = (MainActivity)this.context.Activity;
-			view.FindViewById<TextView>(Resource.Id.Date).Text = main.convertDateForLayout(item);
+			view.FindViewById<TextView>(Resource.Id.Date).Text = item.convertDateForLayout(item);
 
 			return view;
 		}

@@ -14,7 +14,7 @@ using System.Json;
 
 namespace VolleyballApp {
 	[Activity(Label = "RegistrationActivity")]			
-	public class RegistrationActivity : Activity {
+	public class RegistrationActivity : AbstractActivity {
 		MySqlUser user;
 
 		protected override void OnCreate(Bundle bundle) {
@@ -31,15 +31,9 @@ namespace VolleyballApp {
 				JsonValue json = await db.register(email.Text, password.Text);
 
 				if(db.wasSuccesful(json)) {
-					user = await db.login(email.Text, password.Text);
-					user.StoreUserInPreferences(this, user);
+					Toast.MakeText(this, "Registered successfully! Trying to log in...", ToastLength.Long).Show();
 
-					Intent i = null;
-					if(user.state.Equals("\"FILLDATA\""))
-						i = new Intent(this, typeof(FillDataActivity));
-					else 
-						i = new Intent(this, typeof(MainActivity));	
-					StartActivity(i);
+					base.login(email.Text, password.Text);
 				} else {
 					Toast.MakeText(this, json["message"].ToString(), ToastLength.Long).Show();
 				}

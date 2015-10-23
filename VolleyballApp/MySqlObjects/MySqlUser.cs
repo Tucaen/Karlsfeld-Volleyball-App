@@ -84,6 +84,10 @@ namespace VolleyballApp {
 			return listUser;
 		}
 
+		public override String ToString() {
+			return "Id: " + idUser + ", Name: " + name + ", Email: " + email + ", State: " + state + ", Role: " + role + ", Number: " + number + ", Position: " + position;
+		}
+
 		#region ParcelableImplementation
 		public MySqlUser(Parcel p) {
 			this.idUser = p.ReadInt();

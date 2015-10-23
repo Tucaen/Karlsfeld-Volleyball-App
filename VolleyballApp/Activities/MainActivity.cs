@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace VolleyballApp {
 	[Activity(Label = "MainActivity")]			
-	public class MainActivity : Activity {
+	public class MainActivity : AbstractActivity {
 		FragmentTransaction trans;
 		private static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment";
 
@@ -29,10 +29,7 @@ namespace VolleyballApp {
 		}
 
 		public async void OnListEventClicked(AdapterView.ItemClickEventArgs e, List<MySqlEvent> listEvents) {
-			ProgressDialog dialog = ProgressDialog.Show(this, "Please wait", "Loading...");
-			dialog.SetProgressStyle(ProgressDialogStyle.Spinner);
-			dialog.SetCancelable(false);
-			dialog.Indeterminate = true;
+			ProgressDialog dialog = base.createProgressDialog("Please wait!", "Loading...");
 
 			MySqlEvent clickedEvent = listEvents[e.Position];
 			clickedEvent.StoreEventInPreferences(this, clickedEvent);
@@ -46,14 +43,6 @@ namespace VolleyballApp {
 			trans.AddToBackStack(EVENTS_FRAGMENT);
 			trans.Replace(Resource.Id.fragmentContainer, new EventDetailsFragment());
 			trans.Commit();
-		}
-
-		public string convertDateForLayout(MySqlEvent item) {
-			if(item.startDate.Day == item.endDate.Day && item.startDate.Month == item.endDate.Month && item.startDate.Year == item.endDate.Year) {
-				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
-			} else {
-				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
-			}
 		}
 	}
 }
