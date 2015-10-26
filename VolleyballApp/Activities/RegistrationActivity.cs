@@ -15,7 +15,6 @@ using System.Json;
 namespace VolleyballApp {
 	[Activity(Label = "RegistrationActivity")]			
 	public class RegistrationActivity : AbstractActivity {
-		MySqlUser user;
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);

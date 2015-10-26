@@ -70,7 +70,7 @@
             android:background="@android:color/darker_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventZusagen"
+            android:id="@+id/btnEventZusagen"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_gravity="bottom"
@@ -82,7 +82,7 @@
             android:background="@android:color/darker_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/eventAbsagen"
+            android:id="@+id/btnEventAbsagen"
             android:layout_gravity="bottom"
             android:layout_marginRight="5dp"
             android:layout_weight="1" />

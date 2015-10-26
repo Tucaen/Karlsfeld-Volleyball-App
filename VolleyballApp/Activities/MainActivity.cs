@@ -15,7 +15,7 @@ namespace VolleyballApp {
 	[Activity(Label = "MainActivity")]			
 	public class MainActivity : AbstractActivity {
 		FragmentTransaction trans;
-		private static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment";
+		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment";
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
@@ -32,16 +32,27 @@ namespace VolleyballApp {
 			ProgressDialog dialog = base.createProgressDialog("Please wait!", "Loading...");
 
 			MySqlEvent clickedEvent = listEvents[e.Position];
-			clickedEvent.StoreEventInPreferences(this, clickedEvent);
 
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			dialog.Dismiss();
-
 			trans = FragmentManager.BeginTransaction();
 			trans.AddToBackStack(EVENTS_FRAGMENT);
-			trans.Replace(Resource.Id.fragmentContainer, new EventDetailsFragment());
+			trans.Replace(Resource.Id.fragmentContainer, new EventDetailsFragment(e.Position), EVENT_DETAILS_FRAGMENT);
+			trans.Commit();
+
+			dialog.Dismiss();
+		}
+
+		public async void refreshFragment(string fragmentTag, int position) {
+			List<MySqlEvent> listEvents = await base.loadAndSaveEvents(MySqlUser.GetUserFromPreferences(this), "");
+			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(listEvents[position].idEvent, "");
+			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
+
+			Fragment frag = FragmentManager.FindFragmentByTag(fragmentTag);
+			trans = FragmentManager.BeginTransaction();
+			trans.Detach(frag);
+			trans.Attach(frag);
 			trans.Commit();
 		}
 	}

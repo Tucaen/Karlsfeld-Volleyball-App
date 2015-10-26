@@ -36,7 +36,21 @@ namespace VolleyballApp {
 			this.password = password;
 			this.number = number;
 			this.position = position;
-			this.eventState = eventState;
+
+			switch(eventState) {
+			case "G":
+				this.eventState = "Zugesagt";
+				break;
+			case "M":
+				this.eventState = "Vielleicht";
+				break;
+			case "D":
+				this.eventState = "Abgesagt";
+				break;
+			default:
+				this.eventState = "Eingeladen";
+				break;
+			}
 		}
 
 		public void StoreUserInPreferences(Context context, MySqlUser user) {

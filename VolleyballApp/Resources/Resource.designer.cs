@@ -81,6 +81,12 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f06001b
 			public const int UserListViewName = 2131099675;
 			
+			// aapt resource value: 0x7f060006
+			public const int btnEventAbsagen = 2131099654;
+			
+			// aapt resource value: 0x7f060005
+			public const int btnEventZusagen = 2131099653;
+			
 			// aapt resource value: 0x7f060010
 			public const int btnFillDataOk = 2131099664;
 			
@@ -89,9 +95,6 @@ namespace VolleyballApp
 			
 			// aapt resource value: 0x7f06001a
 			public const int btnRegistration = 2131099674;
-			
-			// aapt resource value: 0x7f060006
-			public const int eventAbsagen = 2131099654;
 			
 			// aapt resource value: 0x7f060002
 			public const int eventLocation = 2131099650;
@@ -104,9 +107,6 @@ namespace VolleyballApp
 			
 			// aapt resource value: 0x7f060000
 			public const int eventTitle = 2131099648;
-			
-			// aapt resource value: 0x7f060005
-			public const int eventZusagen = 2131099653;
 			
 			// aapt resource value: 0x7f06000f
 			public const int fillDataFirstnameData = 2131099663;

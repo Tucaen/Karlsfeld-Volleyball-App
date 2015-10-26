@@ -69,7 +69,7 @@
     <Compile Include="Fragments\Events\EventsFragment.cs" />
     <Compile Include="Fragments\Events\NoEventsFragment.cs" />
     <Compile Include="Fragments\Events\EventDetailsFragment.cs" />
-    <Compile Include="Activities\AbstractLogin.cs" />
+    <Compile Include="Activities\AbstractActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

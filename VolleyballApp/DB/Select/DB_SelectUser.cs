@@ -27,9 +27,7 @@ namespace VolleyballApp {
 		}
 
 		/**
-		 * Concatenate a Uri with the given parameters.
-		 * If uri invokation was succesfull a list with all users for the given eventId and state will be created,
-		 * which will be stored in the variable listUser.
+		 *Returns a list with all users for the given eventId and state
 		 **/
 		public async Task<List<MySqlUser>> SelectUserForEvent(string host, int idEvent, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/event/load_event.php?id=" + idEvent + "&loadAttendences=true", "DB_SelectUser.SelectUserForEvent");

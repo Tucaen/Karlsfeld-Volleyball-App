@@ -24,29 +24,21 @@ namespace VolleyballApp {
 			this.startDate = startDate;
 			this.endDate = endDate;
 			this.location = location;
-			this.state = state;
-		}
 
-		public void StoreEventInPreferences(Context context, MySqlEvent e) {
-			ISharedPreferences prefs = context.GetSharedPreferences("eventinformation", FileCreationMode.Private);
-			ISharedPreferencesEditor editor = prefs.Edit();
-			editor.PutInt("idEvent", e.idEvent);
-			editor.PutString("eventName", e.name);
-			editor.PutString("eventLocation", e.location);
-			editor.PutString("eventState", e.state);
-			editor.PutString("eventStartDate", e.startDate.ToString());
-			editor.PutString("eventEndDate", e.endDate.ToString());
-			editor.Commit();
-		}
-
-		public static MySqlEvent GetEventFromPreferences(Context context) {
-			ISharedPreferences prefs = context.GetSharedPreferences("eventinformation", FileCreationMode.Private);
-			return new MySqlEvent(prefs.GetInt("idEvent", 0),
-				prefs.GetString("eventName", ""),
-				Convert.ToDateTime(prefs.GetString("eventStartDate", "")),
-				Convert.ToDateTime(prefs.GetString("eventEndDate", "")),
-				prefs.GetString("eventLocation", ""),
-				prefs.GetString("eventState", ""));
+			switch(state) {
+			case "G":
+				this.state = "Zugesagt";
+				break;
+			case "M":
+				this.state = "Vielleicht";
+				break;
+			case "D":
+				this.state = "Abgesagt";
+				break;
+			default:
+				this.state = "Eingeladen";
+				break;
+			}
 		}
 
 		public static void StoreEventListInPreferences(Intent intent, List<MySqlEvent> listEvents) {
@@ -92,6 +84,17 @@ namespace VolleyballApp {
 			this.endDate = Convert.ToDateTime(p.ReadString());
 			this.location = p.ReadString();
 			this.state = p.ReadString();
+//			switch(p.ReadString()) {
+//			case "G":
+//				this.state = "Zugesagt";
+//				break;
+//			case "M":
+//				this.state = "Vielleicht";
+//				break;
+//			case "D":
+//				this.state = "Abgesagt";
+//				break;
+//			}
 		}
 		
 		public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {

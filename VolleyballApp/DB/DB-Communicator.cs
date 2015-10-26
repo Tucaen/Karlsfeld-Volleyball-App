@@ -56,6 +56,11 @@ namespace VolleyballApp {
 			return await dbSelectEvent.SelectEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
+		public async Task<JsonValue> updateEventState(int idEvent, string state) {
+			DB_Update dbUpdate = new DB_Update(this);
+			return await dbUpdate.updateEventState(idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
+		}
+
 		/**
 		 * Provides you with list of all users for a specific event and state.
 		 *If state is null all states will be selected.
