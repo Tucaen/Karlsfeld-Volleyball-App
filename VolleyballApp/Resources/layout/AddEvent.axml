@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000">
+    <ScrollView
+        android:id="@+id/addEventScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addEventName"
+                android:hint="Name"
+                android:textColorHint="#6699FF"
+                android:textColor="@android:color/white"
+                android:inputType="textAutoComplete"
+                android:layout_marginTop="10dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addEventLocation"
+                android:hint="Ort"
+                android:textColorHint="#6699FF"
+                android:textColor="@android:color/white"
+                android:inputType="textAutoComplete"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/addEventName" />
+            <TextView
+                android:text="Beginn:"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:id="@+id/addEventBeginText"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5.0dp"
+                android:layout_marginRight="0.0dp"
+                android:layout_below="@id/addEventLocation" />
+        <!-- start startDate -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/addEventStartDate"
+                android:layout_below="@id/addEventBeginText">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/addEventStartDateValue"
+                    android:text="Datum"
+                    android:textSize="20dp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5.0dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/addEventStartDateTimeValue"
+                    android:text="Uhrzeit"
+                    android:textSize="20dp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5.0dp"
+                    android:layout_below="@id/addEventBeginText" />
+            </LinearLayout>
+        <!-- ende startDate -->
+            <TextView
+                android:text="Ende:"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:id="@+id/addEventEndText"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5.0dp"
+                android:layout_marginRight="0.0dp"
+                android:layout_below="@id/addEventStartDate" />
+        <!-- start endDate -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/addEventEndDate"
+                android:layout_below="@id/addEventEndText">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/addEventEndDateValue"
+                    android:text="Datum"
+                    android:textSize="20dp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5.0dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/addEventEndDateTimeValue"
+                    android:text="Uhrzeit"
+                    android:textSize="20dp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5.0dp"
+                    android:layout_below="@id/addEventBeginText" />
+            </LinearLayout>
+        <!-- end endDate -->
+        </RelativeLayout>
+    </ScrollView>
+    <Button
+        android:text="Erstellen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/btnCreateEvent"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
+        android:layout_alignBottom="@id/addEventScrollView" />
+</RelativeLayout>

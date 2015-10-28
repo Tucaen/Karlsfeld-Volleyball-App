@@ -86,6 +86,16 @@ namespace VolleyballApp {
 			return await dbUpdate.UpdateUser(host, name, role, number, position);
 		}
 
+		public async Task<JsonValue> createEvent(string name, string location, string start, string end) {
+			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
+			return await dbInsertEvent.createEvent(name, location, start, end);
+		}
+
+		public async Task<JsonValue> createEvent(int teamId, string name, string location, string start, string end) {
+			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
+			return await dbInsertEvent.createEvent(teamId, name, location, start, end);
+		}
+
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/

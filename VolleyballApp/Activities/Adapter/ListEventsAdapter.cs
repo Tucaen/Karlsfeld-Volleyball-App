@@ -18,7 +18,6 @@ namespace VolleyballApp
 			this.context = context;
 			this.listEvents = listEvents;
 
-			Console.WriteLine("Event[0] = " + listEvents[0]);
 			context.Activity.FindViewById<TextView>(Resource.Layout.EventListView);
 		}
 

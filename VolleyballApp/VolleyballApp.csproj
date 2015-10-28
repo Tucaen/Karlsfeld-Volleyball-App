@@ -70,6 +70,8 @@
     <Compile Include="Fragments\Events\NoEventsFragment.cs" />
     <Compile Include="Fragments\Events\EventDetailsFragment.cs" />
     <Compile Include="Activities\AbstractActivity.cs" />
+    <Compile Include="Fragments\Events\AddEventFragment.cs" />
+    <Compile Include="DB\Insert\DB_InsertEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -110,6 +112,7 @@
     <AndroidResource Include="Resources\layout\FillData.axml" />
     <AndroidResource Include="Resources\layout\Registration.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />
+    <AndroidResource Include="Resources\layout\AddEvent.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

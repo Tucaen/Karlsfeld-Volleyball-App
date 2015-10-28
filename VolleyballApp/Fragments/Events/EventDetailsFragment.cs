@@ -65,7 +65,7 @@ namespace VolleyballApp {
 			}
 
 			//refresh the view
-			main.refreshFragment(MainActivity.EVENT_DETAILS_FRAGMENT, this.position);
+			main.refreshEventDetailsFragment(MainActivity.EVENT_DETAILS_FRAGMENT, this.position);
 
 		}
 

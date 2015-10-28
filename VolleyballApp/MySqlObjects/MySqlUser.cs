@@ -69,14 +69,18 @@ namespace VolleyballApp {
 
 		public static MySqlUser GetUserFromPreferences(Context context) {
 			ISharedPreferences prefs = context.GetSharedPreferences("userinformation", FileCreationMode.Private);
-			return new MySqlUser(prefs.GetInt("idUser", 0),
-				prefs.GetString("name", ""),
-				prefs.GetString("email", ""),
-				prefs.GetString("state", ""),
-				prefs.GetString("role", ""),
-				prefs.GetString("password", ""),
-				prefs.GetInt("number", 0),
-				prefs.GetString("position", ""));
+
+			if(prefs == null)
+				return null;
+			else 
+				return new MySqlUser(prefs.GetInt("idUser", 0),
+					prefs.GetString("name", ""),
+					prefs.GetString("email", ""),
+					prefs.GetString("state", ""),
+					prefs.GetString("role", ""),
+					prefs.GetString("password", ""),
+					prefs.GetInt("number", 0),
+					prefs.GetString("position", ""));
 		}
 
 		public static void StoreUserListInPreferences(Intent intent, List<MySqlUser> listUser) {

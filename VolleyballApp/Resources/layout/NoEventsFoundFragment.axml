@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="#000000"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="25dp"
         android:text="Keine Veranstaltungen!"
         android:layout_centerInParent="true" />
+    <View
+        android:id="@+id/verticalSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/btnAddEvent"
+        android:layout_marginBottom="1dp"
+        android:background="@android:color/holo_blue_bright" />
+    <Button
+        android:text="+"
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/btnAddEvent" />
 </RelativeLayout>

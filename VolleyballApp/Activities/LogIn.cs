@@ -15,13 +15,13 @@ using System.Net;
 using System.Threading;
 
 namespace VolleyballApp {
-	[Activity(Label = "VolleyballApp - Login", MainLauncher = true, Icon = "@drawable/icon")]	
+	[Activity(Label = "VolleyballApp - Login")]//, MainLauncher = true, Icon = "@drawable/icon")]	
 	public class LogIn : AbstractActivity {
 //		MySqlUser user;
 
 		protected override void OnCreate(Bundle bundle) {
 			// You may use ServicePointManager here
-			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+//			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
 			base.OnCreate(bundle);
 
