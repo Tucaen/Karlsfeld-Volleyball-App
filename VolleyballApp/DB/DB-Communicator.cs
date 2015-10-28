@@ -42,6 +42,11 @@ namespace VolleyballApp {
 			return await dbSelectUser.validateLogin(host, username, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
+		public async Task<JsonValue> logout() {
+			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
+			return await dbSelectUser.logout();
+		}
+
 		public async Task<JsonValue> register(string email, string password) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
 			return await dbSelectUser.register(host, email, password).ConfigureAwait(continueOnCapturedContext:false);

@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 using System.Net;
 
 namespace VolleyballApp {
-	[Activity(Label = "VolleyballApp", MainLauncher = true, Icon = "@drawable/icon")]			
+	[Activity(Label = "VolleyballApp", MainLauncher = true, Theme = "@android:style/Theme.Holo.Light.NoActionBar")]			
 	public class MainActivity : AbstractActivity {
-		FragmentTransaction trans;
+		private FragmentTransaction trans;
 		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
-		ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment";
+									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment";
 
 		protected override void OnCreate(Bundle bundle) {
 			// You may use ServicePointManager here
@@ -26,7 +26,7 @@ namespace VolleyballApp {
 
 			base.OnCreate(bundle);
 
-			SetContentView(Resource.Layout.Main);
+			SetContentView(Resource.Layout.FlyOutContainer);
 
 			startApp();
 
@@ -38,6 +38,20 @@ namespace VolleyballApp {
 			if(user == null) {
 				StartActivity(new Intent(this, typeof(LogIn)));
 			} else {
+				//Flyout
+				var menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
+				FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
+					menu.AnimatedOpened = !menu.AnimatedOpened;
+				};
+
+				FindViewById(Resource.Id.menuLogout).Click += (sender, e) => {
+					base.logout();
+					Finish();
+				};
+
+				//flyout
+
+
 				await base.loadAndSaveEvents(user, null);
 				trans = FragmentManager.BeginTransaction();
 				trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);

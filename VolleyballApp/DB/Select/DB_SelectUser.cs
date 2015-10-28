@@ -10,6 +10,11 @@ namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
+		public async Task<JsonValue> logout() {
+			string responseText = await dbCommunicator.makeWebRequest("service/user/logout.php", "DB_SelectUser.logout()");
+			return JsonValue.Parse(responseText);
+		}
+
 		public async Task<JsonValue> register(string host, string email, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/register.php?email=" + email + "&password="  + password, "DB_SelectUser.register");
 			

@@ -49,6 +49,12 @@ namespace VolleyballApp {
 			}
 		}
 
+		public async void logout() {
+			await db.logout();
+			MySqlUser.DeleteUserFromPreferences(this);
+			StartActivity(new Intent(this, typeof(LogIn)));
+		}
+
 		/**Loads all events for the given user and state.
 		 *If state is null, all states are loaded.
 		 *This method also saves loaded evetns in preferneces.

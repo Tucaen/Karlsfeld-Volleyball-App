@@ -67,12 +67,14 @@ namespace VolleyballApp {
 			editor.Commit();
 		}
 
+		public static void DeleteUserFromPreferences(Context context) {
+			context.GetSharedPreferences("userinformation", FileCreationMode.Private).Edit().Clear().Commit();
+		}
+
 		public static MySqlUser GetUserFromPreferences(Context context) {
 			ISharedPreferences prefs = context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 
-			if(prefs == null)
-				return null;
-			else 
+			if(prefs.Contains("idUser")) {
 				return new MySqlUser(prefs.GetInt("idUser", 0),
 					prefs.GetString("name", ""),
 					prefs.GetString("email", ""),
@@ -81,6 +83,9 @@ namespace VolleyballApp {
 					prefs.GetString("password", ""),
 					prefs.GetInt("number", 0),
 					prefs.GetString("position", ""));
+			} else {
+				return null;
+			}
 		}
 
 		public static void StoreUserListInPreferences(Intent intent, List<MySqlUser> listUser) {

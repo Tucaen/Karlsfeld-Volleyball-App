@@ -72,6 +72,7 @@
     <Compile Include="Activities\AbstractActivity.cs" />
     <Compile Include="Fragments\Events\AddEventFragment.cs" />
     <Compile Include="DB\Insert\DB_InsertEvent.cs" />
+    <Compile Include="Activities\FlyOutContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -113,6 +114,9 @@
     <AndroidResource Include="Resources\layout\Registration.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />
     <AndroidResource Include="Resources\layout\AddEvent.axml" />
+    <AndroidResource Include="Resources\layout\MenuLayout.axml" />
+    <AndroidResource Include="Resources\layout\FlyOutContainer.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\action_menu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
