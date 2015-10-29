@@ -17,6 +17,7 @@ namespace VolleyballApp {
 	[Activity(Label = "AbstractLogin")]			
 	public abstract class AbstractActivity : Activity {
 		DB_Communicator db;
+
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			db = DB_Communicator.getInstance();
@@ -49,6 +50,10 @@ namespace VolleyballApp {
 			}
 		}
 
+		/**
+		 * Ends the php-session and deletes the logged-in-user out of the preferences.
+		 *Than switches to LogIn-Activity.
+		 **/
 		public async void logout() {
 			await db.logout();
 			MySqlUser.DeleteUserFromPreferences(this);

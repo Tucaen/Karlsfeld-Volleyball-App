@@ -20,12 +20,10 @@
         android:background="@android:color/holo_blue_bright" />
     <Button
         android:text="+"
-        android:textSize="25dp"
+        android:background="@drawable/roundbutton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@android:color/white"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/btnAddEvent" />
+        android:id="@+id/btnAddEvent"
+        style="style/button" />
 </RelativeLayout>

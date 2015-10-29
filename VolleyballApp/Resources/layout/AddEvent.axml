@@ -127,11 +127,10 @@
     <Button
         android:text="Erstellen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:background="@android:color/darker_gray"
+        android:background="@drawable/normalbutton"
         android:id="@+id/btnCreateEvent"
         android:layout_weight="1"
         android:layout_marginBottom="10dp"
-        android:layout_alignBottom="@id/addEventScrollView" />
+        android:layout_alignBottom="@id/addEventScrollView"
+        style="@style/button" />
 </RelativeLayout>

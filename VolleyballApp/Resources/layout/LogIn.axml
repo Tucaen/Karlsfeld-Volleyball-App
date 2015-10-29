@@ -27,11 +27,9 @@
     <Button
         android:text="Login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:background="@android:color/darker_gray"
         android:id="@+id/btnLogin"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        style="@style/button" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

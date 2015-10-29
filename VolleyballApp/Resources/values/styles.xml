@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+  <style name="button" >
+    <item name="android:layout_height" >wrap_content</item>
+    <item name="android:textColor" >@android:color/white</item>
+    <item name="android:background" >@drawable/normalbutton</item>
+    <item name="android:layout_margin" >3dp</item>
+    <item name="android:textSize" >25dp</item>
+    <item name="android:shadowColor" >#000000</item>
+    <item name="android:shadowDx" >1</item>
+    <item name="android:shadowDy" >1</item>
+  	<item name="android:shadowRadius" >2</item>
+  </style>
+  <style name="text">
+	<item name="android:layout_height" >wrap_content</item>
+  	<item name="android:textColor" >@android:color/white</item>
+  	<item name="android:textSize" >25dp</item>
+  </style>
+</resources>

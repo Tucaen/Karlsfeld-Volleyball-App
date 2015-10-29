@@ -38,7 +38,7 @@ namespace VolleyballApp {
 			if(user == null) {
 				StartActivity(new Intent(this, typeof(LogIn)));
 			} else {
-				//Flyout
+				//=== Slide Menu ===
 				var menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
 				FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
 					menu.AnimatedOpened = !menu.AnimatedOpened;
@@ -48,8 +48,7 @@ namespace VolleyballApp {
 					base.logout();
 					Finish();
 				};
-
-				//flyout
+				//===================
 
 
 				await base.loadAndSaveEvents(user, null);

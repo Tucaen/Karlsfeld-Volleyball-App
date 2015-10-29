@@ -117,6 +117,9 @@
     <AndroidResource Include="Resources\layout\MenuLayout.axml" />
     <AndroidResource Include="Resources\layout\FlyOutContainer.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\action_menu.png" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\RoundButton.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\NormalButton.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
