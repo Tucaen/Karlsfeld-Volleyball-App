@@ -30,11 +30,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout1"
         android:layout_margin="8dp">
-    <!--         <ImageView
-            android:src="@drawable/icon1"
+        <ImageView
+            android:src="@android:drawable/ic_lock_power_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView1" /> -->
+            android:id="@+id/imageView1" />
         <TextView
             android:text="Logout"
             android:textAppearance="?android:attr/textAppearanceMedium"

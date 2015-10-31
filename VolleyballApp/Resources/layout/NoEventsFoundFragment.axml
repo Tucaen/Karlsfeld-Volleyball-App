@@ -25,5 +25,5 @@
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
         android:id="@+id/btnAddEvent"
-        style="style/button" />
+        style="@style/button" />
 </RelativeLayout>

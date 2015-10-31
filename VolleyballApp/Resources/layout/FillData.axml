@@ -18,10 +18,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fillDataNameData"
-        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
-        android:layout_below="@id/fillDataNameLabel" />
+        android:layout_below="@id/fillDataNameLabel"
+        style="@style/editText" />
     <TextView
         android:text="Vorname:"
         android:layout_width="fill_parent"
@@ -36,11 +36,11 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
         android:id="@+id/fillDataFirstnameData"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
-        android:layout_below="@id/fillDataFirstnameLabel" />
+        android:layout_below="@id/fillDataFirstnameLabel"
+        style="@style/editText" />
 <!--number-->
 <!--position-->
     <Button

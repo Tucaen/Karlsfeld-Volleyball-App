@@ -11,9 +11,15 @@
     <item name="android:shadowDy" >1</item>
   	<item name="android:shadowRadius" >2</item>
   </style>
+
   <style name="text">
 	<item name="android:layout_height" >wrap_content</item>
   	<item name="android:textColor" >@android:color/white</item>
   	<item name="android:textSize" >25dp</item>
+  </style>
+
+  <style parent="android:Widget.EditText" name="editText">
+	<item name="android:background">@drawable/edit_text</item>
+	<item name="android:textColor">@android:color/white</item>
   </style>
 </resources>

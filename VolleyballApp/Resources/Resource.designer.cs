@@ -48,13 +48,31 @@ namespace VolleyballApp
 			public const int action_menu = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Icon = 2130837505;
+			public const int apptheme_textfield_activated_holo_light = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int NormalButton = 2130837506;
+			public const int apptheme_textfield_default_holo_light = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int RoundButton = 2130837507;
+			public const int apptheme_textfield_disabled_focused_holo_light = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int apptheme_textfield_disabled_holo_light = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int apptheme_textfield_focused_holo_light = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int edit_text = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int Icon = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int NormalButton = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int RoundButton = 2130837513;
 			
 			static Drawable()
 			{
@@ -96,11 +114,11 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f070015
 			public const int TitleText2 = 2131165205;
 			
-			// aapt resource value: 0x7f070034
-			public const int UserListViewEventState = 2131165236;
+			// aapt resource value: 0x7f070035
+			public const int UserListViewEventState = 2131165237;
 			
-			// aapt resource value: 0x7f070033
-			public const int UserListViewName = 2131165235;
+			// aapt resource value: 0x7f070034
+			public const int UserListViewName = 2131165236;
 			
 			// aapt resource value: 0x7f070003
 			public const int addEventBeginText = 2131165187;
@@ -153,8 +171,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f070022
 			public const int btnLogin = 2131165218;
 			
-			// aapt resource value: 0x7f070032
-			public const int btnRegistration = 2131165234;
+			// aapt resource value: 0x7f070033
+			public const int btnRegistration = 2131165235;
 			
 			// aapt resource value: 0x7f07000e
 			public const int eventLocation = 2131165198;
@@ -186,29 +204,32 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f070025
 			public const int frameLayout1 = 2131165221;
 			
+			// aapt resource value: 0x7f07002d
+			public const int imageView1 = 2131165229;
+			
 			// aapt resource value: 0x7f070026
 			public const int linearLayout1 = 2131165222;
 			
 			// aapt resource value: 0x7f070017
 			public const int listEvents = 2131165207;
 			
-			// aapt resource value: 0x7f07002d
-			public const int menuLogout = 2131165229;
+			// aapt resource value: 0x7f07002e
+			public const int menuLogout = 2131165230;
 			
 			// aapt resource value: 0x7f070021
 			public const int passwordText = 2131165217;
 			
-			// aapt resource value: 0x7f07002f
-			public const int registrationEmailData = 2131165231;
+			// aapt resource value: 0x7f070030
+			public const int registrationEmailData = 2131165232;
 			
-			// aapt resource value: 0x7f07002e
-			public const int registrationEmailLabel = 2131165230;
+			// aapt resource value: 0x7f07002f
+			public const int registrationEmailLabel = 2131165231;
+			
+			// aapt resource value: 0x7f070032
+			public const int registrationPasswordData = 2131165234;
 			
 			// aapt resource value: 0x7f070031
-			public const int registrationPasswordData = 2131165233;
-			
-			// aapt resource value: 0x7f070030
-			public const int registrationPasswordLabel = 2131165232;
+			public const int registrationPasswordLabel = 2131165233;
 			
 			// aapt resource value: 0x7f070023
 			public const int registrierenText = 2131165219;
@@ -327,6 +348,9 @@ namespace VolleyballApp
 			
 			// aapt resource value: 0x7f060000
 			public const int button = 2131099648;
+			
+			// aapt resource value: 0x7f060002
+			public const int editText = 2131099650;
 			
 			// aapt resource value: 0x7f060001
 			public const int text = 2131099649;

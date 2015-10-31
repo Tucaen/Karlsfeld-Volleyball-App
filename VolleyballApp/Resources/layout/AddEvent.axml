@@ -17,19 +17,19 @@
                 android:id="@+id/addEventName"
                 android:hint="Name"
                 android:textColorHint="#6699FF"
-                android:textColor="@android:color/white"
                 android:inputType="textAutoComplete"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                style="@style/editText" />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/addEventLocation"
                 android:hint="Ort"
                 android:textColorHint="#6699FF"
-                android:textColor="@android:color/white"
                 android:inputType="textAutoComplete"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/addEventName" />
+                android:layout_below="@id/addEventName"
+                style="@style/editText" />
             <TextView
                 android:text="Beginn:"
                 android:layout_width="fill_parent"

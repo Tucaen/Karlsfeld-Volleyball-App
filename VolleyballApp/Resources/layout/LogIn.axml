@@ -12,9 +12,9 @@
         android:id="@+id/usernameText"
         android:hint="Username"
         android:textColorHint="#6699FF"
-        android:textColor="@android:color/white"
         android:inputType="textEmailAddress"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        style="@style/editText" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,8 @@
         android:textColorHint="#6699FF"
         android:textColor="@android:color/white"
         android:inputType="textPassword"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        style="@style/editText" />
     <Button
         android:text="Login"
         android:layout_width="match_parent"

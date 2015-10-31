@@ -120,6 +120,12 @@
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\RoundButton.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\NormalButton.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\edit_text.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_activated_holo_light.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_default_holo_light.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_disabled_focused_holo_light.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_disabled_holo_light.9.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_focused_holo_light.9.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

@@ -38,6 +38,12 @@ namespace VolleyballApp {
 			if(user == null) {
 				StartActivity(new Intent(this, typeof(LogIn)));
 			} else {
+				//log in, if the session timed out
+				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
+					base.login(user.email, user.password);
+				}
+				Console.WriteLine("MainActivity.startApp() - cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
+
 				//=== Slide Menu ===
 				var menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
 				FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {

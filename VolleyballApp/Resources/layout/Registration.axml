@@ -19,11 +19,11 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/registrationEmailData"
-        android:textColor="@android:color/white"
         android:inputType="textEmailAddress"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
-        android:layout_below="@id/registrationEmailLabel" />
+        android:layout_below="@id/registrationEmailLabel"
+        style="@style/editText" />
 <!--    Password-->
     <TextView
         android:text="Passwort:"
@@ -40,17 +40,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/registrationPasswordData"
-        android:textColor="@android:color/white"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5.0dp"
-        android:layout_below="@id/registrationPasswordLabel" />
+        android:layout_below="@id/registrationPasswordLabel"
+        style="@style/editText" />
     <Button
         android:text="Registrieren"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:background="@android:color/darker_gray"
+        android:background="@drawable/normalbutton"
         android:layout_below="@id/registrationPasswordData"
         android:layout_marginTop="15dp"
-        android:id="@+id/btnRegistration" />
+        android:id="@+id/btnRegistration"
+        style="@style/button" />
 </RelativeLayout>

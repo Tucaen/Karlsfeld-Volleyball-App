@@ -24,7 +24,7 @@ namespace VolleyballApp {
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
 			
-			MySqlUser user  = createUserFromResponse(responseText);
+			MySqlUser user  = createUserFromResponse(responseText, password);
 			if(debug)
 				Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
 			
@@ -43,7 +43,7 @@ namespace VolleyballApp {
 		/**
 		 * Creates a MySqlUser object for the logged in user.
 		 **/
-		private MySqlUser createUserFromResponse(string response) {
+		private MySqlUser createUserFromResponse(string response, string password) {
 			JsonValue json = JsonValue.Parse(response);
 			if(dbCommunicator.wasSuccesful(json)) {
 				JsonValue user = json["data"]["User"];
@@ -54,7 +54,7 @@ namespace VolleyballApp {
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
-					"",
+					password,
 					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)));
 			}
