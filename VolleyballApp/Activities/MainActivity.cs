@@ -18,7 +18,10 @@ namespace VolleyballApp {
 	public class MainActivity : AbstractActivity {
 		private FragmentTransaction trans;
 		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
-									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment";
+									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
+									PROFILE_FRAGMENT="ProfileFragment";
+
+		private string activeFragment;
 
 		protected override void OnCreate(Bundle bundle) {
 			// You may use ServicePointManager here
@@ -42,7 +45,6 @@ namespace VolleyballApp {
 				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
 					base.login(user.email, user.password);
 				}
-				Console.WriteLine("MainActivity.startApp() - cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
 
 				#region Slide Menu
 				var menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
@@ -53,6 +55,7 @@ namespace VolleyballApp {
 				FindViewById(Resource.Id.menuProfile).Click += (sender, e) => {
 //					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
 					Console.WriteLine("Trying to open profile...");
+					switchFragment(activeFragment, PROFILE_FRAGMENT, new ProfileFragment());
 //					d.Dismiss();
 
 				};
@@ -67,6 +70,7 @@ namespace VolleyballApp {
 				#endregion
 
 				await base.loadAndSaveEvents(user, null);
+				activeFragment = EVENTS_FRAGMENT;
 				trans = FragmentManager.BeginTransaction();
 				trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);
 				trans.Commit();
@@ -86,6 +90,7 @@ namespace VolleyballApp {
 		 *if bool addToBackStack is set to true
 		 **/
 		public void switchFragment(string oldFragmentTag, string newFragmentTag, Fragment newFragment, bool addToBackStack) {
+			activeFragment = newFragmentTag;
 			trans = FragmentManager.BeginTransaction();
 			if(addToBackStack)
 				trans.AddToBackStack(oldFragmentTag);

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/background_dark"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<!-- start Name -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Name:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileNameLabel"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+        <TextView
+            android:text="Vorname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileFirstnameValue"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileFirstnameValue"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end Name -->
+<!-- start Position -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Position:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profilePositionLabel"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+        <TextView
+            android:text="Mittelblocker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profilePositionValue"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end Position -->
+<!-- start Number -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Nummer:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileNumberLabel"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+        <TextView
+            android:text="13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileNumberValue"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end Number -->
+<!-- start Team -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Team:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileTeamLabel"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+        <TextView
+            android:text="Karlsfeld - Herren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileTeamValue"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end Team -->
+    <Button
+        android:text="Passwort ändern"
+        android:layout_width="fill_parent"
+        android:id="@+id/profileBtnChangePassword"
+        style="@style/button" />
+</LinearLayout>

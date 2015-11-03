@@ -59,7 +59,6 @@
     <Compile Include="DB\Select\DB_SelectEvent.cs" />
     <Compile Include="DB\Select\DB_SelectUser.cs" />
     <Compile Include="DB\Update\DB_Update.cs" />
-    <Compile Include="Activities\LogIn.cs" />
     <Compile Include="Activities\Adapter\ListEventsAdapter.cs" />
     <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
     <Compile Include="Activities\MainActivity.cs" />
@@ -73,6 +72,8 @@
     <Compile Include="Fragments\Events\AddEventFragment.cs" />
     <Compile Include="DB\Insert\DB_InsertEvent.cs" />
     <Compile Include="Activities\FlyOutContainer.cs" />
+    <Compile Include="Fragments\ProfileFragment.cs" />
+    <Compile Include="Activities\LogInActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -127,6 +128,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_disabled_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_focused_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\responsive_text.xml" />
+    <AndroidResource Include="Resources\layout\ProfileFragment.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
