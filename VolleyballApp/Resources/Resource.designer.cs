@@ -72,7 +72,10 @@ namespace VolleyballApp
 			public const int NormalButton = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int RoundButton = 2130837513;
+			public const int responsive_text = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int RoundButton = 2130837514;
 			
 			static Drawable()
 			{
@@ -204,9 +207,6 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f070025
 			public const int frameLayout1 = 2131165221;
 			
-			// aapt resource value: 0x7f07002d
-			public const int imageView1 = 2131165229;
-			
 			// aapt resource value: 0x7f070026
 			public const int linearLayout1 = 2131165222;
 			
@@ -215,6 +215,9 @@ namespace VolleyballApp
 			
 			// aapt resource value: 0x7f07002e
 			public const int menuLogout = 2131165230;
+			
+			// aapt resource value: 0x7f07002d
+			public const int menuProfile = 2131165229;
 			
 			// aapt resource value: 0x7f070021
 			public const int passwordText = 2131165217;
@@ -349,8 +352,11 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f060000
 			public const int button = 2131099648;
 			
+			// aapt resource value: 0x7f060003
+			public const int editText = 2131099651;
+			
 			// aapt resource value: 0x7f060002
-			public const int editText = 2131099650;
+			public const int responsiveText = 2131099650;
 			
 			// aapt resource value: 0x7f060001
 			public const int text = 2131099649;

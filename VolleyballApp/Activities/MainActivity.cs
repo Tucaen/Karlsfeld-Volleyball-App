@@ -44,18 +44,27 @@ namespace VolleyballApp {
 				}
 				Console.WriteLine("MainActivity.startApp() - cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
 
-				//=== Slide Menu ===
+				#region Slide Menu
 				var menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
 				FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
 					menu.AnimatedOpened = !menu.AnimatedOpened;
 				};
 
+				FindViewById(Resource.Id.menuProfile).Click += (sender, e) => {
+//					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
+					Console.WriteLine("Trying to open profile...");
+//					d.Dismiss();
+
+				};
+
 				FindViewById(Resource.Id.menuLogout).Click += (sender, e) => {
+					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
 					base.logout();
 					Finish();
-				};
-				//===================
+					d.Dismiss();
 
+				};
+				#endregion
 
 				await base.loadAndSaveEvents(user, null);
 				trans = FragmentManager.BeginTransaction();

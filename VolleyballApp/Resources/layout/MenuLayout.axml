@@ -22,29 +22,63 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp" />
+<!-- start profile -->
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1"
-        android:layout_margin="8dp">
+        android:id="@+id/menuProfile"
+        android:layout_margin="8dp"
+        style="@style/responsiveText">
+    <!--
         <ImageView
             android:src="@android:drawable/ic_lock_power_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView1" />
+            -->
+        <TextView
+            android:text="Profil"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:id="@+id/menuProfile"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textSize="20dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end profile -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp" />
+<!-- start logout -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:id="@+id/menuLogout"
+        android:layout_margin="8dp"
+        style="@style/responsiveText">
+        <ImageView
+            android:src="@android:drawable/ic_lock_power_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/menuLogout" />
         <TextView
             android:text="Logout"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/menuLogout"
-            android:clickable="true"
-            android:onClick="OnClick"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
-            android:textColor="#fff8f8f8" />
+            android:textSize="20dp"
+            style="@style/text" />
     </LinearLayout>
+<!-- end logout -->
 </LinearLayout>

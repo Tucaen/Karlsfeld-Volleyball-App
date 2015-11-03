@@ -18,6 +18,14 @@
   	<item name="android:textSize" >25dp</item>
   </style>
 
+  <style name="responsiveText">
+	<item name="android:layout_height" >wrap_content</item>
+  	<item name="android:textColor" >@android:color/white</item>
+  	<item name="android:background" >@drawable/responsive_text</item>
+  	<item name="android:onClick" >onClick</item>
+  	<item name="android:clickable" >true</item>
+  </style>
+
   <style parent="android:Widget.EditText" name="editText">
 	<item name="android:background">@drawable/edit_text</item>
 	<item name="android:textColor">@android:color/white</item>

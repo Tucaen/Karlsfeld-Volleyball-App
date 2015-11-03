@@ -4,7 +4,7 @@
     android:background="@android:color/background_dark"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-<!--    Email-->
+<!-- Start Email-->
     <TextView
         android:text="Email:"
         android:layout_width="fill_parent"
@@ -24,7 +24,8 @@
         android:layout_marginRight="5.0dp"
         android:layout_below="@id/registrationEmailLabel"
         style="@style/editText" />
-<!--    Password-->
+<!-- End Email-->
+<!-- Start Password-->
     <TextView
         android:text="Passwort:"
         android:layout_width="fill_parent"
@@ -44,6 +45,7 @@
         android:layout_marginRight="5.0dp"
         android:layout_below="@id/registrationPasswordLabel"
         style="@style/editText" />
+<!-- End Password-->
     <Button
         android:text="Registrieren"
         android:layout_width="fill_parent"
