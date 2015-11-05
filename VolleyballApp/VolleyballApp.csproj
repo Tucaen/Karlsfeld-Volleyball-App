@@ -66,7 +66,6 @@
     <Compile Include="Activities\FillDataActivity.cs" />
     <Compile Include="MySqlObjects\MySqlObject.cs" />
     <Compile Include="Fragments\Events\EventsFragment.cs" />
-    <Compile Include="Fragments\Events\NoEventsFragment.cs" />
     <Compile Include="Fragments\Events\EventDetailsFragment.cs" />
     <Compile Include="Activities\AbstractActivity.cs" />
     <Compile Include="Fragments\Events\AddEventFragment.cs" />
@@ -110,7 +109,6 @@
     <AndroidResource Include="Resources\raw\server.crt" />
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\layout\EventsFragment.axml" />
-    <AndroidResource Include="Resources\layout\NoEventsFoundFragment.axml" />
     <AndroidResource Include="Resources\layout\FillData.axml" />
     <AndroidResource Include="Resources\layout\Registration.axml" />
     <AndroidResource Include="Resources\layout\EventListView.axml" />

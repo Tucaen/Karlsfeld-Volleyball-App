@@ -23,8 +23,9 @@ namespace VolleyballApp {
 			db = DB_Communicator.getInstance();
 		}
 
-		public async void login(string username, string password) {
+		public async Task<bool> login(string username, string password) {
 			ProgressDialog dialog = this.createProgressDialog("Please wait!", "Loading...");
+			bool wasSuccessful = false;
 
 			MySqlUser user = await db.login(username, password);
 
@@ -32,22 +33,33 @@ namespace VolleyballApp {
 				//storing user information for usage in other activities
 				user.StoreUserInPreferences(this, user);
 
-				Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
-
-				Intent i = null;
-				await this.loadAndSaveEvents(user, null);
-				if(user.state.Equals("\"FILLDATA\"") || user.state.Equals("FILLDATA")) {
-					i = new Intent(this, typeof(FillDataActivity));
-				} else {
-					i = new Intent(this, typeof(MainActivity));	
-				}
 				dialog.Dismiss();
-				StartActivity(i);
-				Finish();
+				Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
+				wasSuccessful = true;
 			} else { //login failed
 				dialog.Dismiss();
 				Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
+				wasSuccessful = false;
 			}
+
+			return wasSuccessful;
+		}
+
+		/*
+		 *Starts the FillDataActivity if the state of the user equals 'FILLDATA'
+		 *else starts MainActivity.
+		 *Also calls Finish().
+		 */
+		public void proceedAfterManualLogin() {
+			MySqlUser user = MySqlUser.GetUserFromPreferences(this);
+			Intent i = null;
+			if(user.state.Equals("\"FILLDATA\"") || user.state.Equals("FILLDATA")) {
+				i = new Intent(this, typeof(FillDataActivity));
+			} else {
+				i = new Intent(this, typeof(MainActivity));	
+			}
+			StartActivity(i);
+			Finish();
 		}
 
 		/**

@@ -16,6 +16,7 @@ using System.Net;
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp", MainLauncher = true, Theme = "@android:style/Theme.Holo.Light.NoActionBar")]			
 	public class MainActivity : AbstractActivity {
+		private FlyOutContainer menu;
 		private FragmentTransaction trans;
 		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
@@ -32,7 +33,6 @@ namespace VolleyballApp {
 			SetContentView(Resource.Layout.FlyOutContainer);
 
 			startApp();
-
 		}
 
 		private async void startApp() {
@@ -42,22 +42,37 @@ namespace VolleyballApp {
 				StartActivity(new Intent(this, typeof(LogIn)));
 			} else {
 				//log in, if the session timed out
+				Console.WriteLine("cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
 				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
-					base.login(user.email, user.password);
+					await base.login(user.email, user.password);
 				}
 
+				await base.loadAndSaveEvents(user, null);
+
+				activeFragment = EVENTS_FRAGMENT;
+				trans = FragmentManager.BeginTransaction();
+				trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);
+				trans.Commit();
+
 				#region Slide Menu
-				var menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
+				menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
 				FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
 					menu.AnimatedOpened = !menu.AnimatedOpened;
 				};
 
 				FindViewById(Resource.Id.menuProfile).Click += (sender, e) => {
-//					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
-					Console.WriteLine("Trying to open profile...");
+					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
+					Console.WriteLine("Profile menu.AnimatedOpened = " + menu.AnimatedOpened);
 					switchFragment(activeFragment, PROFILE_FRAGMENT, new ProfileFragment());
-//					d.Dismiss();
+					d.Dismiss();
+				};
 
+				FindViewById(Resource.Id.menuEvents).Click += async (sender, e) => {
+					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
+					Console.WriteLine("Events menu.AnimatedOpened = " + menu.AnimatedOpened);
+					await base.loadAndSaveEvents(user, null);
+					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment());
+					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuLogout).Click += (sender, e) => {
@@ -68,12 +83,6 @@ namespace VolleyballApp {
 
 				};
 				#endregion
-
-				await base.loadAndSaveEvents(user, null);
-				activeFragment = EVENTS_FRAGMENT;
-				trans = FragmentManager.BeginTransaction();
-				trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);
-				trans.Commit();
 			}
 			dialog.Dismiss();
 		}
@@ -90,6 +99,8 @@ namespace VolleyballApp {
 		 *if bool addToBackStack is set to true
 		 **/
 		public void switchFragment(string oldFragmentTag, string newFragmentTag, Fragment newFragment, bool addToBackStack) {
+			menu.Opened = false;
+			Console.WriteLine("menu.AnimatedOpened = " + menu.AnimatedOpened);
 			activeFragment = newFragmentTag;
 			trans = FragmentManager.BeginTransaction();
 			if(addToBackStack)

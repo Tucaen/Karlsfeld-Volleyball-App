@@ -32,7 +32,9 @@ namespace VolleyballApp {
 				if(db.wasSuccesful(json)) {
 					Toast.MakeText(this, "Registered successfully! Trying to log in...", ToastLength.Long).Show();
 
-					base.login(email.Text, password.Text);
+					if(await base.login(email.Text, password.Text))
+						base.proceedAfterManualLogin();
+					
 				} else {
 					Toast.MakeText(this, json["message"].ToString(), ToastLength.Long).Show();
 				}

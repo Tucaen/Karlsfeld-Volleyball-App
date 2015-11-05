@@ -91,6 +91,11 @@ namespace VolleyballApp {
 			return await dbUpdate.UpdateUser(host, name, role, number, position);
 		}
 
+		public MySqlUser createUserFromResponse(JsonValue json, string password) {
+			DB_SelectUser selectUser = new DB_SelectUser(this);
+			return selectUser.createUserFromResponse(json, password);
+		}
+
 		public async Task<JsonValue> createEvent(string name, string location, string start, string end) {
 			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
 			return await dbInsertEvent.createEvent(name, location, start, end);
@@ -153,7 +158,7 @@ namespace VolleyballApp {
 				responseText = sr.ReadToEnd();
 			} catch (WebException we) {
 				if(debug) 
-					Console.WriteLine(type + " - FATAL ERROR: Error with php-script! " + we.Source);
+					Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Source: " + we.Source);
 				responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script!.\",\"data\":{}}";
 			}
 
