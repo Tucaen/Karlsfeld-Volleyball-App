@@ -15,13 +15,13 @@ using System.Json;
 namespace VolleyballApp {
 	public class EventDetailsFragment : Fragment {
 		ListView listView;
-		List<MySqlUser> listUser;
 		MySqlUser user;
 		MySqlEvent _event;
 		int position;
 
-		public EventDetailsFragment(int position) {
-			this.position = position;
+		public EventDetailsFragment(int position, MySqlEvent _event) {
+//			this.position = position;
+			this._event = _event;
 		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
@@ -30,14 +30,14 @@ namespace VolleyballApp {
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			listUser = MySqlUser.GetListUserFromPreferences();
+			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
 			user = MySqlUser.GetUserFromPreferences(this.Activity);
-			_event = MySqlEvent.GetListEventsFromPreferences()[position];
+//			_event = MySqlEvent.GetListEventsFromPreferences()[position];
 
 			View view = inflater.Inflate(Resource.Layout.EventDetails, container, false);
 
 			view.FindViewById<TextView>(Resource.Id.eventTitle).Text = _event.name;
-			view.FindViewById<TextView>(Resource.Id.eventState).Text = "(" + getLoggedInUser(user.idUser).eventState + ")";
+			view.FindViewById<TextView>(Resource.Id.eventState).Text = "(" + getLoggedInUser(user.idUser, listUser).eventState + ")";
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
 			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
@@ -52,9 +52,21 @@ namespace VolleyballApp {
 				this.answerEventIvitation("D");
 			};
 
+			TextView btnInvite = this.Activity.FindViewById<TextView>(Resource.Id.btnAddInToolbar);
+			btnInvite.Visibility = ViewStates.Visible;
+			btnInvite.Click += async delegate {
+				Console.WriteLine("btnAddInToolbar was pressed!");
+
+				JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
+				MySqlUser.StoreUserListInPreferences(this.Activity.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
+
+				InviteUserDialog iud = new InviteUserDialog(savedInstanceState, _event);
+				MainActivity main = (MainActivity)this.Activity;
+				iud.Show(FragmentManager, "INVITE_USER_DIALOG");
+			};
+
 			return view;
 		}
-			
 
 		private async void answerEventIvitation(string state) {
 			MainActivity main = (MainActivity)this.Activity;
@@ -69,7 +81,7 @@ namespace VolleyballApp {
 
 		}
 
-		private MySqlUser getLoggedInUser(int id) {
+		private MySqlUser getLoggedInUser(int id, List<MySqlUser> listUser) {
 			foreach(MySqlUser u in listUser) {
 				if(u.idUser == id)
 					return u;
@@ -77,5 +89,6 @@ namespace VolleyballApp {
 			return null;
 		}
 	}
+
 }
 

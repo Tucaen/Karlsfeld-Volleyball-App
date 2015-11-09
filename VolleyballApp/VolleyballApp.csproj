@@ -48,31 +48,47 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Json" />
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Gcm">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Gcm.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Gcm.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MySqlObjects\MySqlUser.cs" />
-    <Compile Include="MySqlObjects\MySqlEvent.cs" />
-    <Compile Include="DB\DB-Communicator.cs" />
-    <Compile Include="DB\Select\DB_Select.cs" />
-    <Compile Include="DB\Select\DB_SelectEvent.cs" />
-    <Compile Include="DB\Select\DB_SelectUser.cs" />
-    <Compile Include="DB\Update\DB_Update.cs" />
-    <Compile Include="Activities\Adapter\ListEventsAdapter.cs" />
-    <Compile Include="Activities\Adapter\ListUserAdapter.cs" />
-    <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="Activities\RegistrationActivity.cs" />
-    <Compile Include="Activities\FillDataActivity.cs" />
-    <Compile Include="MySqlObjects\MySqlObject.cs" />
-    <Compile Include="Fragments\Events\EventsFragment.cs" />
-    <Compile Include="Fragments\Events\EventDetailsFragment.cs" />
-    <Compile Include="Activities\AbstractActivity.cs" />
-    <Compile Include="Fragments\Events\AddEventFragment.cs" />
-    <Compile Include="DB\Insert\DB_InsertEvent.cs" />
-    <Compile Include="Activities\FlyOutContainer.cs" />
-    <Compile Include="Fragments\ProfileFragment.cs" />
-    <Compile Include="Activities\LogInActivity.cs" />
+    <Compile Include="Backend\Activities\AbstractActivity.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListEventsAdapter.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListUserAdapter.cs" />
+    <Compile Include="Backend\Activities\FillDataActivity.cs" />
+    <Compile Include="Backend\Activities\FlyOutContainer.cs" />
+    <Compile Include="Backend\Activities\LogInActivity.cs" />
+    <Compile Include="Backend\Activities\MainActivity.cs" />
+    <Compile Include="Backend\Activities\PushNotifications\GcmListenerService.cs" />
+    <Compile Include="Backend\Activities\PushNotifications\InstanceIdListenerService.cs" />
+    <Compile Include="Backend\Activities\PushNotifications\RegistrationIntentService.cs" />
+    <Compile Include="Backend\Activities\RegistrationActivity.cs" />
+    <Compile Include="Backend\Fragments\Events\AddEventFragment.cs" />
+    <Compile Include="Backend\Fragments\Events\EventDetailsFragment.cs" />
+    <Compile Include="Backend\Fragments\Events\EventsFragment.cs" />
+    <Compile Include="Backend\Fragments\ProfileFragment.cs" />
+    <Compile Include="Backend\MySqlObjects\MySqlEvent.cs" />
+    <Compile Include="Backend\MySqlObjects\MySqlObject.cs" />
+    <Compile Include="Backend\MySqlObjects\MySqlUser.cs" />
+    <Compile Include="Backend\DB\DB-Communicator.cs" />
+    <Compile Include="Backend\DB\Insert\DB_InsertEvent.cs" />
+    <Compile Include="Backend\DB\Select\DB_Select.cs" />
+    <Compile Include="Backend\DB\Select\DB_SelectEvent.cs" />
+    <Compile Include="Backend\DB\Select\DB_SelectUser.cs" />
+    <Compile Include="Backend\DB\Update\DB_Update.cs" />
+    <Compile Include="Backend\Dialogs\InviteUserDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -95,6 +111,7 @@
     <None Include="php\service\user\register.php" />
     <None Include="php\service\user\update_userinfo.php" />
     <None Include="php\util\response_util.php" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -127,22 +144,16 @@
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_focused_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\responsive_text.xml" />
     <AndroidResource Include="Resources\layout\ProfileFragment.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\pushnotification_icon.png" />
+    <AndroidResource Include="Resources\layout\InviteUserDialogListView.axml" />
+    <AndroidResource Include="Resources\layout\InviteUserDialog.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="MySqlObjects\" />
-    <Folder Include="DB\" />
-    <Folder Include="DB\Select\" />
-    <Folder Include="DB\Insert\" />
-    <Folder Include="DB\Update\" />
-    <Folder Include="Activities\" />
-    <Folder Include="DB\Delete\" />
     <Folder Include="Dokumentation\" />
-    <Folder Include="Activities\Adapter\" />
     <Folder Include="php\" />
-    <Folder Include="certificate\" />
     <Folder Include="Resources\raw\" />
-    <Folder Include="Fragments\" />
-    <Folder Include="Fragments\Events\" />
+    <Folder Include="Backend\" />
+    <Folder Include="Backend\Dialogs\" />
   </ItemGroup>
 </Project>

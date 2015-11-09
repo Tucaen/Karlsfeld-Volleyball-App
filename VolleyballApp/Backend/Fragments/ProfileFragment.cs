@@ -40,11 +40,11 @@ namespace VolleyballApp {
 
 			view.FindViewById<Button>(Resource.Id.profileBtnSave).Click += async delegate {
 				DB_Communicator db = DB_Communicator.getInstance();
-				JsonValue json = await db.UpdateUser(name.Text, null, Convert.ToInt32(number.Text), position.Text);
+				JsonValue json = await db.UpdateUser(name.Text, user.role, Convert.ToInt32(number.Text), position.Text);
 
 				//ändernungen im user speichern
 				//TODO Update-Skript muss noch angepasst werden. Liefert im Moment nur den Namen zurück
-				MySqlUser updatedUser =  db.createUserFromResponse(json, user.password); //TODO user.password durch password.Text ersetzen
+				MySqlUser updatedUser =  db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
 				updatedUser.StoreUserInPreferences(this.Activity, updatedUser);
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();

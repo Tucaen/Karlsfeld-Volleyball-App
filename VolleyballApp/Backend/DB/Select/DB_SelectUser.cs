@@ -10,6 +10,11 @@ namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
 		public DB_SelectUser(DB_Communicator dbCommunicator) : base(dbCommunicator) {}
 
+		public async Task<JsonValue> SelectAllUser() {
+			string responseText = await dbCommunicator.makeWebRequest("service/user/load_user.php", "DB_SelectUser.SelectAllUser()");
+			return JsonValue.Parse(responseText);
+		}
+
 		public async Task<JsonValue> logout() {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/logout.php", "DB_SelectUser.logout()");
 			return JsonValue.Parse(responseText);
@@ -24,7 +29,7 @@ namespace VolleyballApp {
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
 			
-			MySqlUser user  = createUserFromResponse(JsonValue.Parse(responseText), password);
+			MySqlUser user  = createUserFromResponse(JsonValue.Parse(responseText), password)[0];
 			if(debug)
 				Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
 			
@@ -37,31 +42,48 @@ namespace VolleyballApp {
 		public async Task<List<MySqlUser>> SelectUserForEvent(string host, int idEvent, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/event/load_event.php?id=" + idEvent + "&loadAttendences=true", "DB_SelectUser.SelectUserForEvent");
 
-			return createUserListFromResponse(responseText);
+			return createUserAttendanceListFromResponse(responseText);
 		}
 
 		/**
-		 * Creates a MySqlUser object from a JsonValue.
+		 * Creates a List<MySqlUser> object from a JsonValue.
+		 * And saves the given password for automatic relogin.
 		 **/
-		public MySqlUser createUserFromResponse(JsonValue json, string password) {
+		public List<MySqlUser> createUserFromResponse(JsonValue json, string password) {
+			List<MySqlUser> listUser = new List<MySqlUser>();
 			if(dbCommunicator.wasSuccesful(json)) {
-				JsonValue user = json["data"]["User"];
-				
-				return new MySqlUser(
-					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
-					password,
-					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)));
+				try {
+					foreach (JsonValue u in json["data"]) {
+						JsonValue user = u["User"];
+						listUser.Add( new MySqlUser(
+							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
+							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
+							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
+							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
+							password,
+							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
+							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))) );
+					}
+				} catch(Exception e) { //es wurde nur ein User und kein Array zurückgegeben
+					JsonValue user = json["data"]["User"];
+					listUser.Add( new MySqlUser(
+						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
+						password,
+						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))) );
+				}
+
 			}
-			return null;
+			return listUser;
 		}
 
 		/**Creates a list of user who attend an event*/
-		private List<MySqlUser> createUserListFromResponse(string response) {
+		private List<MySqlUser> createUserAttendanceListFromResponse(string response) {
 			JsonValue json = JsonValue.Parse(response);
 			List<MySqlUser> listUser = new List<MySqlUser>();
 			JsonValue attendences = json["data"][0]["Event"]["attendences"];

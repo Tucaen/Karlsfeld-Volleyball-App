@@ -12,12 +12,13 @@ using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
 using System.Net;
+using Android.Gms.Common;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp", MainLauncher = true, Theme = "@android:style/Theme.Holo.Light.NoActionBar")]			
 	public class MainActivity : AbstractActivity {
 		private FlyOutContainer menu;
-		private FragmentTransaction trans;
+		public FragmentTransaction trans { get; private set; }
 		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
 									PROFILE_FRAGMENT="ProfileFragment";
@@ -32,7 +33,35 @@ namespace VolleyballApp {
 
 			SetContentView(Resource.Layout.FlyOutContainer);
 
+			//set up push-notifications | commented out at the moment cause server side is missing
+			if (IsPlayServicesAvailable ()) {
+				var intent = new Intent (this, typeof (RegistrationIntentService));
+				StartService (intent);
+			}
+
 			startApp();
+		}
+
+		public bool IsPlayServicesAvailable () {
+			string type = "PushNotification.IsPlayServicesAvailable()";
+			GoogleApiAvailability gaa = GoogleApiAvailability.Instance;
+			int resultCode = gaa.IsGooglePlayServicesAvailable(this);
+
+			if (resultCode != ConnectionResult.Success) {
+				if(gaa.IsUserResolvableError(resultCode)) {
+					Console.WriteLine(type + " - " + gaa.GetErrorString(resultCode));
+					gaa.GetErrorDialog(this, resultCode, 0).Show();
+				} else {
+					Console.WriteLine(type + " - Sorry, this device is not supported");
+					Finish ();
+				}
+
+				return false;
+			}
+			else {
+				Console.WriteLine(type + " - Google Play Services is available.");
+				return true;
+			}
 		}
 
 		private async void startApp() {
@@ -62,14 +91,12 @@ namespace VolleyballApp {
 
 				FindViewById(Resource.Id.menuProfile).Click += (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
-					Console.WriteLine("Profile menu.AnimatedOpened = " + menu.AnimatedOpened);
 					switchFragment(activeFragment, PROFILE_FRAGMENT, new ProfileFragment());
 					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuEvents).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					Console.WriteLine("Events menu.AnimatedOpened = " + menu.AnimatedOpened);
 					await base.loadAndSaveEvents(user, null);
 					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment());
 					d.Dismiss();
@@ -83,6 +110,8 @@ namespace VolleyballApp {
 
 				};
 				#endregion
+
+				FindViewById<TextView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
 			}
 			dialog.Dismiss();
 		}
@@ -100,7 +129,6 @@ namespace VolleyballApp {
 		 **/
 		public void switchFragment(string oldFragmentTag, string newFragmentTag, Fragment newFragment, bool addToBackStack) {
 			menu.Opened = false;
-			Console.WriteLine("menu.AnimatedOpened = " + menu.AnimatedOpened);
 			activeFragment = newFragmentTag;
 			trans = FragmentManager.BeginTransaction();
 			if(addToBackStack)
@@ -117,7 +145,7 @@ namespace VolleyballApp {
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			this.switchFragment(EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e.Position));
+			this.switchFragment(EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e.Position, clickedEvent));
 
 			dialog.Dismiss();
 		}

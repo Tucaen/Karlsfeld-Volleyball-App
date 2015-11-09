@@ -28,9 +28,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/textView2"
+                android:gravity="center_vertical"
+                android:textColor="#fff6f6"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1" />
+            <TextView
+                android:text="+"
+                android:textSize="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/btnAddInToolbar"
                 android:gravity="center"
                 android:textColor="#fff6f6"
-                android:layout_marginLeft="8dp" />
+                android:layout_margin="4dp"
+                android:visibility="gone"
+                style="@style/responsiveText" />
         </LinearLayout>
     </FrameLayout>
 <!-- end Toolbar -->

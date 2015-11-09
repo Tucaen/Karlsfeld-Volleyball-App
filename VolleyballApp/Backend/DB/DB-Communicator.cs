@@ -75,6 +75,11 @@ namespace VolleyballApp {
 			return await dbSelectUser.SelectUserForEvent(host, idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
+		public async Task<JsonValue> SelectAllUser() {
+			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
+			return await dbSelectUser.SelectAllUser().ConfigureAwait(continueOnCapturedContext:false);
+		}
+
 		public List<MySqlEvent> createEventFromResponse(JsonValue json) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
 			return dbSelectEvent.createEventFromResponse(json);
@@ -91,7 +96,11 @@ namespace VolleyballApp {
 			return await dbUpdate.UpdateUser(host, name, role, number, position);
 		}
 
-		public MySqlUser createUserFromResponse(JsonValue json, string password) {
+		public List<MySqlUser> createUserFromResponse(JsonValue json) {
+			return this.createUserFromResponse(json, "");
+		}
+
+		public List<MySqlUser> createUserFromResponse(JsonValue json, string password) {
 			DB_SelectUser selectUser = new DB_SelectUser(this);
 			return selectUser.createUserFromResponse(json, password);
 		}
