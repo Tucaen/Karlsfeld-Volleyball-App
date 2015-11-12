@@ -69,7 +69,9 @@ namespace VolleyballApp {
 		public async void logout() {
 			await db.logout();
 			MySqlUser.DeleteUserFromPreferences(this);
-			StartActivity(new Intent(this, typeof(LogIn)));
+			Intent i = new Intent(this, typeof(LogIn));
+			i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
+			StartActivity(i);
 		}
 
 		/**Loads all events for the given user and state.

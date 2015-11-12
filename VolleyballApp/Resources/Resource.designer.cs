@@ -106,115 +106,148 @@ namespace VolleyballApp
 			public const int action_menu = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int apptheme_textfield_activated_holo_light = 2130837505;
+			public const int apptheme_btn_check_holo_light = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int apptheme_textfield_default_holo_light = 2130837506;
+			public const int apptheme_btn_check_off_disabled_focused_holo_light = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int apptheme_textfield_disabled_focused_holo_light = 2130837507;
+			public const int apptheme_btn_check_off_disabled_holo_light = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int apptheme_textfield_disabled_holo_light = 2130837508;
+			public const int apptheme_btn_check_off_focused_holo_light = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int apptheme_textfield_focused_holo_light = 2130837509;
+			public const int apptheme_btn_check_off_holo_light = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int common_full_open_on_phone = 2130837510;
+			public const int apptheme_btn_check_off_pressed_holo_light = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int common_ic_googleplayservices = 2130837511;
+			public const int apptheme_btn_check_on_disabled_focused_holo_light = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int common_signin_btn_icon_dark = 2130837512;
+			public const int apptheme_btn_check_on_disabled_holo_light = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int common_signin_btn_icon_disabled_dark = 2130837513;
+			public const int apptheme_btn_check_on_focused_holo_light = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int common_signin_btn_icon_disabled_focus_dark = 2130837514;
+			public const int apptheme_btn_check_on_holo_light = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int common_signin_btn_icon_disabled_focus_light = 2130837515;
+			public const int apptheme_btn_check_on_pressed_holo_light = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public const int common_signin_btn_icon_disabled_light = 2130837516;
+			public const int apptheme_textfield_activated_holo_light = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public const int common_signin_btn_icon_focus_dark = 2130837517;
+			public const int apptheme_textfield_default_holo_light = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public const int common_signin_btn_icon_focus_light = 2130837518;
+			public const int apptheme_textfield_disabled_focused_holo_light = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public const int common_signin_btn_icon_light = 2130837519;
+			public const int apptheme_textfield_disabled_holo_light = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public const int common_signin_btn_icon_normal_dark = 2130837520;
+			public const int apptheme_textfield_focused_holo_light = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public const int common_signin_btn_icon_normal_light = 2130837521;
+			public const int common_full_open_on_phone = 2130837521;
 			
 			// aapt resource value: 0x7f020012
-			public const int common_signin_btn_icon_pressed_dark = 2130837522;
+			public const int common_ic_googleplayservices = 2130837522;
 			
 			// aapt resource value: 0x7f020013
-			public const int common_signin_btn_icon_pressed_light = 2130837523;
+			public const int common_signin_btn_icon_dark = 2130837523;
 			
 			// aapt resource value: 0x7f020014
-			public const int common_signin_btn_text_dark = 2130837524;
+			public const int common_signin_btn_icon_disabled_dark = 2130837524;
 			
 			// aapt resource value: 0x7f020015
-			public const int common_signin_btn_text_disabled_dark = 2130837525;
+			public const int common_signin_btn_icon_disabled_focus_dark = 2130837525;
 			
 			// aapt resource value: 0x7f020016
-			public const int common_signin_btn_text_disabled_focus_dark = 2130837526;
+			public const int common_signin_btn_icon_disabled_focus_light = 2130837526;
 			
 			// aapt resource value: 0x7f020017
-			public const int common_signin_btn_text_disabled_focus_light = 2130837527;
+			public const int common_signin_btn_icon_disabled_light = 2130837527;
 			
 			// aapt resource value: 0x7f020018
-			public const int common_signin_btn_text_disabled_light = 2130837528;
+			public const int common_signin_btn_icon_focus_dark = 2130837528;
 			
 			// aapt resource value: 0x7f020019
-			public const int common_signin_btn_text_focus_dark = 2130837529;
+			public const int common_signin_btn_icon_focus_light = 2130837529;
 			
 			// aapt resource value: 0x7f02001a
-			public const int common_signin_btn_text_focus_light = 2130837530;
+			public const int common_signin_btn_icon_light = 2130837530;
 			
 			// aapt resource value: 0x7f02001b
-			public const int common_signin_btn_text_light = 2130837531;
+			public const int common_signin_btn_icon_normal_dark = 2130837531;
 			
 			// aapt resource value: 0x7f02001c
-			public const int common_signin_btn_text_normal_dark = 2130837532;
+			public const int common_signin_btn_icon_normal_light = 2130837532;
 			
 			// aapt resource value: 0x7f02001d
-			public const int common_signin_btn_text_normal_light = 2130837533;
+			public const int common_signin_btn_icon_pressed_dark = 2130837533;
 			
 			// aapt resource value: 0x7f02001e
-			public const int common_signin_btn_text_pressed_dark = 2130837534;
+			public const int common_signin_btn_icon_pressed_light = 2130837534;
 			
 			// aapt resource value: 0x7f02001f
-			public const int common_signin_btn_text_pressed_light = 2130837535;
+			public const int common_signin_btn_text_dark = 2130837535;
 			
 			// aapt resource value: 0x7f020020
-			public const int edit_text = 2130837536;
+			public const int common_signin_btn_text_disabled_dark = 2130837536;
 			
 			// aapt resource value: 0x7f020021
-			public const int Icon = 2130837537;
+			public const int common_signin_btn_text_disabled_focus_dark = 2130837537;
 			
 			// aapt resource value: 0x7f020022
-			public const int NormalButton = 2130837538;
+			public const int common_signin_btn_text_disabled_focus_light = 2130837538;
 			
 			// aapt resource value: 0x7f020023
-			public const int pushnotification_icon = 2130837539;
+			public const int common_signin_btn_text_disabled_light = 2130837539;
 			
 			// aapt resource value: 0x7f020024
-			public const int responsive_text = 2130837540;
+			public const int common_signin_btn_text_focus_dark = 2130837540;
 			
 			// aapt resource value: 0x7f020025
-			public const int RoundButton = 2130837541;
+			public const int common_signin_btn_text_focus_light = 2130837541;
+			
+			// aapt resource value: 0x7f020026
+			public const int common_signin_btn_text_light = 2130837542;
+			
+			// aapt resource value: 0x7f020027
+			public const int common_signin_btn_text_normal_dark = 2130837543;
+			
+			// aapt resource value: 0x7f020028
+			public const int common_signin_btn_text_normal_light = 2130837544;
+			
+			// aapt resource value: 0x7f020029
+			public const int common_signin_btn_text_pressed_dark = 2130837545;
+			
+			// aapt resource value: 0x7f02002a
+			public const int common_signin_btn_text_pressed_light = 2130837546;
+			
+			// aapt resource value: 0x7f02002b
+			public const int edit_text = 2130837547;
+			
+			// aapt resource value: 0x7f02002c
+			public const int Icon = 2130837548;
+			
+			// aapt resource value: 0x7f02002d
+			public const int NormalButton = 2130837549;
+			
+			// aapt resource value: 0x7f02002e
+			public const int pushnotification_icon = 2130837550;
+			
+			// aapt resource value: 0x7f02002f
+			public const int responsive_text = 2130837551;
+			
+			// aapt resource value: 0x7f020030
+			public const int RoundButton = 2130837552;
 			
 			static Drawable()
 			{
@@ -229,53 +262,77 @@ namespace VolleyballApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f090019
-			public const int Date = 2131296281;
-			
-			// aapt resource value: 0x7f090013
-			public const int EventDetails_ListUser = 2131296275;
-			
-			// aapt resource value: 0x7f090023
-			public const int FlyOutContainer = 2131296291;
-			
-			// aapt resource value: 0x7f09002d
-			public const int FlyOutContent = 2131296301;
-			
-			// aapt resource value: 0x7f090034
-			public const int FlyOutMenu = 2131296308;
-			
-			// aapt resource value: 0x7f090028
-			public const int InviteUserDialogCheckbox = 2131296296;
-			
-			// aapt resource value: 0x7f090027
-			public const int InviteUserDialogUserName = 2131296295;
-			
-			// aapt resource value: 0x7f090024
-			public const int InviteUserDialog_ListUser = 2131296292;
-			
-			// aapt resource value: 0x7f090026
-			public const int InviteUserDialog_btnAbbrechen = 2131296294;
-			
-			// aapt resource value: 0x7f090025
-			public const int InviteUserDialog_btnEinladen = 2131296293;
-			
-			// aapt resource value: 0x7f090030
-			public const int MenuButton = 2131296304;
-			
-			// aapt resource value: 0x7f090016
-			public const int Text = 2131296278;
+			// aapt resource value: 0x7f090021
+			public const int Date = 2131296289;
 			
 			// aapt resource value: 0x7f090017
-			public const int TitleText1 = 2131296279;
+			public const int EventDetails_Count_Abgesagt = 2131296279;
+			
+			// aapt resource value: 0x7f09001a
+			public const int EventDetails_Count_Eingeladen = 2131296282;
+			
+			// aapt resource value: 0x7f090014
+			public const int EventDetails_Count_Zugesagt = 2131296276;
+			
+			// aapt resource value: 0x7f090016
+			public const int EventDetails_LinearLayout_Abgesagt = 2131296278;
+			
+			// aapt resource value: 0x7f090019
+			public const int EventDetails_LinearLayout_Eingeladen = 2131296281;
+			
+			// aapt resource value: 0x7f090013
+			public const int EventDetails_LinearLayout_Zugesagt = 2131296275;
 			
 			// aapt resource value: 0x7f090018
-			public const int TitleText2 = 2131296280;
+			public const int EventDetails_ListUser_Abgesagt = 2131296280;
 			
-			// aapt resource value: 0x7f090050
-			public const int UserListViewEventState = 2131296336;
+			// aapt resource value: 0x7f09001b
+			public const int EventDetails_ListUser_Eingeladen = 2131296283;
 			
-			// aapt resource value: 0x7f09004f
-			public const int UserListViewName = 2131296335;
+			// aapt resource value: 0x7f090015
+			public const int EventDetails_ListUser_Zugesagt = 2131296277;
+			
+			// aapt resource value: 0x7f09002b
+			public const int FlyOutContainer = 2131296299;
+			
+			// aapt resource value: 0x7f090035
+			public const int FlyOutContent = 2131296309;
+			
+			// aapt resource value: 0x7f09003c
+			public const int FlyOutMenu = 2131296316;
+			
+			// aapt resource value: 0x7f090030
+			public const int InviteUserDialogCheckbox = 2131296304;
+			
+			// aapt resource value: 0x7f09002f
+			public const int InviteUserDialogUserName = 2131296303;
+			
+			// aapt resource value: 0x7f09002c
+			public const int InviteUserDialog_ListUser = 2131296300;
+			
+			// aapt resource value: 0x7f09002e
+			public const int InviteUserDialog_btnAbbrechen = 2131296302;
+			
+			// aapt resource value: 0x7f09002d
+			public const int InviteUserDialog_btnEinladen = 2131296301;
+			
+			// aapt resource value: 0x7f090038
+			public const int MenuButton = 2131296312;
+			
+			// aapt resource value: 0x7f09001e
+			public const int Text = 2131296286;
+			
+			// aapt resource value: 0x7f09001f
+			public const int TitleText1 = 2131296287;
+			
+			// aapt resource value: 0x7f090020
+			public const int TitleText2 = 2131296288;
+			
+			// aapt resource value: 0x7f090058
+			public const int UserListViewEventState = 2131296344;
+			
+			// aapt resource value: 0x7f090057
+			public const int UserListViewName = 2131296343;
 			
 			// aapt resource value: 0x7f090006
 			public const int addEventBeginText = 2131296262;
@@ -316,29 +373,29 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090001
 			public const int adjust_width = 2131296257;
 			
-			// aapt resource value: 0x7f09001d
-			public const int btnAddEvent = 2131296285;
+			// aapt resource value: 0x7f090025
+			public const int btnAddEvent = 2131296293;
 			
-			// aapt resource value: 0x7f090032
-			public const int btnAddInToolbar = 2131296306;
+			// aapt resource value: 0x7f09003a
+			public const int btnAddInToolbar = 2131296314;
 			
 			// aapt resource value: 0x7f09000e
 			public const int btnCreateEvent = 2131296270;
 			
-			// aapt resource value: 0x7f090015
-			public const int btnEventAbsagen = 2131296277;
+			// aapt resource value: 0x7f09001d
+			public const int btnEventAbsagen = 2131296285;
 			
-			// aapt resource value: 0x7f090014
-			public const int btnEventZusagen = 2131296276;
+			// aapt resource value: 0x7f09001c
+			public const int btnEventZusagen = 2131296284;
 			
-			// aapt resource value: 0x7f090022
-			public const int btnFillDataOk = 2131296290;
+			// aapt resource value: 0x7f09002a
+			public const int btnFillDataOk = 2131296298;
 			
-			// aapt resource value: 0x7f09002b
-			public const int btnLogin = 2131296299;
+			// aapt resource value: 0x7f090033
+			public const int btnLogin = 2131296307;
 			
-			// aapt resource value: 0x7f09004e
-			public const int btnRegistration = 2131296334;
+			// aapt resource value: 0x7f090056
+			public const int btnRegistration = 2131296342;
 			
 			// aapt resource value: 0x7f090011
 			public const int eventLocation = 2131296273;
@@ -352,125 +409,125 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f09000f
 			public const int eventTitle = 2131296271;
 			
-			// aapt resource value: 0x7f090021
-			public const int fillDataFirstnameData = 2131296289;
+			// aapt resource value: 0x7f090029
+			public const int fillDataFirstnameData = 2131296297;
 			
-			// aapt resource value: 0x7f090020
-			public const int fillDataFirstnameLabel = 2131296288;
+			// aapt resource value: 0x7f090028
+			public const int fillDataFirstnameLabel = 2131296296;
 			
-			// aapt resource value: 0x7f09001f
-			public const int fillDataNameData = 2131296287;
+			// aapt resource value: 0x7f090027
+			public const int fillDataNameData = 2131296295;
 			
-			// aapt resource value: 0x7f09001e
-			public const int fillDataNameLabel = 2131296286;
+			// aapt resource value: 0x7f090026
+			public const int fillDataNameLabel = 2131296294;
 			
-			// aapt resource value: 0x7f090033
-			public const int fragmentContainer = 2131296307;
+			// aapt resource value: 0x7f09003b
+			public const int fragmentContainer = 2131296315;
 			
-			// aapt resource value: 0x7f09002e
-			public const int frameLayout1 = 2131296302;
-			
-			// aapt resource value: 0x7f09002f
-			public const int linearLayout1 = 2131296303;
-			
-			// aapt resource value: 0x7f09001a
-			public const int listEvents = 2131296282;
-			
-			// aapt resource value: 0x7f090038
-			public const int menuEvents = 2131296312;
-			
-			// aapt resource value: 0x7f090039
-			public const int menuLogout = 2131296313;
+			// aapt resource value: 0x7f090036
+			public const int frameLayout1 = 2131296310;
 			
 			// aapt resource value: 0x7f090037
-			public const int menuProfile = 2131296311;
+			public const int linearLayout1 = 2131296311;
 			
-			// aapt resource value: 0x7f09001b
-			public const int noEvents = 2131296283;
+			// aapt resource value: 0x7f090022
+			public const int listEvents = 2131296290;
+			
+			// aapt resource value: 0x7f090040
+			public const int menuEvents = 2131296320;
+			
+			// aapt resource value: 0x7f090041
+			public const int menuLogout = 2131296321;
+			
+			// aapt resource value: 0x7f09003f
+			public const int menuProfile = 2131296319;
+			
+			// aapt resource value: 0x7f090023
+			public const int noEvents = 2131296291;
 			
 			// aapt resource value: 0x7f090002
 			public const int none = 2131296258;
 			
-			// aapt resource value: 0x7f09002a
-			public const int passwordText = 2131296298;
+			// aapt resource value: 0x7f090032
+			public const int passwordText = 2131296306;
 			
-			// aapt resource value: 0x7f090049
-			public const int profileBtnSave = 2131296329;
-			
-			// aapt resource value: 0x7f09003c
-			public const int profileFirstnameValue = 2131296316;
-			
-			// aapt resource value: 0x7f09003b
-			public const int profileNameLabel = 2131296315;
-			
-			// aapt resource value: 0x7f09003a
-			public const int profileNameLine = 2131296314;
-			
-			// aapt resource value: 0x7f090041
-			public const int profileNumberLabel = 2131296321;
-			
-			// aapt resource value: 0x7f090040
-			public const int profileNumberLine = 2131296320;
-			
-			// aapt resource value: 0x7f090042
-			public const int profileNumberValue = 2131296322;
-			
-			// aapt resource value: 0x7f090047
-			public const int profilePasswordLabel = 2131296327;
-			
-			// aapt resource value: 0x7f090046
-			public const int profilePasswordLine = 2131296326;
-			
-			// aapt resource value: 0x7f090048
-			public const int profilePasswordValue = 2131296328;
-			
-			// aapt resource value: 0x7f09003e
-			public const int profilePositionLabel = 2131296318;
-			
-			// aapt resource value: 0x7f09003d
-			public const int profilePositionLine = 2131296317;
-			
-			// aapt resource value: 0x7f09003f
-			public const int profilePositionValue = 2131296319;
+			// aapt resource value: 0x7f090051
+			public const int profileBtnSave = 2131296337;
 			
 			// aapt resource value: 0x7f090044
-			public const int profileTeamLabel = 2131296324;
+			public const int profileFirstnameValue = 2131296324;
 			
 			// aapt resource value: 0x7f090043
-			public const int profileTeamLine = 2131296323;
+			public const int profileNameLabel = 2131296323;
 			
-			// aapt resource value: 0x7f090045
-			public const int profileTeamValue = 2131296325;
+			// aapt resource value: 0x7f090042
+			public const int profileNameLine = 2131296322;
 			
-			// aapt resource value: 0x7f09004b
-			public const int registrationEmailData = 2131296331;
+			// aapt resource value: 0x7f090049
+			public const int profileNumberLabel = 2131296329;
+			
+			// aapt resource value: 0x7f090048
+			public const int profileNumberLine = 2131296328;
 			
 			// aapt resource value: 0x7f09004a
-			public const int registrationEmailLabel = 2131296330;
+			public const int profileNumberValue = 2131296330;
 			
-			// aapt resource value: 0x7f09004d
-			public const int registrationPasswordData = 2131296333;
+			// aapt resource value: 0x7f09004f
+			public const int profilePasswordLabel = 2131296335;
+			
+			// aapt resource value: 0x7f09004e
+			public const int profilePasswordLine = 2131296334;
+			
+			// aapt resource value: 0x7f090050
+			public const int profilePasswordValue = 2131296336;
+			
+			// aapt resource value: 0x7f090046
+			public const int profilePositionLabel = 2131296326;
+			
+			// aapt resource value: 0x7f090045
+			public const int profilePositionLine = 2131296325;
+			
+			// aapt resource value: 0x7f090047
+			public const int profilePositionValue = 2131296327;
 			
 			// aapt resource value: 0x7f09004c
-			public const int registrationPasswordLabel = 2131296332;
+			public const int profileTeamLabel = 2131296332;
 			
-			// aapt resource value: 0x7f09002c
-			public const int registrierenText = 2131296300;
+			// aapt resource value: 0x7f09004b
+			public const int profileTeamLine = 2131296331;
 			
-			// aapt resource value: 0x7f090035
-			public const int textView1 = 2131296309;
+			// aapt resource value: 0x7f09004d
+			public const int profileTeamValue = 2131296333;
+			
+			// aapt resource value: 0x7f090053
+			public const int registrationEmailData = 2131296339;
+			
+			// aapt resource value: 0x7f090052
+			public const int registrationEmailLabel = 2131296338;
+			
+			// aapt resource value: 0x7f090055
+			public const int registrationPasswordData = 2131296341;
+			
+			// aapt resource value: 0x7f090054
+			public const int registrationPasswordLabel = 2131296340;
+			
+			// aapt resource value: 0x7f090034
+			public const int registrierenText = 2131296308;
+			
+			// aapt resource value: 0x7f09003d
+			public const int textView1 = 2131296317;
+			
+			// aapt resource value: 0x7f090039
+			public const int textView2 = 2131296313;
 			
 			// aapt resource value: 0x7f090031
-			public const int textView2 = 2131296305;
+			public const int usernameText = 2131296305;
 			
-			// aapt resource value: 0x7f090029
-			public const int usernameText = 2131296297;
+			// aapt resource value: 0x7f090024
+			public const int verticalSeparator = 2131296292;
 			
-			// aapt resource value: 0x7f09001c
-			public const int verticalSeparator = 2131296284;
-			
-			// aapt resource value: 0x7f090036
-			public const int view1 = 2131296310;
+			// aapt resource value: 0x7f09003e
+			public const int view1 = 2131296318;
 			
 			static Id()
 			{
@@ -695,6 +752,9 @@ namespace VolleyballApp
 			
 			// aapt resource value: 0x7f080000
 			public const int button = 2131230720;
+			
+			// aapt resource value: 0x7f080004
+			public const int checkBox = 2131230724;
 			
 			// aapt resource value: 0x7f080003
 			public const int editText = 2131230723;

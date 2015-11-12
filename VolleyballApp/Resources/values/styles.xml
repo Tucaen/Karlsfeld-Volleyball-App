@@ -29,5 +29,10 @@
   <style parent="android:Widget.EditText" name="editText">
 	<item name="android:background">@drawable/edit_text</item>
 	<item name="android:textColor">@android:color/white</item>
+	<item name="android:inputType">textAutoComplete</item>
+  </style>
+
+  <style name="checkBox" parent="android:Widget.CompoundButton.CheckBox">
+      <item name="android:button">@drawable/apptheme_btn_check_holo_light</item>
   </style>
 </resources>

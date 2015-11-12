@@ -20,10 +20,10 @@ namespace VolleyballApp {
 		static string host = "https://psymax.onthewifi.com:10815/"; 
 //		static string host = "http://10.0.3.2/";
 
-		public class State {
-			public static string Invited = "eingeladen";
-			public static string Accepted = "zugesagt";
-			public static string Denied = "abgesagt";
+		public static class State {
+			public static string Invited = "Eingeladen";
+			public static string Accepted = "Zugesagt";
+			public static string Denied = "Abgesagt";
 		}
 
 		public DB_Communicator() {
@@ -113,6 +113,11 @@ namespace VolleyballApp {
 		public async Task<JsonValue> createEvent(int teamId, string name, string location, string start, string end) {
 			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
 			return await dbInsertEvent.createEvent(teamId, name, location, start, end);
+		}
+
+		public async Task<JsonValue> inviteUserToEvent(int idEvent, string toInvite) {
+			DB_Update dbUpdate = new DB_Update(this);
+			return await dbUpdate.inviteUserToEvent(idEvent, toInvite);
 		}
 
 		/**

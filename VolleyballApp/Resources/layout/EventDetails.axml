@@ -4,6 +4,7 @@
     android:background="#000000"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+<!-- start Headline -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -23,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="15dip"
+            android:textSize="18dip"
             android:paddingLeft="5dip"
             android:id="@+id/eventState" />
     </LinearLayout>
@@ -31,7 +32,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:layout_margin="5dp"
         android:layout_marginBottom="10.0dp">
         <TextView
             android:text="Krenmosshalle - Karlsfeld"
@@ -50,15 +51,130 @@
             android:layout_marginLeft="10dp"
             android:id="@+id/eventTime" />
     </LinearLayout>
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:divider="@android:color/holo_blue_bright"
-        android:dividerHeight="1dp"
-        android:layout_width="match_parent"
+<!-- end Headline -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_margin="0dp" />
+<!-- start Zugesagt -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:id="@+id/EventDetails_ListUser" />
+        android:layout_margin="5dp"
+        android:id="@+id/EventDetails_LinearLayout_Zugesagt">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/EventDetails_LinearLayout_Zugesagt">
+            <TextView
+                android:text="Zugesagt:"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:textSize="17dip"
+                style="@style/text" />
+            <TextView
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="17dip"
+                android:id="@+id/EventDetails_Count_Zugesagt"
+                style="@style/text" />
+        </LinearLayout>
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:divider="@android:color/holo_blue_bright"
+            android:dividerHeight="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="17dip"
+            android:id="@+id/EventDetails_ListUser_Zugesagt" />
+    </LinearLayout>
+<!-- end Zugesagt -->
+<!-- start Abgesagt -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/EventDetails_LinearLayout_Abgesagt">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/EventDetails_LinearLayout_Abgesagt">
+            <TextView
+                android:text="Abgesagt:"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:textSize="17dip"
+                style="@style/text" />
+            <TextView
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="17dip"
+                android:id="@+id/EventDetails_Count_Abgesagt"
+                style="@style/text" />
+        </LinearLayout>
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:divider="@android:color/holo_blue_bright"
+            android:dividerHeight="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="17dip"
+            android:id="@+id/EventDetails_ListUser_Abgesagt" />
+    </LinearLayout>
+<!-- end Abgesagt -->
+<!-- start Eingeladen -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/EventDetails_LinearLayout_Eingeladen">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/EventDetails_LinearLayout_Eingeladen">
+            <TextView
+                android:text="Eingeladen:"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:textSize="17dip"
+                style="@style/text" />
+            <TextView
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="17dip"
+                android:id="@+id/EventDetails_Count_Eingeladen"
+                style="@style/text" />
+        </LinearLayout>
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:divider="@android:color/holo_blue_bright"
+            android:dividerHeight="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="17dip"
+            android:id="@+id/EventDetails_ListUser_Eingeladen" />
+    </LinearLayout>
+<!-- end Eingeladen -->
+<!-- start Buttons -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -84,4 +200,5 @@
             android:layout_weight="1"
             style="@style/button" />
     </LinearLayout>
+<!-- end Buttons -->
 </LinearLayout>

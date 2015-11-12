@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Json;
+using System.Linq;
 
 namespace VolleyballApp {
 	class DB_SelectEvent : DB_Select{
@@ -40,7 +41,8 @@ namespace VolleyballApp {
 					}
 				}
 			}
-			return listEvent;
+			List<MySqlEvent> sortedList = listEvent.OrderBy(o => o.startDate).ToList();
+			return sortedList;
 		}
 	}
 }

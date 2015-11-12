@@ -82,13 +82,13 @@
     <Compile Include="Backend\MySqlObjects\MySqlEvent.cs" />
     <Compile Include="Backend\MySqlObjects\MySqlObject.cs" />
     <Compile Include="Backend\MySqlObjects\MySqlUser.cs" />
-    <Compile Include="Backend\DB\DB-Communicator.cs" />
     <Compile Include="Backend\DB\Insert\DB_InsertEvent.cs" />
     <Compile Include="Backend\DB\Select\DB_Select.cs" />
     <Compile Include="Backend\DB\Select\DB_SelectEvent.cs" />
     <Compile Include="Backend\DB\Select\DB_SelectUser.cs" />
     <Compile Include="Backend\DB\Update\DB_Update.cs" />
     <Compile Include="Backend\Dialogs\InviteUserDialog.cs" />
+    <Compile Include="Backend\DB\DB-Communicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -134,19 +134,30 @@
     <AndroidResource Include="Resources\layout\FlyOutContainer.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\action_menu.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\RoundButton.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\NormalButton.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\edit_text.xml" />
+    <AndroidResource Include="Resources\layout\ProfileFragment.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\pushnotification_icon.png" />
+    <AndroidResource Include="Resources\layout\InviteUserDialogListView.axml" />
+    <AndroidResource Include="Resources\layout\InviteUserDialog.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_activated_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_default_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_disabled_focused_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_disabled_holo_light.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\apptheme_textfield_focused_holo_light.9.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\responsive_text.xml" />
-    <AndroidResource Include="Resources\layout\ProfileFragment.axml" />
-    <AndroidResource Include="Resources\drawable-hdpi\pushnotification_icon.png" />
-    <AndroidResource Include="Resources\layout\InviteUserDialogListView.axml" />
-    <AndroidResource Include="Resources\layout\InviteUserDialog.axml" />
+    <AndroidResource Include="Resources\drawable\apptheme_btn_check_holo_light.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_off_disabled_focused_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_off_disabled_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_off_focused_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_off_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_off_pressed_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_on_disabled_focused_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_on_disabled_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_on_focused_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_on_holo_light.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\apptheme_btn_check_on_pressed_holo_light.png" />
+    <AndroidResource Include="Resources\drawable\edit_text.xml" />
+    <AndroidResource Include="Resources\drawable\NormalButton.xml" />
+    <AndroidResource Include="Resources\drawable\responsive_text.xml" />
+    <AndroidResource Include="Resources\drawable\RoundButton.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -155,5 +166,6 @@
     <Folder Include="Resources\raw\" />
     <Folder Include="Backend\" />
     <Folder Include="Backend\Dialogs\" />
+    <Folder Include="Resources\drawable\" />
   </ItemGroup>
 </Project>

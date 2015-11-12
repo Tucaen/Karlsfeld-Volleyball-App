@@ -18,5 +18,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:gravity="center"
-        style="@style/text" />
+        style="@style/checkBox" />
 </LinearLayout>

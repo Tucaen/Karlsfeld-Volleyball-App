@@ -35,8 +35,8 @@ namespace VolleyballApp {
 
 			FindViewById<TextView>(Resource.Id.registrierenText).Click += (object sender, EventArgs e) => {
 				Intent i = new Intent(this, typeof(RegistrationActivity));
+				i.AddFlags(ActivityFlags.NoHistory);
 				StartActivity(i);
-				Finish();
 			};
 		}
 	}

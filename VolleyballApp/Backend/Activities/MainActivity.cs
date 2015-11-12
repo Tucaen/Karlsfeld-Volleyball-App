@@ -68,12 +68,18 @@ namespace VolleyballApp {
 			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Loading...");
 			MySqlUser user = MySqlUser.GetUserFromPreferences(this);
 			if(user == null) {
-				StartActivity(new Intent(this, typeof(LogIn)));
+				Intent i = new Intent(this, typeof(LogIn));
+				i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
+				StartActivity(i);
 			} else {
 				//log in, if the session timed out
 				Console.WriteLine("cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
 				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
-					await base.login(user.email, user.password);
+					if(!await base.login(user.email, user.password)) {
+						Intent i = new Intent(this, typeof(LogIn));
+						i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
+						StartActivity(i);
+					}
 				}
 
 				await base.loadAndSaveEvents(user, null);
@@ -105,13 +111,11 @@ namespace VolleyballApp {
 				FindViewById(Resource.Id.menuLogout).Click += (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
 					base.logout();
-					Finish();
+//					Finish();
 					d.Dismiss();
 
 				};
 				#endregion
-
-				FindViewById<TextView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
 			}
 			dialog.Dismiss();
 		}

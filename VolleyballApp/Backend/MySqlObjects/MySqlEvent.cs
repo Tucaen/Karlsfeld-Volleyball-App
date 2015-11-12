@@ -25,18 +25,19 @@ namespace VolleyballApp {
 			this.endDate = endDate;
 			this.location = location;
 
+			DB_Communicator db = DB_Communicator.getInstance();
 			switch(state) {
 			case "G":
-				this.state = "Zugesagt";
+				this.state = DB_Communicator.State.Accepted;
 				break;
 			case "M":
 				this.state = "Vielleicht";
 				break;
 			case "D":
-				this.state = "Abgesagt";
+				this.state = DB_Communicator.State.Denied;
 				break;
 			default:
-				this.state = "Eingeladen";
+				this.state = DB_Communicator.State.Invited;
 				break;
 			}
 		}

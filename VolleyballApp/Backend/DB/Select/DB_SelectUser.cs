@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Json;
 using System.Net;
 using System.IO;
+using System.Linq;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
@@ -65,7 +66,7 @@ namespace VolleyballApp {
 							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
 							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))) );
 					}
-				} catch(Exception e) { //es wurde nur ein User und kein Array zurückgegeben
+				} catch(Exception) { //es wurde nur ein User und kein Array zurückgegeben
 					JsonValue user = json["data"]["User"];
 					listUser.Add( new MySqlUser(
 						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
@@ -79,7 +80,8 @@ namespace VolleyballApp {
 				}
 
 			}
-			return listUser;
+			List<MySqlUser> sortedList = listUser.OrderBy(u => u.name).ToList();
+			return sortedList;
 		}
 
 		/**Creates a list of user who attend an event*/
@@ -101,8 +103,8 @@ namespace VolleyballApp {
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)),
 					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(u["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
 			}
-
-			return listUser;
+			List<MySqlUser> sortedList = listUser.OrderBy(u => u.eventState).ToList();
+			return sortedList;
 		}
 	}
 }
