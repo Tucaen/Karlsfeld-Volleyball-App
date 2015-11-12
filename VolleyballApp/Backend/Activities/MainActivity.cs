@@ -42,6 +42,11 @@ namespace VolleyballApp {
 			startApp();
 		}
 
+		protected override void OnResume() {
+			base.OnResume();
+			startApp();
+		}
+
 		public bool IsPlayServicesAvailable () {
 			string type = "PushNotification.IsPlayServicesAvailable()";
 			GoogleApiAvailability gaa = GoogleApiAvailability.Instance;
@@ -73,7 +78,7 @@ namespace VolleyballApp {
 				StartActivity(i);
 			} else {
 				//log in, if the session timed out
-				Console.WriteLine("cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
+				Console.WriteLine("MainActivity.cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
 				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
 					if(!await base.login(user.email, user.password)) {
 						Intent i = new Intent(this, typeof(LogIn));

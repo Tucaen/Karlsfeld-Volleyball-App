@@ -328,9 +328,6 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090020
 			public const int TitleText2 = 2131296288;
 			
-			// aapt resource value: 0x7f090058
-			public const int UserListViewEventState = 2131296344;
-			
 			// aapt resource value: 0x7f090057
 			public const int UserListViewName = 2131296343;
 			

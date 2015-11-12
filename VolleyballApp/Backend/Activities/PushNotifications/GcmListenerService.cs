@@ -26,6 +26,7 @@ namespace VolleyballAp {
 				.SetSmallIcon (Resource.Drawable.pushnotification_icon)
 				.SetContentTitle (data.GetString("title"))
 				.SetContentText (data.GetString ("message"))
+				.SetVibrate(new long[] {1000, 1000})
 				.SetAutoCancel (true)
 				.SetContentIntent (pendingIntent);
 

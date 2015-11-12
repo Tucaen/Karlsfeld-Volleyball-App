@@ -30,8 +30,10 @@ namespace VolleyballApp {
 			EditText password = view.FindViewById<EditText>(Resource.Id.profilePasswordValue);
 
 			name.Text = user.name;
-			position.Text = user.position;
-			number.Text = user.number.ToString();
+			view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Gone;
+//			position.Text = user.position;
+			view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Gone;
+//			number.Text = user.number.ToString();
 			view.FindViewById(Resource.Id.profileTeamLine).Visibility = ViewStates.Gone;
 //			team.Text = user.team;
 			view.FindViewById(Resource.Id.profilePasswordLine).Visibility = ViewStates.Gone;

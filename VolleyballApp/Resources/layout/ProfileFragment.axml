@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:background="@android:color/background_dark"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="match_parent">
 <!-- start Name -->
     <LinearLayout
         android:orientation="horizontal"
@@ -127,9 +127,18 @@
             style="@style/editText" />
     </LinearLayout>
 <!-- end Password -->
-    <Button
-        android:text="Speichern"
-        android:layout_width="fill_parent"
-        android:id="@+id/profileBtnSave"
-        style="@style/button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+        <Button
+            android:text="Speichern"
+            android:layout_width="fill_parent"
+            android:id="@+id/profileBtnSave"
+            android:gravity="center|bottom"
+            style="@style/button" />
+    </LinearLayout>
 </LinearLayout>

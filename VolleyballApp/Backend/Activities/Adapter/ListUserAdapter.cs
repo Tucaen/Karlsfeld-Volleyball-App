@@ -30,7 +30,6 @@ namespace VolleyballApp {
 			if (view == null) // no view to re-use, create new
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.UserListView, null);
 			view.FindViewById<TextView>(Resource.Id.UserListViewName).Text = item.name;
-			view.FindViewById<TextView>(Resource.Id.UserListViewEventState).Text = "(" + item.eventState + ")";
 			return view;
 		}
 	}
