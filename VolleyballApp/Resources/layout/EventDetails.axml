@@ -91,6 +91,7 @@
             android:dividerHeight="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="vertical"
             android:textColor="#FFFFFF"
             android:textSize="17dip"
             android:id="@+id/EventDetails_ListUser_Zugesagt" />
@@ -130,6 +131,7 @@
             android:dividerHeight="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="vertical"
             android:textColor="#FFFFFF"
             android:textSize="17dip"
             android:id="@+id/EventDetails_ListUser_Abgesagt" />
@@ -169,6 +171,7 @@
             android:dividerHeight="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="vertical"
             android:textColor="#FFFFFF"
             android:textSize="17dip"
             android:id="@+id/EventDetails_ListUser_Eingeladen" />

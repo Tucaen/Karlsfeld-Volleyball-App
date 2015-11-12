@@ -39,6 +39,10 @@ namespace VolleyballApp {
 				StartActivity(i);
 			};
 		}
+
+		public override void OnBackPressed() {
+			//just do nothing
+		}
 	}
 }
 

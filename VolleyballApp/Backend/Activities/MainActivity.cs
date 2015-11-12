@@ -71,6 +71,7 @@ namespace VolleyballApp {
 
 		private async void startApp() {
 			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Loading...");
+
 			MySqlUser user = MySqlUser.GetUserFromPreferences(this);
 			if(user == null) {
 				Intent i = new Intent(this, typeof(LogIn));
@@ -87,12 +88,14 @@ namespace VolleyballApp {
 					}
 				}
 
-				await base.loadAndSaveEvents(user, null);
-
-				activeFragment = EVENTS_FRAGMENT;
-				trans = FragmentManager.BeginTransaction();
-				trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);
-				trans.Commit();
+				if(activeFragment == null) {
+					await base.loadAndSaveEvents(user, null);
+					
+					activeFragment = EVENTS_FRAGMENT;
+					trans = FragmentManager.BeginTransaction();
+					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);
+					trans.Commit();
+				}
 
 				#region Slide Menu
 				menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
@@ -178,6 +181,17 @@ namespace VolleyballApp {
 			trans.Attach(frag);
 			trans.Commit();
 		}
+
+		public override void OnBackPressed() {
+			if(FragmentManager.BackStackEntryCount > 0)
+				base.OnBackPressed();
+		}
+
+//		protected override void OnPause() {
+//			base.OnPause();
+//			FragmentManager.SaveFragmentInstanceState(FragmentManager.FindFragmentByTag(activeFragment));
+//			FragmentManager.
+//		}
 	}
 }
 
