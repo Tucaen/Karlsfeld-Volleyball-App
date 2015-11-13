@@ -249,6 +249,9 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f020030
 			public const int RoundButton = 2130837552;
 			
+			// aapt resource value: 0x7f020031
+			public const int volleyballapp_logo = 2130837553;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

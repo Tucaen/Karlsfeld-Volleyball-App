@@ -158,6 +158,12 @@
     <AndroidResource Include="Resources\drawable\NormalButton.xml" />
     <AndroidResource Include="Resources\drawable\responsive_text.xml" />
     <AndroidResource Include="Resources\drawable\RoundButton.xml" />
+    <AndroidResource Include="Resources\drawable\volleyballapp_logo.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\volleyballapp_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\volleyballapp_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\volleyballapp_logo.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\volleyballapp_logo.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\volleyballapp_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

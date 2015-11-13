@@ -13,9 +13,12 @@ using Android.Widget;
 using System.Threading.Tasks;
 using System.Net;
 using Android.Gms.Common;
+using Android.Content.PM;
 
 namespace VolleyballApp {
-	[Activity(Label = "VolleyballApp", MainLauncher = true, Theme = "@android:style/Theme.Holo.Light.NoActionBar")]			
+	[Activity(Label = "VolleyballApp", Icon="@drawable/VolleyballApp_Logo",
+		MainLauncher = true, Theme = "@android:style/Theme.Holo.Light.NoActionBar", 
+		ScreenOrientation = ScreenOrientation.Portrait)]			
 	public class MainActivity : AbstractActivity {
 		private FlyOutContainer menu;
 		public FragmentTransaction trans { get; private set; }
