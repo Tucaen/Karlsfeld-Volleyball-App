@@ -29,6 +29,7 @@
   <style parent="android:Widget.EditText" name="editText">
 	<item name="android:background">@drawable/edit_text</item>
 	<item name="android:textColor">@android:color/white</item>
+	<item name="android:textCursorDrawable">@null</item>
 	<item name="android:inputType">textAutoComplete</item>
   </style>
 

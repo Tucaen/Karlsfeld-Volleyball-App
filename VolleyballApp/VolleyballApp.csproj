@@ -14,8 +14,8 @@
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <AssemblyName>VolleyballApp</AssemblyName>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.4</TargetFrameworkVersion>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -89,10 +89,10 @@
     <Compile Include="Backend\DB\Update\DB_Update.cs" />
     <Compile Include="Backend\Dialogs\InviteUserDialog.cs" />
     <Compile Include="Backend\DB\DB-Communicator.cs" />
+    <Compile Include="Backend\Fragments\Events\EditEventFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
-    <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Dokumentation\Tasks.xlsx" />
     <None Include="php\db.php" />
@@ -112,6 +112,7 @@
     <None Include="php\service\user\update_userinfo.php" />
     <None Include="php\util\response_util.php" />
     <None Include="packages.config" />
+    <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

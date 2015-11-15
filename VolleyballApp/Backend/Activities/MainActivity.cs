@@ -16,15 +16,15 @@ using Android.Gms.Common;
 using Android.Content.PM;
 
 namespace VolleyballApp {
-	[Activity(Label = "VolleyballApp", Icon="@drawable/VolleyballApp_Logo",
-		MainLauncher = true, Theme = "@android:style/Theme.Holo.Light.NoActionBar", 
-		ScreenOrientation = ScreenOrientation.Portrait)]			
+	[Activity(Label = "VolleyballApp", Icon="@drawable/VolleyballApp_Logo", MainLauncher = true,
+		Theme = "@android:style/Theme.Holo.Light.NoActionBar", ScreenOrientation = ScreenOrientation.Portrait)]			
 	public class MainActivity : AbstractActivity {
 		private FlyOutContainer menu;
+		private int eventPosition;
 		public FragmentTransaction trans { get; private set; }
 		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
-									PROFILE_FRAGMENT="ProfileFragment";
+									PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment";
 
 		private string activeFragment;
 
@@ -42,7 +42,7 @@ namespace VolleyballApp {
 				StartService (intent);
 			}
 
-			startApp();
+//			startApp();
 		}
 
 		protected override void OnResume() {
@@ -148,53 +148,41 @@ namespace VolleyballApp {
 			trans = FragmentManager.BeginTransaction();
 			if(addToBackStack)
 				trans.AddToBackStack(oldFragmentTag);
-			trans.Replace(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
+			trans.Remove(FragmentManager.FindFragmentByTag(oldFragmentTag));
+			trans.Add(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
+//			trans.Replace(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
 			trans.Commit();
 		}
 
 		public async void OnListEventClicked(AdapterView.ItemClickEventArgs e, List<MySqlEvent> listEvents) {
 			ProgressDialog dialog = base.createProgressDialog("Please wait!", "Loading...");
-
-			MySqlEvent clickedEvent = listEvents[e.Position];
+			this.eventPosition = e.Position;
+			MySqlEvent clickedEvent = listEvents[eventPosition];
 
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			this.switchFragment(EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e.Position, clickedEvent));
+			this.switchFragment(EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent));
 
 			dialog.Dismiss();
 		}
 
-		public async void refreshEventDetailsFragment(string fragmentTag, int position) {
+		public async Task<bool> refreshDataForEvent(int idEvent) {
 			List<MySqlEvent> listEvents = await refreshEvents();
-			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(listEvents[position].idEvent, "");
+			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			refreshFragment(fragmentTag);
+			return true;
 		}
 
 		public async Task<List<MySqlEvent>> refreshEvents() {
 			return await base.loadAndSaveEvents(MySqlUser.GetUserFromPreferences(this), "");
 		}
 
-		public void refreshFragment(string fragmentTag) {
-			Fragment frag = FragmentManager.FindFragmentByTag(fragmentTag);
-			trans = FragmentManager.BeginTransaction();
-			trans.Detach(frag);
-			trans.Attach(frag);
-			trans.Commit();
-		}
-
 		public override void OnBackPressed() {
 			if(FragmentManager.BackStackEntryCount > 0)
 				base.OnBackPressed();
 		}
-
-//		protected override void OnPause() {
-//			base.OnPause();
-//			FragmentManager.SaveFragmentInstanceState(FragmentManager.FindFragmentByTag(activeFragment));
-//			FragmentManager.
-//		}
 	}
 }
 

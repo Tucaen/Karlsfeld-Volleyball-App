@@ -16,12 +16,10 @@ namespace VolleyballApp {
 
 	class InviteUserDialog : DialogFragment {
 		private MySqlEvent _event;
-		private int position;
 
-		public InviteUserDialog (Bundle bundle, MySqlEvent _event, int position) {
+		public InviteUserDialog (Bundle bundle, MySqlEvent _event) {
 			this.Arguments = bundle;
 			this._event = _event;
-			this.position = position;
 			this.SetStyle(DialogFragmentStyle.Normal, 4);
 		}
 
@@ -39,7 +37,7 @@ namespace VolleyballApp {
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
 				MainActivity main = this.Activity as MainActivity;
-				main.refreshEventDetailsFragment(MainActivity.EVENT_DETAILS_FRAGMENT, this.position);
+				main.refreshDataForEvent(_event.idEvent);
 
 				this.Dismiss();
 			};

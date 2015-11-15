@@ -120,6 +120,11 @@ namespace VolleyballApp {
 			return await dbUpdate.inviteUserToEvent(idEvent, toInvite);
 		}
 
+		public async Task<JsonValue> updateEvent(int idEvent, string name, string location, string start, string end) {
+			DB_Update dbUpdate = new DB_Update(this);
+			return await dbUpdate.updateEvent(idEvent, name, location, start, end);
+		}
+
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/

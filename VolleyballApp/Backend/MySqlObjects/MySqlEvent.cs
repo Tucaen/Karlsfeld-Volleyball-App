@@ -73,6 +73,14 @@ namespace VolleyballApp {
 			}
 		}
 
+		public static MySqlEvent getEventWithId(int id) {
+			foreach(MySqlEvent e in MySqlEvent.GetListEventsFromPreferences()) {
+				if(e.idEvent == id)
+					return e;
+			}
+			return null;
+		}
+
 		public override string ToString() {
 			return "[Event id=" + idEvent + ";name=" + name + ";startDate=" + startDate + ";endDate=" + endDate + ";location=" + location + ";state=" + state + "]";
 		}

@@ -32,6 +32,16 @@
                 android:textColor="#fff6f6"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1" />
+            <ImageView
+                android:src="@android:drawable/ic_menu_edit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:layout_margin="4dp"
+                android:padding="6dp"
+                android:visibility="gone"
+                android:id="@+id/btnEditInToolbar"
+                style="@style/responsiveText" />
             <TextView
                 android:text="+"
                 android:textSize="30dp"

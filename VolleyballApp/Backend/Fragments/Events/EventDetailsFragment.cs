@@ -17,11 +17,9 @@ namespace VolleyballApp {
 		MainActivity main;
 
 		MySqlUser user;
-		MySqlEvent _event;
-		int position;
+		public MySqlEvent _event { set; get;}
 
-		public EventDetailsFragment(int position, MySqlEvent _event) {
-			this.position = position;
+		public EventDetailsFragment(MySqlEvent _event) {
 			this._event = _event;
 		}
 
@@ -33,7 +31,6 @@ namespace VolleyballApp {
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
 			user = MySqlUser.GetUserFromPreferences(this.Activity);
-//			_event = MySqlEvent.GetListEventsFromPreferences()[position];
 
 			View view = inflater.Inflate(Resource.Layout.EventDetails, container, false);
 
@@ -42,22 +39,17 @@ namespace VolleyballApp {
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
 			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
-			#region zusagen
+			//zusagen
 			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Zugesagt), listUser,
 				DB_Communicator.State.Accepted, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Zugesagt));
-			#endregion
 
-			#region abgesagt
+			//absagen
 			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Abgesagt), listUser,
 				DB_Communicator.State.Denied, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Abgesagt));
-			#endregion
 
-			#region eingeladen
+			//eingeladen
 			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Eingeladen), listUser,
 				DB_Communicator.State.Invited, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Eingeladen));
-			#endregion
-
-
 
 			view.FindViewById<Button>(Resource.Id.btnEventZusagen).Click += delegate {
 				this.answerEventIvitation("G");
@@ -67,15 +59,21 @@ namespace VolleyballApp {
 				this.answerEventIvitation("D");
 			};
 
+			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
+			btnEdit.Visibility = ViewStates.Visible;
+			btnEdit.Click += delegate {
+				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
+			};
+
+
 			TextView btnInvite = this.Activity.FindViewById<TextView>(Resource.Id.btnAddInToolbar);
 			btnInvite.Visibility = ViewStates.Visible;
 			btnInvite.Click += async delegate {
 				try {
-					Console.WriteLine("btnAddInToolbar was pressed!");
 					JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
 					MySqlUser.StoreUserListInPreferences(this.Activity.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
 					
-					InviteUserDialog iud = new InviteUserDialog(savedInstanceState, _event, position);
+					InviteUserDialog iud = new InviteUserDialog(savedInstanceState, _event);
 					iud.Show(FragmentManager, "INVITE_USER_DIALOG");
 				} catch (Exception e) {
 					Console.WriteLine("ERROR OPENING INVITE_USER-DIALOG: " + e.Source);
@@ -109,7 +107,7 @@ namespace VolleyballApp {
 			}
 
 			//refresh the view
-			main.refreshEventDetailsFragment(MainActivity.EVENT_DETAILS_FRAGMENT, this.position);
+			main.refreshDataForEvent(_event.idEvent);
 		}
 
 		private MySqlUser getLoggedInUser(int id, List<MySqlUser> listUser) {
@@ -123,6 +121,7 @@ namespace VolleyballApp {
 		public override void OnDestroyView() {
 			base.OnDestroyView();
 			this.Activity.FindViewById<TextView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
+			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
 		}
 	}
 }
