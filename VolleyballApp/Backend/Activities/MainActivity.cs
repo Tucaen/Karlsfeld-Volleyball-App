@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Android.Gms.Common;
 using Android.Content.PM;
+using Android.Net;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp", Icon="@drawable/VolleyballApp_Logo", MainLauncher = true,
@@ -41,12 +42,13 @@ namespace VolleyballApp {
 				var intent = new Intent (this, typeof (RegistrationIntentService));
 				StartService (intent);
 			}
-
-//			startApp();
 		}
 
 		protected override void OnResume() {
 			base.OnResume();
+			NetworkInfo activeConnection = ((ConnectivityManager) GetSystemService(ConnectivityService)).ActiveNetworkInfo;
+			bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
+			DB_Communicator.getInstance().IsOnline = isOnline;
 			startApp();
 		}
 
@@ -74,7 +76,7 @@ namespace VolleyballApp {
 
 		private async void startApp() {
 			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Loading...");
-
+			
 			MySqlUser user = MySqlUser.GetUserFromPreferences(this);
 			if(user == null) {
 				Intent i = new Intent(this, typeof(LogIn));
@@ -82,7 +84,6 @@ namespace VolleyballApp {
 				StartActivity(i);
 			} else {
 				//log in, if the session timed out
-				Console.WriteLine("MainActivity.cookieContainer.Count = " + DB_Communicator.getInstance().cookieContainer.Count);
 				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
 					if(!await base.login(user.email, user.password)) {
 						Intent i = new Intent(this, typeof(LogIn));

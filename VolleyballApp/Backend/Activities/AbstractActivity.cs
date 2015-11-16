@@ -100,6 +100,11 @@ namespace VolleyballApp {
 			dialog.Indeterminate = true;
 			return dialog;
 		}
+
+		public void toastJson(Context context, JsonValue json, ToastLength length, string alternativeMessage) {
+			string message = (json.ContainsKey("message")) ? json["message"].ToString() : alternativeMessage;
+			Toast.MakeText(context, message, length);
+		}
 	}
 }
 

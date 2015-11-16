@@ -90,6 +90,7 @@
     <Compile Include="Backend\Dialogs\InviteUserDialog.cs" />
     <Compile Include="Backend\DB\DB-Communicator.cs" />
     <Compile Include="Backend\Fragments\Events\EditEventFragment.cs" />
+    <Compile Include="Backend\DB\Delete\DB_Delete.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -175,5 +176,6 @@
     <Folder Include="Backend\" />
     <Folder Include="Backend\Dialogs\" />
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Backend\DB\Delete\" />
   </ItemGroup>
 </Project>

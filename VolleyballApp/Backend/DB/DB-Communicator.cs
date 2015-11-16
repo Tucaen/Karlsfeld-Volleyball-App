@@ -17,7 +17,8 @@ namespace VolleyballApp {
 		public static DB_Communicator db;
 		public bool debug { get; set; }
 		public CookieContainer cookieContainer { get; set; }
-		static string host = "https://psymax.onthewifi.com:10815/"; 
+		static string host = "https://psymax.onthewifi.com:10815/";
+		public bool IsOnline {get; set;}
 //		static string host = "http://10.0.3.2/";
 
 		public static class State {
@@ -105,6 +106,11 @@ namespace VolleyballApp {
 			return selectUser.createUserFromResponse(json, password);
 		}
 
+		public async Task<JsonValue> deleteEvent(int id) {
+			DB_Delete db = new DB_Delete(this);
+			return await db.deleteEvent(id);
+		}
+
 		public async Task<JsonValue> createEvent(string name, string location, string start, string end) {
 			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
 			return await dbInsertEvent.createEvent(name, location, start, end);
@@ -163,27 +169,32 @@ namespace VolleyballApp {
 		}
 
 		public async Task<string> makeWebRequest(string phpService, string type) {
-			Uri uri = new Uri(host + phpService);
-			if(debug) 
-				Console.WriteLine(type + " - uri: " + uri);
-
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-			request.CookieContainer = cookieContainer;
-
 			string responseText = "";
-			try {
-				WebResponse response = await request.GetResponseAsync().ConfigureAwait(continueOnCapturedContext:false);
-				StreamReader sr = new StreamReader(response.GetResponseStream());
-				responseText = sr.ReadToEnd();
-			} catch (WebException we) {
+
+			if(!IsOnline) {
+				responseText = "{\"state\":\"error\",\"message\":\"You are not connected to the internet!.\"}";
+			} else {
+				Uri uri = new Uri(host + phpService);
 				if(debug) 
-					Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Source: " + we.Source);
-				responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script!.\",\"data\":{}}";
+					Console.WriteLine(type + " - uri: " + uri);
+				
+				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+				request.CookieContainer = cookieContainer;
+				
+				try {
+					WebResponse response = await request.GetResponseAsync().ConfigureAwait(continueOnCapturedContext:false);
+					StreamReader sr = new StreamReader(response.GetResponseStream());
+					responseText = sr.ReadToEnd();
+				} catch (WebException we) {
+					if(debug) 
+						Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Source: " + we.Source);
+					responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script!.\",\"data\":{}}";
+				}
+				
+				if(debug) 
+					Console.WriteLine(type + " - response: " + responseText);
 			}
 
-			if(debug) 
-				Console.WriteLine(type + " - response: " + responseText);
-			
 			return responseText;
 		}
 	}

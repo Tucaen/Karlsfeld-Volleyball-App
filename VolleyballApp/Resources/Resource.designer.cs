@@ -304,8 +304,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090035
 			public const int FlyOutContent = 2131296309;
 			
-			// aapt resource value: 0x7f09003d
-			public const int FlyOutMenu = 2131296317;
+			// aapt resource value: 0x7f09003e
+			public const int FlyOutMenu = 2131296318;
 			
 			// aapt resource value: 0x7f090030
 			public const int InviteUserDialogCheckbox = 2131296304;
@@ -334,8 +334,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090020
 			public const int TitleText2 = 2131296288;
 			
-			// aapt resource value: 0x7f09005b
-			public const int UserListViewName = 2131296347;
+			// aapt resource value: 0x7f09005c
+			public const int UserListViewName = 2131296348;
 			
 			// aapt resource value: 0x7f090006
 			public const int addEventBeginText = 2131296262;
@@ -385,6 +385,9 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f09000e
 			public const int btnCreateEvent = 2131296270;
 			
+			// aapt resource value: 0x7f09003c
+			public const int btnDeleteInToolbar = 2131296316;
+			
 			// aapt resource value: 0x7f09003b
 			public const int btnEditInToolbar = 2131296315;
 			
@@ -400,8 +403,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090033
 			public const int btnLogin = 2131296307;
 			
-			// aapt resource value: 0x7f09005a
-			public const int btnRegistration = 2131296346;
+			// aapt resource value: 0x7f09005b
+			public const int btnRegistration = 2131296347;
 			
 			// aapt resource value: 0x7f090011
 			public const int eventLocation = 2131296273;
@@ -427,8 +430,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090026
 			public const int fillDataNameLabel = 2131296294;
 			
-			// aapt resource value: 0x7f09003c
-			public const int fragmentContainer = 2131296316;
+			// aapt resource value: 0x7f09003d
+			public const int fragmentContainer = 2131296317;
 			
 			// aapt resource value: 0x7f090036
 			public const int frameLayout1 = 2131296310;
@@ -439,23 +442,23 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090022
 			public const int listEvents = 2131296290;
 			
-			// aapt resource value: 0x7f090042
-			public const int menuEvents = 2131296322;
-			
 			// aapt resource value: 0x7f090043
-			public const int menuEventsText = 2131296323;
+			public const int menuEvents = 2131296323;
 			
 			// aapt resource value: 0x7f090044
-			public const int menuLogout = 2131296324;
+			public const int menuEventsText = 2131296324;
 			
 			// aapt resource value: 0x7f090045
-			public const int menuLogoutText = 2131296325;
+			public const int menuLogout = 2131296325;
 			
-			// aapt resource value: 0x7f090040
-			public const int menuProfile = 2131296320;
+			// aapt resource value: 0x7f090046
+			public const int menuLogoutText = 2131296326;
 			
 			// aapt resource value: 0x7f090041
-			public const int menuProfileText = 2131296321;
+			public const int menuProfile = 2131296321;
+			
+			// aapt resource value: 0x7f090042
+			public const int menuProfileText = 2131296322;
 			
 			// aapt resource value: 0x7f090023
 			public const int noEvents = 2131296291;
@@ -466,71 +469,71 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090032
 			public const int passwordText = 2131296306;
 			
-			// aapt resource value: 0x7f090055
-			public const int profileBtnSave = 2131296341;
-			
-			// aapt resource value: 0x7f090048
-			public const int profileFirstnameValue = 2131296328;
-			
-			// aapt resource value: 0x7f090047
-			public const int profileNameLabel = 2131296327;
-			
-			// aapt resource value: 0x7f090046
-			public const int profileNameLine = 2131296326;
-			
-			// aapt resource value: 0x7f09004d
-			public const int profileNumberLabel = 2131296333;
-			
-			// aapt resource value: 0x7f09004c
-			public const int profileNumberLine = 2131296332;
-			
-			// aapt resource value: 0x7f09004e
-			public const int profileNumberValue = 2131296334;
-			
-			// aapt resource value: 0x7f090053
-			public const int profilePasswordLabel = 2131296339;
-			
-			// aapt resource value: 0x7f090052
-			public const int profilePasswordLine = 2131296338;
-			
-			// aapt resource value: 0x7f090054
-			public const int profilePasswordValue = 2131296340;
-			
-			// aapt resource value: 0x7f09004a
-			public const int profilePositionLabel = 2131296330;
+			// aapt resource value: 0x7f090056
+			public const int profileBtnSave = 2131296342;
 			
 			// aapt resource value: 0x7f090049
-			public const int profilePositionLine = 2131296329;
+			public const int profileFirstnameValue = 2131296329;
 			
-			// aapt resource value: 0x7f09004b
-			public const int profilePositionValue = 2131296331;
+			// aapt resource value: 0x7f090048
+			public const int profileNameLabel = 2131296328;
 			
-			// aapt resource value: 0x7f090050
-			public const int profileTeamLabel = 2131296336;
+			// aapt resource value: 0x7f090047
+			public const int profileNameLine = 2131296327;
+			
+			// aapt resource value: 0x7f09004e
+			public const int profileNumberLabel = 2131296334;
+			
+			// aapt resource value: 0x7f09004d
+			public const int profileNumberLine = 2131296333;
 			
 			// aapt resource value: 0x7f09004f
-			public const int profileTeamLine = 2131296335;
+			public const int profileNumberValue = 2131296335;
+			
+			// aapt resource value: 0x7f090054
+			public const int profilePasswordLabel = 2131296340;
+			
+			// aapt resource value: 0x7f090053
+			public const int profilePasswordLine = 2131296339;
+			
+			// aapt resource value: 0x7f090055
+			public const int profilePasswordValue = 2131296341;
+			
+			// aapt resource value: 0x7f09004b
+			public const int profilePositionLabel = 2131296331;
+			
+			// aapt resource value: 0x7f09004a
+			public const int profilePositionLine = 2131296330;
+			
+			// aapt resource value: 0x7f09004c
+			public const int profilePositionValue = 2131296332;
 			
 			// aapt resource value: 0x7f090051
-			public const int profileTeamValue = 2131296337;
+			public const int profileTeamLabel = 2131296337;
 			
-			// aapt resource value: 0x7f090057
-			public const int registrationEmailData = 2131296343;
+			// aapt resource value: 0x7f090050
+			public const int profileTeamLine = 2131296336;
 			
-			// aapt resource value: 0x7f090056
-			public const int registrationEmailLabel = 2131296342;
-			
-			// aapt resource value: 0x7f090059
-			public const int registrationPasswordData = 2131296345;
+			// aapt resource value: 0x7f090052
+			public const int profileTeamValue = 2131296338;
 			
 			// aapt resource value: 0x7f090058
-			public const int registrationPasswordLabel = 2131296344;
+			public const int registrationEmailData = 2131296344;
+			
+			// aapt resource value: 0x7f090057
+			public const int registrationEmailLabel = 2131296343;
+			
+			// aapt resource value: 0x7f09005a
+			public const int registrationPasswordData = 2131296346;
+			
+			// aapt resource value: 0x7f090059
+			public const int registrationPasswordLabel = 2131296345;
 			
 			// aapt resource value: 0x7f090034
 			public const int registrierenText = 2131296308;
 			
-			// aapt resource value: 0x7f09003e
-			public const int textView1 = 2131296318;
+			// aapt resource value: 0x7f09003f
+			public const int textView1 = 2131296319;
 			
 			// aapt resource value: 0x7f090039
 			public const int textView2 = 2131296313;
@@ -541,8 +544,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090024
 			public const int verticalSeparator = 2131296292;
 			
-			// aapt resource value: 0x7f09003f
-			public const int view1 = 2131296319;
+			// aapt resource value: 0x7f090040
+			public const int view1 = 2131296320;
 			
 			static Id()
 			{

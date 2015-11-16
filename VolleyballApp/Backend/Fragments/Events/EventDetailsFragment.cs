@@ -59,13 +59,7 @@ namespace VolleyballApp {
 				this.answerEventIvitation("D");
 			};
 
-			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
-			btnEdit.Visibility = ViewStates.Visible;
-			btnEdit.Click += delegate {
-				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
-			};
-
-
+			#region toolbar
 			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
 			btnInvite.Visibility = ViewStates.Visible;
 			btnInvite.Click += async delegate {
@@ -79,6 +73,32 @@ namespace VolleyballApp {
 					Console.WriteLine("ERROR OPENING INVITE_USER-DIALOG: " + e.Source);
 				}
 			};
+
+			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
+			btnEdit.Visibility = ViewStates.Visible;
+			btnEdit.Click += delegate {
+				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
+			};
+
+			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
+			btnDelete.Visibility = ViewStates.Visible;
+			btnDelete.Click += delegate {
+//				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
+				AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
+				builder.SetTitle("Advent löschen!")
+					.SetMessage("Sind sie sicher?")
+					.SetIcon(Android.Resource.Drawable.IcDialogAlert)
+					.SetNegativeButton("Muh", async (sender, e) => { //left button
+						JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
+						Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long);
+						await main.refreshEvents();
+						FragmentManager.PopBackStackImmediate();
+					})
+					.SetPositiveButton("Mäh", (sender, e) => { //right button
+					})
+					.Show();
+			};
+			#endregion
 
 			return view;
 		}
@@ -107,7 +127,8 @@ namespace VolleyballApp {
 			}
 
 			//refresh the view
-			main.refreshDataForEvent(_event.idEvent);
+			await main.refreshDataForEvent(_event.idEvent);
+			main.refreshFragment(MainActivity.EVENT_DETAILS_FRAGMENT);
 		}
 
 		private MySqlUser getLoggedInUser(int id, List<MySqlUser> listUser) {
@@ -122,6 +143,7 @@ namespace VolleyballApp {
 			base.OnDestroyView();
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
+			this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar).Visibility = ViewStates.Gone;
 		}
 	}
 }

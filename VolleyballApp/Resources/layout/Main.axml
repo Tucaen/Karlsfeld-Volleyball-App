@@ -43,7 +43,7 @@
                 android:visibility="gone"
                 style="@style/toolbarIcon" />
             <ImageView
-                android:id="@+id/btnEditInToolbar"
+                android:id="@+id/btnDeleteInToolbar"
                 android:src="@android:drawable/ic_menu_delete"
                 android:visibility="gone"
                 style="@style/toolbarIcon" />
