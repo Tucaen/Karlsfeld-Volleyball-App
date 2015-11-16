@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:layout_margin="10dp"
     android:background="#000000">
     <TextView
         android:text="Einladen"
         android:layout_width="match_parent"
         style="@style/text" />
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:divider="@android:color/holo_blue_bright"
-        android:dividerHeight="1dp"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:id="@+id/InviteUserDialog_ListUser" />
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:orientation="vertical">
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:divider="@android:color/holo_blue_bright"
+            android:dividerHeight="1dp"
+            android:scrollbars="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:id="@+id/InviteUserDialog_ListUser" />
+    </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="4dp">
         <Button
             android:text="Einladen"
@@ -29,7 +37,7 @@
             android:layout_width="wrap_content"
             android:id="@+id/InviteUserDialog_btnEinladen"
             android:layout_margin="5dp"
-            android:layout_gravity="bottom"
+            android:gravity="center"
             android:layout_weight="1"
             style="@style/button" />
         <Button
@@ -38,7 +46,7 @@
             android:layout_width="wrap_content"
             android:id="@+id/InviteUserDialog_btnAbbrechen"
             android:layout_margin="5dp"
-            android:layout_gravity="bottom"
+            android:gravity="center"
             android:layout_weight="1"
             style="@style/button" />
     </LinearLayout>

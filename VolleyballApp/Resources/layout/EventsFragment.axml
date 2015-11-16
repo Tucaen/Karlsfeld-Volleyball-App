@@ -22,13 +22,15 @@
             android:dividerHeight="1dp"
             android:id="@+id/listEvents" />
     <!-- start NoEvents -->
+    <!-- end NoEvents -->
         <TextView
             android:id="@+id/noEvents"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:text="Keine Veranstaltungen!"
-            android:layout_centerInParent="true"
-            style="@style/text" />
-    <!-- end NoEvents -->
+            android:gravity="center"
+            android:layout_weight="1"
+            style="@style/text"
+            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

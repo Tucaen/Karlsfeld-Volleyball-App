@@ -165,6 +165,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\volleyballapp_logo.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\volleyballapp_logo.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\volleyballapp_logo.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_invite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

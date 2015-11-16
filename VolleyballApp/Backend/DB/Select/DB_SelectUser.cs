@@ -6,6 +6,7 @@ using System.Json;
 using System.Net;
 using System.IO;
 using System.Linq;
+using Android.Widget;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
@@ -29,12 +30,15 @@ namespace VolleyballApp {
 
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
+			try {
+				MySqlUser user  = createUserFromResponse(JsonValue.Parse(responseText), password)[0];
+				if(debug)
+					Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
+				return user;
+			} catch (Exception) {
+				return null;
+			}
 			
-			MySqlUser user  = createUserFromResponse(JsonValue.Parse(responseText), password)[0];
-			if(debug)
-				Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
-			
-			return user;
 		}
 
 		/**

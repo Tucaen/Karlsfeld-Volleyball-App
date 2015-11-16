@@ -175,13 +175,24 @@ namespace VolleyballApp {
 			return true;
 		}
 
+		/**
+		 * ONLY use this method when fragment is not switched!
+		 **/
+		public void  refreshFragment(string fragmentTag) {
+			Fragment frag = FragmentManager.FindFragmentByTag(fragmentTag);
+			FragmentTransaction trans = FragmentManager.BeginTransaction();
+			trans.Detach(frag);
+			trans.Attach(frag);
+			trans.Commit();
+		}
+
 		public async Task<List<MySqlEvent>> refreshEvents() {
 			return await base.loadAndSaveEvents(MySqlUser.GetUserFromPreferences(this), "");
 		}
 
 		public override void OnBackPressed() {
-			if(FragmentManager.BackStackEntryCount > 0)
-				base.OnBackPressed();
+				if(FragmentManager.BackStackEntryCount > 0)
+					base.OnBackPressed();
 		}
 	}
 }

@@ -66,7 +66,7 @@ namespace VolleyballApp {
 			};
 
 
-			TextView btnInvite = this.Activity.FindViewById<TextView>(Resource.Id.btnAddInToolbar);
+			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
 			btnInvite.Visibility = ViewStates.Visible;
 			btnInvite.Click += async delegate {
 				try {
@@ -120,7 +120,7 @@ namespace VolleyballApp {
 
 		public override void OnDestroyView() {
 			base.OnDestroyView();
-			this.Activity.FindViewById<TextView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
+			this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
 		}
 	}

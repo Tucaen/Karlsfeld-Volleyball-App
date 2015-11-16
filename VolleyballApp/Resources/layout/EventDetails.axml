@@ -63,12 +63,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_weight="1"
         android:id="@+id/EventDetails_LinearLayout_Zugesagt">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:id="@+id/EventDetails_LinearLayout_Zugesagt">
             <TextView
                 android:text="Zugesagt:"
@@ -85,13 +86,11 @@
                 style="@style/text" />
         </LinearLayout>
         <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
             android:divider="@android:color/holo_blue_bright"
             android:dividerHeight="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:textColor="#FFFFFF"
             android:textSize="17dip"
             android:id="@+id/EventDetails_ListUser_Zugesagt" />
@@ -103,12 +102,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_weight="1"
         android:id="@+id/EventDetails_LinearLayout_Abgesagt">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:id="@+id/EventDetails_LinearLayout_Abgesagt">
             <TextView
                 android:text="Abgesagt:"
@@ -125,13 +125,12 @@
                 style="@style/text" />
         </LinearLayout>
         <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
             android:divider="@android:color/holo_blue_bright"
             android:dividerHeight="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:textColor="#FFFFFF"
             android:textSize="17dip"
             android:id="@+id/EventDetails_ListUser_Abgesagt" />
@@ -143,12 +142,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:id="@+id/EventDetails_LinearLayout_Eingeladen">
+        android:layout_weight="1"
+        android:id="@+id/EventDetails_LinearLayout_Eingeladen"
+        android:minHeight="50dp">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:id="@+id/EventDetails_LinearLayout_Eingeladen">
             <TextView
                 android:text="Eingeladen:"
@@ -165,13 +166,11 @@
                 style="@style/text" />
         </LinearLayout>
         <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
             android:divider="@android:color/holo_blue_bright"
             android:dividerHeight="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:textColor="#FFFFFF"
             android:textSize="17dip"
             android:id="@+id/EventDetails_ListUser_Eingeladen" />
@@ -181,8 +180,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="10dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
         <Button
             android:text="Zusagen"
             android:background="@drawable/normalbutton"
@@ -190,7 +189,7 @@
             android:id="@+id/btnEventZusagen"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:layout_weight="1"
             style="@style/button" />
         <Button
@@ -198,7 +197,7 @@
             android:background="@drawable/normalbutton"
             android:layout_width="wrap_content"
             android:id="@+id/btnEventAbsagen"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             style="@style/button" />
