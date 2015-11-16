@@ -192,8 +192,10 @@ namespace VolleyballApp {
 		}
 
 		public override void OnBackPressed() {
-				if(FragmentManager.BackStackEntryCount > 0)
-					base.OnBackPressed();
+			if(FragmentManager.BackStackEntryCount > 0)
+				base.OnBackPressed();
+			else
+				Finish();
 		}
 	}
 }
