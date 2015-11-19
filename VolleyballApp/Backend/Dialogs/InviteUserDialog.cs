@@ -54,7 +54,6 @@ namespace VolleyballApp {
 		public override void Dismiss() {
 			base.Dismiss();
 			this.isShown = false;
-
 		}
 
 		private string generateStringForInvatation(List<UserToInvite> list) {

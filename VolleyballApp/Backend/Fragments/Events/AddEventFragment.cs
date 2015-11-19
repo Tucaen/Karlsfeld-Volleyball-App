@@ -40,6 +40,7 @@ namespace VolleyballApp {
 			endTime.Click += delegate { pickTime(endTime); };
 
 			view.FindViewById<Button>(Resource.Id.btnCreateEvent).Click += async delegate {
+				ProgressDialog d = (this.Activity as MainActivity).createProgressDialog("Please wait!", "Creating event...");
 				//Excepted format by php 2015-10-30T19:00:00
 				string start = startDate.Text + "T" + startTime.Text + ":00";
 				string end = endDate.Text + "T" + endTime.Text + ":00";
@@ -49,6 +50,7 @@ namespace VolleyballApp {
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
 				this.finish(json);
+				d.Dismiss();
 			};
 
 			return view;
@@ -61,7 +63,7 @@ namespace VolleyballApp {
 			if(DB_Communicator.getInstance().wasSuccesful(json)) {
 				MainActivity main = this.Activity as MainActivity;
 				await main.refreshEvents();
-				FragmentManager.PopBackStackImmediate();
+				main.popBackstack();
 			}
 		}
 

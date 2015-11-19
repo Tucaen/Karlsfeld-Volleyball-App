@@ -81,7 +81,7 @@ namespace VolleyballApp {
 				(FragmentManager.FindFragmentByTag(MainActivity.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment)._event = 
 					MySqlEvent.getEventWithId(_event.idEvent);
 				
-				FragmentManager.PopBackStackImmediate();
+				main.popBackstack();
 			}
 		}
 

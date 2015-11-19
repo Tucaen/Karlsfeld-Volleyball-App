@@ -15,6 +15,7 @@ using System.Net;
 using Android.Gms.Common;
 using Android.Content.PM;
 using Android.Net;
+using Java.Lang;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp", Icon="@drawable/VolleyballApp_Logo", MainLauncher = true,
@@ -147,12 +148,25 @@ namespace VolleyballApp {
 			menu.Opened = false;
 			activeFragment = newFragmentTag;
 			trans = FragmentManager.BeginTransaction();
-			if(addToBackStack)
+			Fragment oldFragment = FragmentManager.FindFragmentByTag(oldFragmentTag);
+
+			if(addToBackStack && oldFragment != null)
 				trans.AddToBackStack(oldFragmentTag);
-			trans.Remove(FragmentManager.FindFragmentByTag(oldFragmentTag));
+
+			if(oldFragment != null)
+				trans.Remove(oldFragment);
 			trans.Add(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
 //			trans.Replace(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
 			trans.Commit();
+			Console.WriteLine("BackStackEntryCount = " + FragmentManager.BackStackEntryCount);
+		}
+
+		public void popBackstack() {
+			FragmentManager.PopBackStackImmediate();
+			if(FragmentManager.BackStackEntryCount > 0)
+				activeFragment = FragmentManager.GetBackStackEntryAt(FragmentManager.BackStackEntryCount - 1).Name;
+			else
+				activeFragment = null;
 		}
 
 		public async void OnListEventClicked(AdapterView.ItemClickEventArgs e, List<MySqlEvent> listEvents) {

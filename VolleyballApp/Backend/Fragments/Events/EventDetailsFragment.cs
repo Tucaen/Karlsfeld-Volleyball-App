@@ -82,20 +82,24 @@ namespace VolleyballApp {
 			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
 			btnDelete.Visibility = ViewStates.Visible;
 			btnDelete.Click += delegate {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
-				builder.SetTitle("Event löschen!")
-					.SetMessage("Sind sie sicher?")
-					.SetIcon(Android.Resource.Drawable.IcDialogAlert)
-					.SetNegativeButton("Ja", async (sender, e) => { //left button
-						JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
-						main.toastJson(this.Activity, json, ToastLength.Long, "Event delted");
-						await main.refreshEvents();
-						builder.Dispose();
-						FragmentManager.PopBackStackImmediate();
-					})
-					.SetPositiveButton("Nein", (sender, e) => { //right button
-					})
-					.Show();
+				try {
+					AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
+					builder.SetTitle("Event löschen!")
+						.SetMessage("Sind sie sicher?")
+						.SetIcon(Android.Resource.Drawable.IcDialogAlert)
+						.SetNegativeButton("Ja", async (sender, e) => { //left button
+							JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
+							main.toastJson(main, json, ToastLength.Long, "Event delted");
+							await main.refreshEvents();
+							builder.Dispose();
+							main.popBackstack();
+						})
+						.SetPositiveButton("Nein", (sender, e) => { //right button
+						})
+						.Show();
+				} catch (Java.Lang.NullPointerException npe) {
+					Console.WriteLine("NullPointerException in EventDetailsFragment: " + npe.StackTrace);
+				}
 			};
 			#endregion
 
