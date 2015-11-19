@@ -29,28 +29,35 @@ namespace VolleyballApp {
 			EditText team = view.FindViewById<EditText>(Resource.Id.profileTeamValue);
 			EditText password = view.FindViewById<EditText>(Resource.Id.profilePasswordValue);
 
-			name.Text = user.name;
-			view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Gone;
-//			position.Text = user.position;
-			view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Gone;
-//			number.Text = user.number.ToString();
-			view.FindViewById(Resource.Id.profileTeamLine).Visibility = ViewStates.Gone;
-//			team.Text = user.team;
-			view.FindViewById(Resource.Id.profilePasswordLine).Visibility = ViewStates.Gone;
-//			password.Text = user.password;
-
-
-			view.FindViewById<Button>(Resource.Id.profileBtnSave).Click += async delegate {
-				DB_Communicator db = DB_Communicator.getInstance();
-				JsonValue json = await db.UpdateUser(name.Text, user.role, Convert.ToInt32(number.Text), position.Text);
-
-				//ändernungen im user speichern
-				//TODO Update-Skript muss noch angepasst werden. Liefert im Moment nur den Namen zurück
-				MySqlUser updatedUser =  db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
-				updatedUser.StoreUserInPreferences(this.Activity, updatedUser);
-
-				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
-			};
+			if(user != null) {
+				view.FindViewById(Resource.Id.profileNameLine).Visibility = ViewStates.Visible;
+				name.Text = user.name;
+//				view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Visible;
+				//			position.Text = user.position;
+//				view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Visible;
+				//			number.Text = user.number.ToString();
+//				view.FindViewById(Resource.Id.profileTeamLine).Visibility = ViewStates.Visible;
+				//			team.Text = user.team;
+//				view.FindViewById(Resource.Id.profilePasswordLine).Visibility = ViewStates.Visible;
+				//			password.Text = user.password;
+				
+				
+				view.FindViewById<Button>(Resource.Id.profileBtnSave).Click += async delegate {
+					DB_Communicator db = DB_Communicator.getInstance();
+					JsonValue json = await db.UpdateUser(name.Text, user.role, Convert.ToInt32(number.Text), position.Text);
+					
+					//ändernungen im user speichern
+					//TODO Update-Skript muss noch angepasst werden. Liefert im Moment nur den Namen zurück
+					MySqlUser updatedUser = db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
+					updatedUser.StoreUserInPreferences(this.Activity, updatedUser);
+					
+					Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
+				};
+			} else {
+				view.FindViewById(Resource.Id.profileErrorLine).Visibility = ViewStates.Visible;
+				view.FindViewById<EditText>(Resource.Id.profileErrorValue).Text = "There was an error loading your profile information! " +
+																					"\n Server may be down!";
+			}
 
 			return view;
 		}

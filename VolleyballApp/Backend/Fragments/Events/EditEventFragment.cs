@@ -120,7 +120,7 @@ namespace VolleyballApp {
 
 		public override Dialog OnCreateDialog(Bundle savedInstance) {
 			int year = date.Year;
-			int month = date.Month;
+			int month = (date.Month - 1);
 			int day = date.Day;
 
 			return new DatePickerDialog(this.Activity, this, year, month, day);

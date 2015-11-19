@@ -334,8 +334,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090020
 			public const int TitleText2 = 2131296288;
 			
-			// aapt resource value: 0x7f09005c
-			public const int UserListViewName = 2131296348;
+			// aapt resource value: 0x7f09005e
+			public const int UserListViewName = 2131296350;
 			
 			// aapt resource value: 0x7f090006
 			public const int addEventBeginText = 2131296262;
@@ -403,8 +403,8 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090033
 			public const int btnLogin = 2131296307;
 			
-			// aapt resource value: 0x7f09005b
-			public const int btnRegistration = 2131296347;
+			// aapt resource value: 0x7f09005d
+			public const int btnRegistration = 2131296349;
 			
 			// aapt resource value: 0x7f090011
 			public const int eventLocation = 2131296273;
@@ -472,6 +472,12 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090056
 			public const int profileBtnSave = 2131296342;
 			
+			// aapt resource value: 0x7f090057
+			public const int profileErrorLine = 2131296343;
+			
+			// aapt resource value: 0x7f090058
+			public const int profileErrorValue = 2131296344;
+			
 			// aapt resource value: 0x7f090049
 			public const int profileFirstnameValue = 2131296329;
 			
@@ -517,17 +523,17 @@ namespace VolleyballApp
 			// aapt resource value: 0x7f090052
 			public const int profileTeamValue = 2131296338;
 			
-			// aapt resource value: 0x7f090058
-			public const int registrationEmailData = 2131296344;
-			
-			// aapt resource value: 0x7f090057
-			public const int registrationEmailLabel = 2131296343;
-			
 			// aapt resource value: 0x7f09005a
-			public const int registrationPasswordData = 2131296346;
+			public const int registrationEmailData = 2131296346;
 			
 			// aapt resource value: 0x7f090059
-			public const int registrationPasswordLabel = 2131296345;
+			public const int registrationEmailLabel = 2131296345;
+			
+			// aapt resource value: 0x7f09005c
+			public const int registrationPasswordData = 2131296348;
+			
+			// aapt resource value: 0x7f09005b
+			public const int registrationPasswordLabel = 2131296347;
 			
 			// aapt resource value: 0x7f090034
 			public const int registrierenText = 2131296308;

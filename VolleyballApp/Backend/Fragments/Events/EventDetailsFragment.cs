@@ -15,6 +15,7 @@ using System.Json;
 namespace VolleyballApp {
 	public class EventDetailsFragment : Fragment {
 		MainActivity main;
+		InviteUserDialog iud;
 
 		MySqlUser user;
 		public MySqlEvent _event { set; get;}
@@ -63,15 +64,13 @@ namespace VolleyballApp {
 			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
 			btnInvite.Visibility = ViewStates.Visible;
 			btnInvite.Click += async delegate {
-				try {
-					JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
-					MySqlUser.StoreUserListInPreferences(this.Activity.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
-					
-					InviteUserDialog iud = new InviteUserDialog(savedInstanceState, _event);
-					iud.Show(FragmentManager, "INVITE_USER_DIALOG");
-				} catch (Exception e) {
-					Console.WriteLine("ERROR OPENING INVITE_USER-DIALOG: " + e.Source);
-				}
+				JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
+				MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
+
+				if(iud == null)
+					iud = new InviteUserDialog(savedInstanceState, _event);
+				
+				iud.Show(FragmentManager, "INVITE_USER_DIALOG");
 			};
 
 			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
@@ -83,18 +82,18 @@ namespace VolleyballApp {
 			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
 			btnDelete.Visibility = ViewStates.Visible;
 			btnDelete.Click += delegate {
-//				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
 				AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
-				builder.SetTitle("Advent löschen!")
+				builder.SetTitle("Event löschen!")
 					.SetMessage("Sind sie sicher?")
 					.SetIcon(Android.Resource.Drawable.IcDialogAlert)
-					.SetNegativeButton("Muh", async (sender, e) => { //left button
+					.SetNegativeButton("Ja", async (sender, e) => { //left button
 						JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
-						Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long);
+						main.toastJson(this.Activity, json, ToastLength.Long, "Event delted");
 						await main.refreshEvents();
+						builder.Dispose();
 						FragmentManager.PopBackStackImmediate();
 					})
-					.SetPositiveButton("Mäh", (sender, e) => { //right button
+					.SetPositiveButton("Nein", (sender, e) => { //right button
 					})
 					.Show();
 			};

@@ -10,6 +10,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/profileNameLine">
         <TextView
             android:text="Name:"
@@ -40,6 +41,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/profilePositionLine">
         <TextView
             android:text="Position:"
@@ -63,6 +65,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/profileNumberLine">
         <TextView
             android:text="Nummer:"
@@ -86,6 +89,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/profileTeamLine">
         <TextView
             android:text="Team:"
@@ -109,6 +113,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:id="@+id/profilePasswordLine">
         <TextView
             android:text="Passwort:"
@@ -133,6 +138,7 @@
         android:layout_weight="1"
         android:layout_margin="4dp"
         android:gravity="center|bottom"
+        android:visibility="gone"
         android:orientation="vertical">
         <Button
             android:text="Speichern"
@@ -140,5 +146,22 @@
             android:id="@+id/profileBtnSave"
             android:gravity="center|bottom"
             style="@style/button" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/profileErrorLine">
+        <TextView
+            android:text="There was an error loading your profile information! Server may be down!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profileErrorValue"
+            android:layout_marginLeft="5.0dp"
+            style="@style/text" />
     </LinearLayout>
 </LinearLayout>

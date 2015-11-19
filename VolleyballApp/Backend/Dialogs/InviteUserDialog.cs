@@ -16,6 +16,7 @@ namespace VolleyballApp {
 
 	class InviteUserDialog : DialogFragment {
 		private MySqlEvent _event;
+		public bool isShown { get; private set; }
 
 		public InviteUserDialog (Bundle bundle, MySqlEvent _event) {
 			this.Arguments = bundle;
@@ -46,8 +47,14 @@ namespace VolleyballApp {
 			view.FindViewById<Button>(Resource.Id.InviteUserDialog_btnAbbrechen).Click += delegate {
 				this.Dismiss();
 			};
-
+			this.isShown = true;
 			return view;
+		}
+
+		public override void Dismiss() {
+			base.Dismiss();
+			this.isShown = false;
+
 		}
 
 		private string generateStringForInvatation(List<UserToInvite> list) {

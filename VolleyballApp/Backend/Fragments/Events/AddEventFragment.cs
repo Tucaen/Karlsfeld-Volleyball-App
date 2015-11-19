@@ -98,9 +98,20 @@ namespace VolleyballApp {
 
 		public override Dialog OnCreateDialog(Bundle savedInstance) {
 			Calendar c = Calendar.GetInstance(Java.Util.Locale.Germany);
-			int year = c.Get(CalendarField.Year);
-			int month = c.Get(CalendarField.Month);
-			int day = c.Get(CalendarField.DayOfMonth);
+			int year;
+			int month;
+			int day;
+
+			if(t.Text.Equals("Datum")) {
+				year = c.Get(CalendarField.Year);
+				month = c.Get(CalendarField.Month);
+				day = c.Get(CalendarField.DayOfMonth);
+			} else {
+				string[] date = t.Text.Split('-');
+				year = Convert.ToInt32(date[0]);
+				month = (Convert.ToInt32(date[1])-1);
+				day = Convert.ToInt32(date[2]);
+			}
 
 			return new DatePickerDialog(this.Activity, this, year, month, day);
 		}

@@ -188,7 +188,8 @@ namespace VolleyballApp {
 				} catch (WebException we) {
 					if(debug) 
 						Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Source: " + we.Source);
-					responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script!.\",\"data\":{}}";
+					responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script! \n "+
+						we.Response + "\",\"data\":{}}";
 				}
 				
 				if(debug) 
