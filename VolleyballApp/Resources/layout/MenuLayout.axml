@@ -8,11 +8,11 @@
     android:padding="4dp">
     <TextView
         android:text="Menü"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
         android:textColor="#ffc1c1c1"
+        android:textSize="22dp"
         android:padding="4dp" />
     <View
         android:layout_width="fill_parent"
@@ -40,7 +40,6 @@
             -->
         <TextView
             android:text="Profil"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:id="@+id/menuProfileText"
             android:layout_gravity="center"
@@ -57,12 +56,29 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp" />
 <!-- start events -->
+<!-- start events headline-->
+    <TextView
+        android:text="Events"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffc1c1c1"
+        android:textSize="22dp"
+        android:padding="4dp" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#ffc1c1c1"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp" />
+<!-- end events headline-->
+<!-- start events bevorstehend-->
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="fill_parent"
-        android:id="@+id/menuEvents"
+        android:id="@+id/menuEventsUpcoming"
         android:layout_margin="8dp"
         style="@style/responsiveText">
     <!--
@@ -71,17 +87,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView1" />
-            -->
+        -->
         <TextView
-            android:text="Events"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Bevorstehende"
             android:layout_width="wrap_content"
-            android:id="@+id/menuEventsText"
+            android:id="@+id/menuEventsTextUpcoming"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:textSize="20dp"
             style="@style/text" />
     </LinearLayout>
+<!-- end events bevorstehend-->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp" />
+<!-- start events vergangen-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:id="@+id/menuEventsPast"
+        android:layout_margin="8dp"
+        style="@style/responsiveText">
+    <!--
+        <ImageView
+            android:src="@android:drawable/ic_lock_power_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView1" />
+        -->
+        <TextView
+            android:text="Vergangene"
+            android:layout_width="wrap_content"
+            android:id="@+id/menuEventsTextPast"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textSize="20dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end events vergangen-->
 <!-- end events -->
     <View
         android:layout_width="fill_parent"

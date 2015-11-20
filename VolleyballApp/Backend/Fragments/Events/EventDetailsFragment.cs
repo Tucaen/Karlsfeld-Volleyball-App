@@ -40,6 +40,23 @@ namespace VolleyballApp {
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
 			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
+			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
+			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
+			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
+
+			if(!this.isEditable(_event.startDate, _event.endDate)) {
+				btnInvite.Visibility = ViewStates.Gone;
+				btnEdit.Visibility = ViewStates.Gone;
+				btnDelete.Visibility = ViewStates.Gone;
+
+				view.FindViewById<Button>(Resource.Id.btnEventAbsagen).Visibility = ViewStates.Gone;
+				view.FindViewById<Button>(Resource.Id.btnEventZusagen).Visibility = ViewStates.Gone;
+			} else {
+				btnInvite.Visibility = ViewStates.Visible;
+				btnEdit.Visibility = ViewStates.Visible;
+				btnDelete.Visibility = ViewStates.Visible;
+			}
+
 			//zusagen
 			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Zugesagt), listUser,
 				DB_Communicator.State.Accepted, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Zugesagt));
@@ -61,8 +78,6 @@ namespace VolleyballApp {
 			};
 
 			#region toolbar
-			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
-			btnInvite.Visibility = ViewStates.Visible;
 			btnInvite.Click += async delegate {
 				JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
 				MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
@@ -73,14 +88,10 @@ namespace VolleyballApp {
 				iud.Show(FragmentManager, "INVITE_USER_DIALOG");
 			};
 
-			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
-			btnEdit.Visibility = ViewStates.Visible;
 			btnEdit.Click += delegate {
 				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
 			};
 
-			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
-			btnDelete.Visibility = ViewStates.Visible;
 			btnDelete.Click += delegate {
 				try {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
@@ -90,7 +101,7 @@ namespace VolleyballApp {
 						.SetNegativeButton("Ja", async (sender, e) => { //left button
 							JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
 							main.toastJson(main, json, ToastLength.Long, "Event delted");
-							await main.refreshEvents();
+							await main.refreshEvents(EventType.Upcoming);
 							builder.Dispose();
 							main.popBackstack();
 						})
@@ -104,6 +115,10 @@ namespace VolleyballApp {
 			#endregion
 
 			return view;
+		}
+
+		private bool isEditable(DateTime startDate, DateTime endDate) {
+			return startDate >  DateTime.Today;
 		}
 
 		private void initalizeListView(ListView listView, List<MySqlUser> list, string eventState, TextView textView) {

@@ -17,8 +17,15 @@ using System.Threading;
 namespace VolleyballApp {
 	public class EventsFragment : Fragment {
 		ListView listView;
-		List<MySqlEvent> listEvents;
+		List<MySqlEvent> listEvents { get; set; }
 		View view;
+
+//		public EventsFragment() {
+//		}
+
+		public EventsFragment(List<MySqlEvent> listEvents) {
+			this.listEvents = listEvents;
+		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -26,7 +33,7 @@ namespace VolleyballApp {
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			//Get all events for the logged in user
-			listEvents = MySqlEvent.GetListEventsFromPreferences();
+//			listEvents = MySqlEvent.GetListEventsFromPreferences();
 
 			view = inflater.Inflate(Resource.Layout.EventsFragment, container, false);
 			if(listEvents.Count == 0) {

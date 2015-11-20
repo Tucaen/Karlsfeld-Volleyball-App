@@ -74,19 +74,27 @@ namespace VolleyballApp {
 			StartActivity(i);
 		}
 
-		/**Loads all events for the given user and state.
-		 *If state is null, all states are loaded.
-		 *This method also saves loaded evetns in preferneces.
+		/**Loads all events for the given user.
 		 **/
-		public async Task<List<MySqlEvent>> loadAndSaveEvents(MySqlUser user, string state) {
+		public async Task<List<MySqlEvent>> loadEvents(MySqlUser user, EventType eventType) {
 			List<MySqlEvent> listEvents = new List<MySqlEvent>();
-			JsonValue json = await db.SelectEventsForUser(user.idUser, state);
+			JsonValue json;
+			string alternativeMessage = "";
+
+			if(eventType == EventType.Past) {
+				json = await db.SelectPastEventsForUser(user.idUser, null);
+				alternativeMessage = "Error while loading past events!";
+			} else {
+				json = await db.SelectUpcomingEventsForUser(user.idUser, null);
+				alternativeMessage = "Error while loading upcoming events!";
+			}
+			
 			if(db.wasSuccesful(json)) {
 				listEvents = db.createEventFromResponse(json);
 			} else {
-				Toast.MakeText(this, json["message"].ToString(), ToastLength.Long).Show();
+				this.toastJson(this, json, ToastLength.Long, alternativeMessage);
 			}
-			MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
+//			MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
 			return listEvents;
 		}
 
@@ -103,7 +111,7 @@ namespace VolleyballApp {
 
 		public void toastJson(Context context, JsonValue json, ToastLength length, string alternativeMessage) {
 			string message = (json.ContainsKey("message")) ? json["message"].ToString() : alternativeMessage;
-			Toast.MakeText(context, message, length);
+			Toast.MakeText(context, message, length).Show();
 		}
 	}
 }

@@ -57,9 +57,14 @@ namespace VolleyballApp {
 		 * Provides you with list of all events for a specific user and state.
 		 *If state is null all states will be selected.
 		 **/
-		public async Task<JsonValue> SelectEventsForUser(int idUser, string state) {
+		public async Task<JsonValue> SelectUpcomingEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			return await dbSelectEvent.SelectEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectEvent.SelectUpcomingEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
+		}
+
+		public async Task<JsonValue> SelectPastEventsForUser(int idUser, string state) {
+			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
+			return await dbSelectEvent.SelectPastEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		public async Task<JsonValue> updateEventState(int idEvent, string state) {

@@ -76,10 +76,9 @@ namespace VolleyballApp {
 		private async void finish(JsonValue json) {
 			if(DB_Communicator.getInstance().wasSuccesful(json)) {
 				MainActivity main = this.Activity as MainActivity;
-				await main.refreshDataForEvent(_event.idEvent);
 
 				(FragmentManager.FindFragmentByTag(MainActivity.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment)._event = 
-					MySqlEvent.getEventWithId(_event.idEvent);
+					await main.refreshDataForEvent(_event.idEvent);
 				
 				main.popBackstack();
 			}

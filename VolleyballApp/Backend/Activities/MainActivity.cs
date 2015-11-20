@@ -94,11 +94,11 @@ namespace VolleyballApp {
 				}
 
 				if(activeFragment == null) {
-					await base.loadAndSaveEvents(user, null);
+					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
 					
 					activeFragment = EVENTS_FRAGMENT;
 					trans = FragmentManager.BeginTransaction();
-					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(), EVENTS_FRAGMENT);
+					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), EVENTS_FRAGMENT);
 					trans.Commit();
 				}
 
@@ -114,10 +114,17 @@ namespace VolleyballApp {
 					d.Dismiss();
 				};
 
-				FindViewById(Resource.Id.menuEvents).Click += async (sender, e) => {
+				FindViewById(Resource.Id.menuEventsUpcoming).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					await base.loadAndSaveEvents(user, null);
-					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment());
+					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
+					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment(listEvents));
+					d.Dismiss();
+				};
+
+				FindViewById(Resource.Id.menuEventsPast).Click += async (sender, e) => {
+					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
+					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Past);
+					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
 
@@ -182,12 +189,17 @@ namespace VolleyballApp {
 			dialog.Dismiss();
 		}
 
-		public async Task<bool> refreshDataForEvent(int idEvent) {
-			List<MySqlEvent> listEvents = await refreshEvents();
+		public async Task<MySqlEvent> refreshDataForEvent(int idEvent) {
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			return true;
+			List<MySqlEvent> listEvents = await refreshEvents(EventType.Upcoming);
+			foreach(MySqlEvent e in listEvents) {
+				if(e.idEvent == idEvent)
+					return e;
+			}
+
+			return null;
 		}
 
 		/**
@@ -201,8 +213,8 @@ namespace VolleyballApp {
 			trans.Commit();
 		}
 
-		public async Task<List<MySqlEvent>> refreshEvents() {
-			return await base.loadAndSaveEvents(MySqlUser.GetUserFromPreferences(this), "");
+		public async Task<List<MySqlEvent>> refreshEvents(EventType eventType) {
+			return await base.loadEvents(MySqlUser.GetUserFromPreferences(this), eventType);
 		}
 
 		public override void OnBackPressed() {
