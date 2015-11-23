@@ -101,7 +101,7 @@ namespace VolleyballApp {
 						.SetNegativeButton("Ja", async (sender, e) => { //left button
 							JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
 							main.toastJson(main, json, ToastLength.Long, "Event delted");
-							await main.refreshEvents(EventType.Upcoming);
+							await main.refreshEvents();
 							builder.Dispose();
 							main.popBackstack();
 						})

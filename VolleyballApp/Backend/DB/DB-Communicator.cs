@@ -19,7 +19,7 @@ namespace VolleyballApp {
 		public CookieContainer cookieContainer { get; set; }
 		static string host = "https://psymax.onthewifi.com:10815/";
 		public bool IsOnline {get; set;}
-//		static string host = "http://10.0.3.2/";
+//		static string localhost = "http://10.0.3.2/";
 
 		public static class State {
 			public static string Invited = "Eingeladen";
@@ -203,5 +203,9 @@ namespace VolleyballApp {
 
 			return responseText;
 		}
+
+//		public CookieContainer getCookieContainer() {
+//			return (this.cookieContainer == null) ? new CookieContainer() : this.cookieContainer;
+//		}
 	}
 }

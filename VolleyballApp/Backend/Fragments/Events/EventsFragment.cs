@@ -17,7 +17,7 @@ using System.Threading;
 namespace VolleyballApp {
 	public class EventsFragment : Fragment {
 		ListView listView;
-		List<MySqlEvent> listEvents { get; set; }
+		public List<MySqlEvent> listEvents { get; set; }
 		View view;
 
 //		public EventsFragment() {
@@ -50,7 +50,7 @@ namespace VolleyballApp {
 
 			view.FindViewById<Button>(Resource.Id.btnAddEvent).Click += (object sender, EventArgs e) => {
 				MainActivity mainActivity = (MainActivity) this.Activity;
-				mainActivity.switchFragment(MainActivity.EVENTS_FRAGMENT, MainActivity.ADD_EVENT_FRAGMENT, new AddEventFragment());
+				mainActivity.switchFragment(MainActivity.UPCOMING_EVENTS_FRAGMENT, MainActivity.ADD_EVENT_FRAGMENT, new AddEventFragment());
 			};
 
 			return view;

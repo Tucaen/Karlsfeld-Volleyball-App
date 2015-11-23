@@ -23,10 +23,12 @@ namespace VolleyballApp {
 	public class MainActivity : AbstractActivity {
 		private FlyOutContainer menu;
 		private int eventPosition;
+		private string oldFragmentTag;
 		public FragmentTransaction trans { get; private set; }
-		public static readonly string EVENTS_FRAGMENT = "EventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
+		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
-									PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment";
+									PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
+									PAST_EVENTS_FRAGMENT="PastEventsFragment";
 
 		private string activeFragment;
 
@@ -96,10 +98,11 @@ namespace VolleyballApp {
 				if(activeFragment == null) {
 					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
 					
-					activeFragment = EVENTS_FRAGMENT;
+					activeFragment = UPCOMING_EVENTS_FRAGMENT;
 					trans = FragmentManager.BeginTransaction();
-					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), EVENTS_FRAGMENT);
-					trans.Commit();
+					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), UPCOMING_EVENTS_FRAGMENT);
+//					trans.Commit();
+					trans.CommitAllowingStateLoss();
 				}
 
 				#region Slide Menu
@@ -117,21 +120,20 @@ namespace VolleyballApp {
 				FindViewById(Resource.Id.menuEventsUpcoming).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
 					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
-					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment(listEvents));
+					switchFragment(activeFragment, UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuEventsPast).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
 					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Past);
-					switchFragment(activeFragment, EVENTS_FRAGMENT, new EventsFragment(listEvents));
+					switchFragment(activeFragment, PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuLogout).Click += (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
 					base.logout();
-//					Finish();
 					d.Dismiss();
 
 				};
@@ -163,9 +165,7 @@ namespace VolleyballApp {
 			if(oldFragment != null)
 				trans.Remove(oldFragment);
 			trans.Add(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
-//			trans.Replace(Resource.Id.fragmentContainer, newFragment, newFragmentTag);
 			trans.Commit();
-			Console.WriteLine("BackStackEntryCount = " + FragmentManager.BackStackEntryCount);
 		}
 
 		public void popBackstack() {
@@ -184,7 +184,7 @@ namespace VolleyballApp {
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			this.switchFragment(EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent));
+			this.switchFragment(UPCOMING_EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent));
 
 			dialog.Dismiss();
 		}
@@ -193,7 +193,7 @@ namespace VolleyballApp {
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			List<MySqlEvent> listEvents = await refreshEvents(EventType.Upcoming);
+			List<MySqlEvent> listEvents = await refreshEvents();
 			foreach(MySqlEvent e in listEvents) {
 				if(e.idEvent == idEvent)
 					return e;
@@ -213,8 +213,41 @@ namespace VolleyballApp {
 			trans.Commit();
 		}
 
-		public async Task<List<MySqlEvent>> refreshEvents(EventType eventType) {
-			return await base.loadEvents(MySqlUser.GetUserFromPreferences(this), eventType);
+		public async Task<List<MySqlEvent>> refreshEvents() {
+			EventType eventType = this.GetEventTypeFromBackstack();
+			Fragment eventsFragment = null;
+			List<MySqlEvent> listEvents = new List<MySqlEvent>();
+
+			if(eventType != EventType.Unknown) {
+				listEvents = await base.loadEvents(MySqlUser.GetUserFromPreferences(this), eventType);
+				
+				if(eventType == EventType.Upcoming)
+					eventsFragment = FragmentManager.FindFragmentByTag(UPCOMING_EVENTS_FRAGMENT);
+				if(eventType == EventType.Past)
+					eventsFragment = FragmentManager.FindFragmentByTag(PAST_EVENTS_FRAGMENT);
+				
+				if(eventsFragment != null)
+					(eventsFragment as EventsFragment).listEvents = listEvents;
+			} 
+
+			return listEvents;
+		}
+
+		private EventType GetEventTypeFromBackstack() {
+			int i = (FragmentManager.BackStackEntryCount - 1 >= 0) ? FragmentManager.BackStackEntryCount - 1 : 0;
+			string name = FragmentManager.GetBackStackEntryAt(i).Name;
+
+			EventType eventType = EventType.Unknown;
+			switch(name) {
+			case "UpcomingEventsFragment":
+				eventType = EventType.Upcoming;
+				break;
+			case "PastEventsFragment":
+				eventType = EventType.Past;
+				break;
+			}
+
+			return eventType;
 		}
 
 		public override void OnBackPressed() {
