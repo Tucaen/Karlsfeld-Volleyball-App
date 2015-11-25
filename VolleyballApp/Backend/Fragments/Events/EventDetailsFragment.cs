@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using System.Json;
+using Java.Lang;
 
 namespace VolleyballApp {
 	public class EventDetailsFragment : Fragment {
@@ -84,8 +85,16 @@ namespace VolleyballApp {
 
 				if(iud == null)
 					iud = new InviteUserDialog(savedInstanceState, _event);
-				
-				iud.Show(FragmentManager, "INVITE_USER_DIALOG");
+
+				if(iud.isShown) 
+					iud.Dismiss();
+
+				try {
+					iud.Show(FragmentManager, "INVITE_USER_DIALOG");
+				} catch (NullPointerException) {
+					//FragmentManager was null
+					//App will deal with this problem itself and show dialog.
+				}
 			};
 
 			btnEdit.Click += delegate {
@@ -108,8 +117,8 @@ namespace VolleyballApp {
 						.SetPositiveButton("Nein", (sender, e) => { //right button
 						})
 						.Show();
-				} catch (Java.Lang.NullPointerException npe) {
-					Console.WriteLine("NullPointerException in EventDetailsFragment: " + npe.StackTrace);
+				} catch (Java.Lang.NullPointerException) {
+					//App will deal with this problem itself and show dialog.
 				}
 			};
 			#endregion

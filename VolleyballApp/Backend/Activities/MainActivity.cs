@@ -23,7 +23,6 @@ namespace VolleyballApp {
 	public class MainActivity : AbstractActivity {
 		private FlyOutContainer menu;
 		private int eventPosition;
-		private string oldFragmentTag;
 		public FragmentTransaction trans { get; private set; }
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
@@ -40,11 +39,6 @@ namespace VolleyballApp {
 
 			SetContentView(Resource.Layout.FlyOutContainer);
 
-			//set up push-notifications | commented out at the moment cause server side is missing
-			if (IsPlayServicesAvailable ()) {
-				var intent = new Intent (this, typeof (RegistrationIntentService));
-				StartService (intent);
-			}
 		}
 
 		protected override void OnResume() {
@@ -95,13 +89,18 @@ namespace VolleyballApp {
 					}
 				}
 
+				//set up push-notifications
+				if (IsPlayServicesAvailable ()) {
+					var intent = new Intent (this, typeof (RegistrationIntentService));
+					StartService (intent);
+				}
+
 				if(activeFragment == null) {
 					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
 					
 					activeFragment = UPCOMING_EVENTS_FRAGMENT;
 					trans = FragmentManager.BeginTransaction();
 					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), UPCOMING_EVENTS_FRAGMENT);
-//					trans.Commit();
 					trans.CommitAllowingStateLoss();
 				}
 
@@ -169,11 +168,12 @@ namespace VolleyballApp {
 		}
 
 		public void popBackstack() {
-			FragmentManager.PopBackStackImmediate();
 			if(FragmentManager.BackStackEntryCount > 0)
 				activeFragment = FragmentManager.GetBackStackEntryAt(FragmentManager.BackStackEntryCount - 1).Name;
 			else
 				activeFragment = null;
+			
+			FragmentManager.PopBackStackImmediate();
 		}
 
 		public async void OnListEventClicked(AdapterView.ItemClickEventArgs e, List<MySqlEvent> listEvents) {

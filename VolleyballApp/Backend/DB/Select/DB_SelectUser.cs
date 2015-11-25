@@ -92,23 +92,24 @@ namespace VolleyballApp {
 		private List<MySqlUser> createUserAttendanceListFromResponse(string response) {
 			JsonValue json = JsonValue.Parse(response);
 			List<MySqlUser> listUser = new List<MySqlUser>();
-			JsonValue attendences = json["data"][0]["Event"]["attendences"];
-
-			foreach (JsonValue u in attendences) {
-				JsonValue user = u["Attendence"]["userObj"]["User"];
-				listUser.Add(new MySqlUser(
-					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-					"", //state e.g. "FILLDATA" or "FINAL"; isn't send
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
-					"", //password; isn't send
-					dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)),
-					dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(u["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
+			if(dbCommunicator.wasSuccesful(json)) {
+				JsonValue attendences = json["data"][0]["Event"]["attendences"];
+				
+				foreach (JsonValue u in attendences) {
+					JsonValue user = u["Attendence"]["userObj"]["User"];
+					listUser.Add(new MySqlUser(
+						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
+						"", //state e.g. "FILLDATA" or "FINAL"; isn't send
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
+						"", //password; isn't send
+						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)),
+						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(u["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
+				}
 			}
-			List<MySqlUser> sortedList = listUser.OrderBy(u => u.eventState).ToList();
-			return sortedList;
+			return listUser.OrderBy(u => u.eventState).ToList();
 		}
 	}
 }
