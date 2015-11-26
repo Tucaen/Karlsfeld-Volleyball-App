@@ -24,10 +24,10 @@ namespace VolleyballApp {
 		private FlyOutContainer menu;
 		private int eventPosition;
 		public FragmentTransaction trans { get; private set; }
-		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
-									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
-									PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
-									PAST_EVENTS_FRAGMENT="PastEventsFragment";
+//		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
+//									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
+//									PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
+//									PAST_EVENTS_FRAGMENT="PastEventsFragment";
 
 		private string activeFragment;
 
@@ -43,6 +43,7 @@ namespace VolleyballApp {
 
 		protected override void OnResume() {
 			base.OnResume();
+//			ViewController.Instance.mainActivity = this;
 			NetworkInfo activeConnection = ((ConnectivityManager) GetSystemService(ConnectivityService)).ActiveNetworkInfo;
 			bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
 			DB_Communicator.getInstance().IsOnline = isOnline;
@@ -73,8 +74,10 @@ namespace VolleyballApp {
 
 		private async void startApp() {
 			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Loading...");
-			
-			MySqlUser user = MySqlUser.GetUserFromPreferences(this);
+			ViewController.getInstance().mainActivity = this;
+
+			MySqlUser.context = this;
+			MySqlUser user = MySqlUser.GetUserFromPreferences();
 			if(user == null) {
 				Intent i = new Intent(this, typeof(LogIn));
 				i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
@@ -96,11 +99,11 @@ namespace VolleyballApp {
 				}
 
 				if(activeFragment == null) {
-					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
+					List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
 					
-					activeFragment = UPCOMING_EVENTS_FRAGMENT;
+					activeFragment = ViewController.UPCOMING_EVENTS_FRAGMENT;
 					trans = FragmentManager.BeginTransaction();
-					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), UPCOMING_EVENTS_FRAGMENT);
+					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), ViewController.UPCOMING_EVENTS_FRAGMENT);
 					trans.CommitAllowingStateLoss();
 				}
 
@@ -112,21 +115,21 @@ namespace VolleyballApp {
 
 				FindViewById(Resource.Id.menuProfile).Click += (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
-					switchFragment(activeFragment, PROFILE_FRAGMENT, new ProfileFragment());
+					switchFragment(activeFragment, ViewController.PROFILE_FRAGMENT, new ProfileFragment());
 					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuEventsUpcoming).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Upcoming);
-					switchFragment(activeFragment, UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
+					List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
+					switchFragment(activeFragment, ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuEventsPast).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					List<MySqlEvent> listEvents = await base.loadEvents(user, EventType.Past);
-					switchFragment(activeFragment, PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
+					List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Past);
+					switchFragment(activeFragment, ViewController.PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
 
@@ -184,70 +187,9 @@ namespace VolleyballApp {
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			this.switchFragment(UPCOMING_EVENTS_FRAGMENT, EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent));
+			this.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent));
 
 			dialog.Dismiss();
-		}
-
-		public async Task<MySqlEvent> refreshDataForEvent(int idEvent) {
-			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
-			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
-
-			List<MySqlEvent> listEvents = await refreshEvents();
-			foreach(MySqlEvent e in listEvents) {
-				if(e.idEvent == idEvent)
-					return e;
-			}
-
-			return null;
-		}
-
-		/**
-		 * ONLY use this method when fragment is not switched!
-		 **/
-		public void  refreshFragment(string fragmentTag) {
-			Fragment frag = FragmentManager.FindFragmentByTag(fragmentTag);
-			FragmentTransaction trans = FragmentManager.BeginTransaction();
-			trans.Detach(frag);
-			trans.Attach(frag);
-			trans.Commit();
-		}
-
-		public async Task<List<MySqlEvent>> refreshEvents() {
-			EventType eventType = this.GetEventTypeFromBackstack();
-			Fragment eventsFragment = null;
-			List<MySqlEvent> listEvents = new List<MySqlEvent>();
-
-			if(eventType != EventType.Unknown) {
-				listEvents = await base.loadEvents(MySqlUser.GetUserFromPreferences(this), eventType);
-				
-				if(eventType == EventType.Upcoming)
-					eventsFragment = FragmentManager.FindFragmentByTag(UPCOMING_EVENTS_FRAGMENT);
-				if(eventType == EventType.Past)
-					eventsFragment = FragmentManager.FindFragmentByTag(PAST_EVENTS_FRAGMENT);
-				
-				if(eventsFragment != null)
-					(eventsFragment as EventsFragment).listEvents = listEvents;
-			} 
-
-			return listEvents;
-		}
-
-		private EventType GetEventTypeFromBackstack() {
-			int i = (FragmentManager.BackStackEntryCount - 1 >= 0) ? FragmentManager.BackStackEntryCount - 1 : 0;
-			string name = FragmentManager.GetBackStackEntryAt(i).Name;
-
-			EventType eventType = EventType.Unknown;
-			switch(name) {
-			case "UpcomingEventsFragment":
-				eventType = EventType.Upcoming;
-				break;
-			case "PastEventsFragment":
-				eventType = EventType.Past;
-				break;
-			}
-
-			return eventType;
 		}
 
 		public override void OnBackPressed() {
@@ -255,6 +197,10 @@ namespace VolleyballApp {
 				base.OnBackPressed();
 			else
 				Finish();
+		}
+
+		public Fragment FindFragmentByTag(string tag) {
+			return FragmentManager.FindFragmentByTag(tag);
 		}
 	}
 }

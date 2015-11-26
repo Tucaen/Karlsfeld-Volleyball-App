@@ -37,9 +37,8 @@ namespace VolleyballApp {
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
-				MainActivity main = this.Activity as MainActivity;
-				await main.refreshDataForEvent(_event.idEvent);
-				main.refreshFragment(MainActivity.EVENT_DETAILS_FRAGMENT);
+				await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+				ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
 
 				this.Dismiss();
 			};

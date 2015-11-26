@@ -92,6 +92,7 @@
     <Compile Include="Backend\Fragments\Events\EditEventFragment.cs" />
     <Compile Include="Backend\DB\Delete\DB_Delete.cs" />
     <Compile Include="Backend\EventType.cs" />
+    <Compile Include="Backend\ViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

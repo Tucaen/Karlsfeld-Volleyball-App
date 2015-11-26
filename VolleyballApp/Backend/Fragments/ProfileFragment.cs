@@ -22,7 +22,7 @@ namespace VolleyballApp {
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.Inflate(Resource.Layout.ProfileFragment, container, false);
 
-			MySqlUser user = MySqlUser.GetUserFromPreferences(this.Activity);
+			MySqlUser user = MySqlUser.GetUserFromPreferences();
 			EditText name = view.FindViewById<EditText>(Resource.Id.profileFirstnameValue);
 			EditText position = view.FindViewById<EditText>(Resource.Id.profilePositionValue);
 			EditText number = view.FindViewById<EditText>(Resource.Id.profileNumberValue);

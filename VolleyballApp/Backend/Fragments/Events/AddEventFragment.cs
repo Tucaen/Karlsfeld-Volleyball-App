@@ -62,7 +62,7 @@ namespace VolleyballApp {
 		private async void finish(JsonValue json) {
 			if(DB_Communicator.getInstance().wasSuccesful(json)) {
 				MainActivity main = this.Activity as MainActivity;
-				await main.refreshEvents();
+				await ViewController.getInstance().refreshEvents();
 				main.popBackstack();
 			}
 		}

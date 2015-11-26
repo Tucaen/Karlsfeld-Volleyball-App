@@ -77,8 +77,8 @@ namespace VolleyballApp {
 			if(DB_Communicator.getInstance().wasSuccesful(json)) {
 				MainActivity main = this.Activity as MainActivity;
 
-				(FragmentManager.FindFragmentByTag(MainActivity.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment)._event = 
-					await main.refreshDataForEvent(_event.idEvent);
+				(FragmentManager.FindFragmentByTag(ViewController.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment)._event = 
+					await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
 				
 				main.popBackstack();
 			}

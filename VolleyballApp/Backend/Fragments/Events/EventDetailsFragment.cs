@@ -32,7 +32,7 @@ namespace VolleyballApp {
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
-			user = MySqlUser.GetUserFromPreferences(this.Activity);
+			user = MySqlUser.GetUserFromPreferences();
 
 			View view = inflater.Inflate(Resource.Layout.EventDetails, container, false);
 
@@ -98,7 +98,7 @@ namespace VolleyballApp {
 			};
 
 			btnEdit.Click += delegate {
-				main.switchFragment(MainActivity.EVENT_DETAILS_FRAGMENT, MainActivity.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
+				main.switchFragment(ViewController.EVENT_DETAILS_FRAGMENT, ViewController.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
 			};
 
 			btnDelete.Click += delegate {
@@ -109,8 +109,8 @@ namespace VolleyballApp {
 						.SetIcon(Android.Resource.Drawable.IcDialogAlert)
 						.SetNegativeButton("Ja", async (sender, e) => { //left button
 							JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
-							main.toastJson(main, json, ToastLength.Long, "Event delted");
-							await main.refreshEvents();
+							ViewController.getInstance().toastJson(main, json, ToastLength.Long, "Event delted");
+							await ViewController.getInstance().refreshEvents();
 							builder.Dispose();
 							main.popBackstack();
 						})
@@ -154,8 +154,8 @@ namespace VolleyballApp {
 			}
 
 			//refresh the view
-			await main.refreshDataForEvent(_event.idEvent);
-			main.refreshFragment(MainActivity.EVENT_DETAILS_FRAGMENT);
+			await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+			ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
 		}
 
 		private MySqlUser getLoggedInUser(int id, List<MySqlUser> listUser) {

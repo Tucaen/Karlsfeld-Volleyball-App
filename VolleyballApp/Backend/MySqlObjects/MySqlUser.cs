@@ -19,6 +19,7 @@ namespace VolleyballApp {
 		public string eventState{ get; set; }
 
 		private static Intent intent;
+		public static Context context { get; set; }
 		private static readonly string LIST_USER = "listUser";
 
 		public MySqlUser() {}
@@ -54,6 +55,7 @@ namespace VolleyballApp {
 		}
 
 		public void StoreUserInPreferences(Context context, MySqlUser user) {
+			MySqlUser.context = context;
 			ISharedPreferences prefs = context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 			ISharedPreferencesEditor editor = prefs.Edit();
 			editor.PutInt("idUser", user.idUser);
@@ -67,12 +69,12 @@ namespace VolleyballApp {
 			editor.Commit();
 		}
 
-		public static void DeleteUserFromPreferences(Context context) {
-			context.GetSharedPreferences("userinformation", FileCreationMode.Private).Edit().Clear().Commit();
+		public static void DeleteUserFromPreferences() {
+			MySqlUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private).Edit().Clear().Commit();
 		}
 
-		public static MySqlUser GetUserFromPreferences(Context context) {
-			ISharedPreferences prefs = context.GetSharedPreferences("userinformation", FileCreationMode.Private);
+		public static MySqlUser GetUserFromPreferences() {
+			ISharedPreferences prefs = MySqlUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 
 			if(prefs.Contains("idUser")) {
 				return new MySqlUser(prefs.GetInt("idUser", 0),

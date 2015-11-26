@@ -51,7 +51,7 @@ namespace VolleyballApp {
 		 *Also calls Finish().
 		 */
 		public void proceedAfterManualLogin() {
-			MySqlUser user = MySqlUser.GetUserFromPreferences(this);
+			MySqlUser user = MySqlUser.GetUserFromPreferences();
 			Intent i = null;
 			if(user.state.Equals("\"FILLDATA\"") || user.state.Equals("FILLDATA")) {
 				i = new Intent(this, typeof(FillDataActivity));
@@ -68,35 +68,35 @@ namespace VolleyballApp {
 		 **/
 		public async void logout() {
 			await db.logout();
-			MySqlUser.DeleteUserFromPreferences(this);
+			MySqlUser.DeleteUserFromPreferences();
 			Intent i = new Intent(this, typeof(LogIn));
 			i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
 			StartActivity(i);
 		}
 
-		/**Loads all events for the given user.
-		 **/
-		public async Task<List<MySqlEvent>> loadEvents(MySqlUser user, EventType eventType) {
-			List<MySqlEvent> listEvents = new List<MySqlEvent>();
-			JsonValue json;
-			string alternativeMessage = "";
-
-			if(eventType == EventType.Past) {
-				json = await db.SelectPastEventsForUser(user.idUser, null);
-				alternativeMessage = "Error while loading past events!";
-			} else {
-				json = await db.SelectUpcomingEventsForUser(user.idUser, null);
-				alternativeMessage = "Error while loading upcoming events!";
-			}
-			
-			if(db.wasSuccesful(json)) {
-				listEvents = db.createEventFromResponse(json);
-			} else {
-				this.toastJson(this, json, ToastLength.Long, alternativeMessage);
-			}
-//			MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
-			return listEvents;
-		}
+//		/**Loads all events for the given user.
+//		 **/
+//		public async Task<List<MySqlEvent>> loadEvents(MySqlUser user, EventType eventType) {
+//			List<MySqlEvent> listEvents = new List<MySqlEvent>();
+//			JsonValue json;
+//			string alternativeMessage = "";
+//
+//			if(eventType == EventType.Past) {
+//				json = await db.SelectPastEventsForUser(user.idUser, null);
+//				alternativeMessage = "Error while loading past events!";
+//			} else {
+//				json = await db.SelectUpcomingEventsForUser(user.idUser, null);
+//				alternativeMessage = "Error while loading upcoming events!";
+//			}
+//			
+//			if(db.wasSuccesful(json)) {
+//				listEvents = db.createEventFromResponse(json);
+//			} else {
+//				this.toastJson(this, json, ToastLength.Long, alternativeMessage);
+//			}
+////			MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
+//			return listEvents;
+//		}
 
 		/** Creates a uncancaleable, indeterminate ProgressDialog.
 		 *Use to wait till loading data finshed.
@@ -109,10 +109,10 @@ namespace VolleyballApp {
 			return dialog;
 		}
 
-		public void toastJson(Context context, JsonValue json, ToastLength length, string alternativeMessage) {
-			string message = (json.ContainsKey("message")) ? json["message"].ToString() : alternativeMessage;
-			Toast.MakeText(context, message, length).Show();
-		}
+//		public void toastJson(Context context, JsonValue json, ToastLength length, string alternativeMessage) {
+//			string message = (json.ContainsKey("message")) ? json["message"].ToString() : alternativeMessage;
+//			Toast.MakeText(context, message, length).Show();
+//		}
 	}
 }
 
