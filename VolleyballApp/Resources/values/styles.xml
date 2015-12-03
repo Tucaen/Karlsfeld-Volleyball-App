@@ -31,6 +31,7 @@
 	<item name="android:textColor">@android:color/white</item>
 	<item name="android:textCursorDrawable">@null</item>
 	<item name="android:inputType">textAutoComplete</item>
+	<item name="android:maxLength">100</item>
   </style>
 
   <style name="checkBox" parent="android:Widget.CompoundButton.CheckBox">
@@ -46,5 +47,13 @@
   	<item name="android:background" >@drawable/responsive_text</item>
   	<item name="android:onClick" >onClick</item>
   	<item name="android:clickable" >true</item>
+  </style>
+
+  <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+  	<item name="android:textColor">@android:color/white</item>
+  </style>
+
+  <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+  	<item name="android:layout_height" >30dp</item>
   </style>
 </resources>

@@ -51,6 +51,20 @@
             android:layout_marginLeft="10dp"
             android:id="@+id/eventTime" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/eventDetailsEventDescriptionLine"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_margin="5dp">
+        <TextView
+            android:id="@+id/eventDetailsEventDescriptionValue"
+            android:layout_width="wrap_content"
+            android:textSize="15dp"
+            android:text="Zusätzliche Informationen für das Event. Zum Beispiel welche Spiele man hat oder wo Treffpunkt ist."
+            style="@style/text" />
+    </LinearLayout>
 <!-- end Headline -->
     <View
         android:layout_width="fill_parent"

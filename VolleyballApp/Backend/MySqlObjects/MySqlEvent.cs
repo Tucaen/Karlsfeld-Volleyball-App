@@ -13,17 +13,19 @@ namespace VolleyballApp {
 		public DateTime endDate { get; set; }
 		public string location { get; set; }
 		public string state { get; set; }
+		public string description { get; set; }
 //		private static Intent intent;
 
 		/** Constructor for Parcelable **/
 		public MySqlEvent(){}
 
-		public MySqlEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state) {
+		public MySqlEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state, string description) {
 			this.idEvent = idEvent;
 			this.name = name;
 			this.startDate = startDate;
 			this.endDate = endDate;
 			this.location = location;
+			this.description = description;
 
 			DB_Communicator db = DB_Communicator.getInstance();
 			switch(state) {
@@ -41,25 +43,6 @@ namespace VolleyballApp {
 				break;
 			}
 		}
-
-//		public static void StoreEventListInPreferences(Intent intent, List<MySqlEvent> listEvents) {
-//			MySqlEvent.intent = intent;
-//			MySqlEvent[] array = new MySqlEvent[listEvents.Count];
-//			for(int i = 0; i < array.Length; i++) {
-//				array[i] = listEvents[i];
-//			}
-//			intent.PutParcelableArrayListExtra("listEvents", array);
-//			MySqlEvent[] tempArray = intent.GetParcelableArrayListExtra("listEvents").Cast<MySqlEvent>().ToArray();
-//		}
-
-//		public static List<MySqlEvent> GetListEventsFromPreferences() {
-//			List<MySqlEvent> listEvents = new List<MySqlEvent>();
-//			MySqlEvent[] array = MySqlEvent.intent.GetParcelableArrayListExtra("listEvents").Cast<MySqlEvent>().ToArray();
-//			for(int i = 0; i < array.Length; i++) {
-//				listEvents.Add(array[i]);
-//			}
-//			return listEvents;
-//		}
 
 		/** Converts the start and end date of an Event
 		 *	If the the dates occur on the same day the output format will be dd.MM.yy HH:mm - HH:mm
@@ -82,47 +65,8 @@ namespace VolleyballApp {
 //		}
 
 		public override string ToString() {
-			return "[Event id=" + idEvent + ";name=" + name + ";startDate=" + startDate + ";endDate=" + endDate + ";location=" + location + ";state=" + state + "]";
+			return "[Event id=" + idEvent + ";name=" + name + ";startDate=" + startDate + ";endDate=" + endDate + ";location=" + location + ";state=" + state + ";description=" + description + "]";
 		}
-
-		#region ParcelableImplementation
-//		public MySqlEvent(Parcel p) {
-//			this.idEvent = p.ReadInt();
-//			this.name = p.ReadString();
-//			this.startDate = Convert.ToDateTime(p.ReadString());
-//			this.endDate = Convert.ToDateTime(p.ReadString());
-//			this.location = p.ReadString();
-//			this.state = p.ReadString();
-////			switch(p.ReadString()) {
-////			case "G":
-////				this.state = "Zugesagt";
-////				break;
-////			case "M":
-////				this.state = "Vielleicht";
-////				break;
-////			case "D":
-////				this.state = "Abgesagt";
-////				break;
-////			}
-//		}
-//		
-//		public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {
-//			dest.WriteInt(idEvent);
-//			dest.WriteString(name);
-//			dest.WriteString(startDate.ToString());
-//			dest.WriteString(endDate.ToString());
-//			dest.WriteString(location);
-//			dest.WriteString(state);
-//		}
-//
-//		public static readonly MyParcelableCreator<MySqlEvent> _creator 
-//		= new MyParcelableCreator<MySqlEvent>((parcel) => new MySqlEvent(parcel));
-//
-//		[ExportField ("CREATOR")]
-//		public static MyParcelableCreator<MySqlEvent> InitializeCreator() {
-//			return _creator;
-//		}
-		#endregion
 	}
 }
 

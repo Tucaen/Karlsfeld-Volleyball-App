@@ -2,20 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
 
+using System.Text;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
+using Android.Net;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System.Threading.Tasks;
-using System.Net;
-using Android.Gms.Common;
-using Android.Content.PM;
-using Android.Net;
 using Java.Lang;
+using VolleyballAp;
 
 namespace VolleyballApp {
 	[Activity(Label = "VolleyballApp", Icon="@drawable/VolleyballApp_Logo", MainLauncher = true,
@@ -43,33 +43,10 @@ namespace VolleyballApp {
 
 		protected override void OnResume() {
 			base.OnResume();
-//			ViewController.Instance.mainActivity = this;
 			NetworkInfo activeConnection = ((ConnectivityManager) GetSystemService(ConnectivityService)).ActiveNetworkInfo;
 			bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
 			DB_Communicator.getInstance().IsOnline = isOnline;
 			startApp();
-		}
-
-		public bool IsPlayServicesAvailable () {
-			string type = "PushNotification.IsPlayServicesAvailable()";
-			GoogleApiAvailability gaa = GoogleApiAvailability.Instance;
-			int resultCode = gaa.IsGooglePlayServicesAvailable(this);
-
-			if (resultCode != ConnectionResult.Success) {
-				if(gaa.IsUserResolvableError(resultCode)) {
-					Console.WriteLine(type + " - " + gaa.GetErrorString(resultCode));
-					gaa.GetErrorDialog(this, resultCode, 0).Show();
-				} else {
-					Console.WriteLine(type + " - Sorry, this device is not supported");
-					Finish ();
-				}
-
-				return false;
-			}
-			else {
-				Console.WriteLine(type + " - Google Play Services is available.");
-				return true;
-			}
 		}
 
 		private async void startApp() {
@@ -93,18 +70,25 @@ namespace VolleyballApp {
 				}
 
 				//set up push-notifications
-				if (IsPlayServicesAvailable ()) {
+				if (ViewController.getInstance().IsPlayServicesAvailable ()) {
 					var intent = new Intent (this, typeof (RegistrationIntentService));
 					StartService (intent);
 				}
 
 				if(activeFragment == null) {
-					List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
-					
-					activeFragment = ViewController.UPCOMING_EVENTS_FRAGMENT;
-					trans = FragmentManager.BeginTransaction();
-					trans.Add(Resource.Id.fragmentContainer, new EventsFragment(listEvents), ViewController.UPCOMING_EVENTS_FRAGMENT);
-					trans.CommitAllowingStateLoss();
+					switch(this.Intent.Action) {
+					case MyGcmListenerService.PUSH_EVENT_UPDATE:
+						//do same as for PUSH_INVITE
+					case MyGcmListenerService.PUSH_INVITE:
+						MySqlEvent e = await ViewController.getInstance().refreshDataForEvent(ViewController.getInstance().pushEventId);
+						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e));
+						break;
+
+					default:
+						List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
+						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventsFragment(listEvents));
+						break;
+					}
 				}
 
 				#region Slide Menu
@@ -142,6 +126,14 @@ namespace VolleyballApp {
 				#endregion
 			}
 			dialog.Dismiss();
+		}
+
+		private void initalizeFragment(string activeFragmentTag, Fragment frag) {
+			activeFragment = activeFragmentTag;
+			trans = FragmentManager.BeginTransaction();
+			trans.Add(Resource.Id.fragmentContainer, frag, activeFragmentTag);
+			trans.AddToBackStack(activeFragmentTag);
+			trans.CommitAllowingStateLoss();
 		}
 
 		/**

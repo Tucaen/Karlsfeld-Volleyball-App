@@ -45,7 +45,8 @@ namespace VolleyballApp {
 								dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(jsonEvent, "startDate", DB_Communicator.JSON_TYPE_DATE)),
 								dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(jsonEvent, "endDate", DB_Communicator.JSON_TYPE_DATE)),
 								dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(jsonEvent, "location", DB_Communicator.JSON_TYPE_STRING)),
-								dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
+								dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(e["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING)),
+								dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(jsonEvent, "description", DB_Communicator.JSON_TYPE_STRING))));
 						}
 					}
 				}

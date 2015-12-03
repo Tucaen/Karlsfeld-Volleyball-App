@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@android:color/background_dark"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 <!-- start Name -->
     <LinearLayout
@@ -50,13 +50,20 @@
             android:id="@+id/profilePositionLabel"
             android:layout_marginLeft="5.0dp"
             style="@style/text" />
-        <EditText
+        <Spinner
+            android:id="@+id/profilePositionValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/positions"
+            android:layout_marginLeft="5.0dp"
+            android:prompt="@string/position_prompt" />
+    <!--        <EditText
             android:text="Mittelblocker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/profilePositionValue"
             android:layout_marginLeft="5.0dp"
-            style="@style/editText" />
+            style="@style/editText" />-->
     </LinearLayout>
 <!-- end Position -->
 <!-- start Number -->
@@ -138,7 +145,7 @@
         android:layout_weight="1"
         android:layout_margin="4dp"
         android:gravity="center|bottom"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="vertical">
         <Button
             android:text="Speichern"

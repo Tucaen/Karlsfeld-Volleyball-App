@@ -36,6 +36,7 @@ namespace VolleyballApp {
 			//get view components
 			EditText name = view.FindViewById<EditText>(Resource.Id.addEventName);
 			EditText location = view.FindViewById<EditText>(Resource.Id.addEventLocation);
+			EditText info = view.FindViewById<EditText>(Resource.Id.addEventEventDescriptionValue);
 			TextView startDate = view.FindViewById<TextView>(Resource.Id.addEventStartDateValue);
 			TextView startTime = view.FindViewById<TextView>(Resource.Id.addEventStartDateTimeValue);
 			TextView endDate = view.FindViewById<TextView>(Resource.Id.addEventEndDateValue);
@@ -45,8 +46,9 @@ namespace VolleyballApp {
 			//initialize components
 			name.Text = _event.name;
 			location.Text = _event.location;
-			startDate.Text = _event.startDate.ToString("yyyy-MM-dd"); 	startTime.Text = _event.startDate.ToString("HH:mm");
-			endDate.Text = _event.endDate.ToString("yyyy-MM-dd");		endTime.Text = _event.endDate.ToString("HH:mm");
+			info.Text = _event.description;
+			startDate.Text = _event.startDate.ToString("dd.MM.yyyy"); 	startTime.Text = _event.startDate.ToString("HH:mm");
+			endDate.Text = _event.endDate.ToString("dd.MM.yyyy");		endTime.Text = _event.endDate.ToString("HH:mm");
 			btnSave.Text = "Speichern";
 
 			//onClick events
@@ -57,10 +59,10 @@ namespace VolleyballApp {
 
 			btnSave.Click += async delegate {
 				//Excepted format by php 2015-10-30T19:00:00
-				string start = startDate.Text + "T" + startTime.Text + ":00";
-				string end = endDate.Text + "T" + endTime.Text + ":00";
+				string start = ViewController.getInstance().convertDateForDb(startDate.Text) + "T" + startTime.Text + ":00";
+				string end = ViewController.getInstance().convertDateForDb(endDate.Text) + "T" + endTime.Text + ":00";
 
-				JsonValue json = await DB_Communicator.getInstance().updateEvent(_event.idEvent, name.Text, location.Text, start, end);
+				JsonValue json = await DB_Communicator.getInstance().updateEvent(_event.idEvent, name.Text, location.Text, start, end, info.Text);
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
@@ -77,8 +79,9 @@ namespace VolleyballApp {
 			if(DB_Communicator.getInstance().wasSuccesful(json)) {
 				MainActivity main = this.Activity as MainActivity;
 
-				(FragmentManager.FindFragmentByTag(ViewController.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment)._event = 
-					await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+				EventDetailsFragment frag = (FragmentManager.FindFragmentByTag(ViewController.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment);
+				if(frag != null)
+					frag._event = await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
 				
 				main.popBackstack();
 			}
@@ -126,10 +129,10 @@ namespace VolleyballApp {
 		}
 
 		public void OnDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			t.Text = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+			t.Text = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
 
 			if(t2 != null)
-				t2.Text = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+				t2.Text = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
 		}
 	}
 

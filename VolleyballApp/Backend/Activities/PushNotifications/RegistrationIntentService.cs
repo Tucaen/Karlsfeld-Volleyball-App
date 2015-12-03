@@ -13,6 +13,7 @@ namespace VolleyballApp
 	class RegistrationIntentService : IntentService
 	{
 		static object locker = new object();
+		private string senderId = "826575748241";
 
 		public RegistrationIntentService() : base("RegistrationIntentService") {}
 
@@ -23,7 +24,7 @@ namespace VolleyballApp
 				lock(locker) {
 					var instanceID = InstanceID.GetInstance(this);
 //					instanceID.DeleteToken("826575748241", GoogleCloudMessaging.InstanceIdScope);
-					var token = instanceID.GetToken("826575748241", GoogleCloudMessaging.InstanceIdScope, null);
+					var token = instanceID.GetToken(senderId, GoogleCloudMessaging.InstanceIdScope, null);
 					Log.Info("RegistrationIntentService", "GCM Registration Token: " + token);
 					SendRegistrationToAppServer(token);
 					Subscribe(token, "global");
@@ -36,7 +37,14 @@ namespace VolleyballApp
 
 		async void SendRegistrationToAppServer (string token) {
 			DB_Communicator db = DB_Communicator.getInstance();
-			await db.makeWebRequest("service/user/save_token.php?token=" + token, "RegistrationIntentService.SendRegistrationToAppServer()");
+			string response = await db.makeWebRequest("service/user/save_token.php?token=" + token, "RegistrationIntentService.SendRegistrationToAppServer()");
+			JsonValue json = JsonValue.Parse(response);
+			if(json["message"].ToString().Equals("\"NotRegistered\"")) {
+				var instanceID = InstanceID.GetInstance(this);
+				instanceID.DeleteToken(senderId, GoogleCloudMessaging.InstanceIdScope);
+				var intent = new Intent (this, typeof (RegistrationIntentService));
+				StartService (intent);
+			}
 		}
 
 		void Subscribe (string token, string topic)

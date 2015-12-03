@@ -168,6 +168,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\volleyballapp_logo.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\volleyballapp_logo.png" />
     <AndroidResource Include="Resources\drawable-hdpi\menu_invite.png" />
+    <AndroidResource Include="Resources\layout\SpinnerTextView.axml" />
+    <AndroidResource Include="Resources\layout\SpinnerCheckedLayout.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />

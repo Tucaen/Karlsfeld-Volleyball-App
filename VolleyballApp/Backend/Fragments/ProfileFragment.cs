@@ -12,6 +12,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using System.Json;
+using Android.Widget;
 
 namespace VolleyballApp {
 	public class ProfileFragment : Fragment {
@@ -24,16 +25,21 @@ namespace VolleyballApp {
 
 			MySqlUser user = MySqlUser.GetUserFromPreferences();
 			EditText name = view.FindViewById<EditText>(Resource.Id.profileFirstnameValue);
-			EditText position = view.FindViewById<EditText>(Resource.Id.profilePositionValue);
+			Spinner position = view.FindViewById<Spinner>(Resource.Id.profilePositionValue);
 			EditText number = view.FindViewById<EditText>(Resource.Id.profileNumberValue);
 			EditText team = view.FindViewById<EditText>(Resource.Id.profileTeamValue);
 			EditText password = view.FindViewById<EditText>(Resource.Id.profilePasswordValue);
 
+			ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.positions, Resource.Layout.SpinnerTextView);
+			adapter.SetDropDownViewResource(Resource.Layout.SpinnerCheckedLayout);
+			position.Adapter = adapter;
+
 			if(user != null) {
 				view.FindViewById(Resource.Id.profileNameLine).Visibility = ViewStates.Visible;
 				name.Text = user.name;
-//				view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Visible;
-				//			position.Text = user.position;
+				view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Visible;
+				position.SetSelection(getIdOfPosition(user.position));
+
 //				view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Visible;
 				//			number.Text = user.number.ToString();
 //				view.FindViewById(Resource.Id.profileTeamLine).Visibility = ViewStates.Visible;
@@ -44,22 +50,42 @@ namespace VolleyballApp {
 				
 				view.FindViewById<Button>(Resource.Id.profileBtnSave).Click += async delegate {
 					DB_Communicator db = DB_Communicator.getInstance();
-					JsonValue json = await db.UpdateUser(name.Text, user.role, Convert.ToInt32(number.Text), position.Text);
+					JsonValue json = await db.UpdateUser(name.Text, user.role, Convert.ToInt32(number.Text), position.SelectedItem.ToString());
 					
 					//ändernungen im user speichern
 					//TODO Update-Skript muss noch angepasst werden. Liefert im Moment nur den Namen zurück
-					MySqlUser updatedUser = db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
-					updatedUser.StoreUserInPreferences(this.Activity, updatedUser);
+					List<MySqlUser> list = db.createUserFromResponse(json, user.password);
+					if(list.Count > 0) {
+						MySqlUser updatedUser = db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
+						updatedUser.StoreUserInPreferences(this.Activity, updatedUser);
+					}
 					
 					Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 				};
 			} else {
 				view.FindViewById(Resource.Id.profileErrorLine).Visibility = ViewStates.Visible;
 				view.FindViewById<EditText>(Resource.Id.profileErrorValue).Text = "There was an error loading your profile information! " +
-																					"\n Server may be down!";
+																					" Server may be down!";
 			}
 
 			return view;
+		}
+
+		private int getIdOfPosition(string position) {
+			switch(position) {
+			case "Außenangreifer":
+				return 2;
+			case "Diagonalangreifer":
+				return 3;
+			case "Mittelblocker":
+				return 4;
+			case "Libero":
+				return 5;
+			case "Steller":
+				return 6;
+			default:
+				return 0;
+			}
 		}
 	}
 }

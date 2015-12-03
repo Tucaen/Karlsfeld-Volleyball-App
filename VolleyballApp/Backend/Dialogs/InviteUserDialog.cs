@@ -32,15 +32,17 @@ namespace VolleyballApp {
 			listView.Adapter = new InviteUserDialogListAdapter(this, listUser);
 
 			view.FindViewById<Button>(Resource.Id.InviteUserDialog_btnEinladen).Click += async delegate {
-				string toInvite = generateStringForInvatation((listView.Adapter as InviteUserDialogListAdapter).listUserToInvite);
-				JsonValue json = await DB_Communicator.getInstance().inviteUserToEvent(_event.idEvent, toInvite);
-
-				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
-
-				await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
-				ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
-
-				this.Dismiss();
+				if((listView.Adapter as InviteUserDialogListAdapter).listUserToInvite.Count > 0) {
+					string toInvite = generateStringForInvatation((listView.Adapter as InviteUserDialogListAdapter).listUserToInvite);
+					JsonValue json = await DB_Communicator.getInstance().inviteUserToEvent(_event.idEvent, toInvite);
+					
+					Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
+					
+					await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+					ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
+					
+					this.Dismiss();
+				}
 			};
 
 			view.FindViewById<Button>(Resource.Id.InviteUserDialog_btnAbbrechen).Click += delegate {

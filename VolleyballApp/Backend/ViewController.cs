@@ -5,11 +5,15 @@ using System.Collections.Generic;
 using System.Json;
 using Android.Widget;
 using Android.Content;
+using Android.Gms.Common;
+using Java.Lang;
 
 namespace VolleyballApp {
 	public class ViewController {
 		private static ViewController Instance;
 		public MainActivity mainActivity { private get; set; }
+
+		public int pushEventId { get; set; }
 
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 										ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
@@ -42,23 +46,31 @@ namespace VolleyballApp {
 
 				if(eventsFragment != null)
 					(eventsFragment as EventsFragment).listEvents = listEvents;
-			} 
+			} else {
+				listEvents = await loadEvents(MySqlUser.GetUserFromPreferences(), EventType.Upcoming);
+			}
 
 			return listEvents;
 		}
 
 		private EventType GetEventTypeFromBackstack() {
-			int i = (mainActivity.FragmentManager.BackStackEntryCount - 1 >= 0) ? mainActivity.FragmentManager.BackStackEntryCount - 1 : 0;
-			string name = mainActivity.FragmentManager.GetBackStackEntryAt(i).Name;
-
+			int i = mainActivity.FragmentManager.BackStackEntryCount - 1;
 			EventType eventType = EventType.Unknown;
-			switch(name) {
-			case "UpcomingEventsFragment":
-				eventType = EventType.Upcoming;
-				break;
-			case "PastEventsFragment":
-				eventType = EventType.Past;
-				break;
+
+			if(i >= 0) {
+				try {
+					string name = mainActivity.FragmentManager.GetBackStackEntryAt(i).Name;
+					switch(name) {
+					case "UpcomingEventsFragment":
+						eventType = EventType.Upcoming;
+						break;
+					case "PastEventsFragment":
+						eventType = EventType.Past;
+						break;
+					}
+				} catch (NullPointerException) {
+					return eventType;
+				}
 			}
 
 			return eventType;
@@ -116,6 +128,36 @@ namespace VolleyballApp {
 			}
 
 			return null;
+		}
+
+		/*
+		 * Formates a dd.MM.yyyy string to yyyy-MM-dd
+		 */
+		public string convertDateForDb(string date) {
+			string[] temp = date.Split('.');
+			return temp[2] + "-" + temp[1] + "-" + temp[0];
+		}
+
+		public bool IsPlayServicesAvailable () {
+			string type = "IsPlayServicesAvailable()";
+			GoogleApiAvailability gaa = GoogleApiAvailability.Instance;
+			int resultCode = gaa.IsGooglePlayServicesAvailable(mainActivity);
+
+			if (resultCode != ConnectionResult.Success) {
+				if(gaa.IsUserResolvableError(resultCode)) {
+					Console.WriteLine(type + " - " + gaa.GetErrorString(resultCode));
+					gaa.GetErrorDialog(mainActivity, resultCode, 0).Show();
+				} else {
+					Console.WriteLine(type + " - Sorry, this device is not supported");
+//					Finish ();
+				}
+
+				return false;
+			}
+			else {
+				Console.WriteLine(type + " - Google Play Services is available.");
+				return true;
+			}
 		}
 	}
 }

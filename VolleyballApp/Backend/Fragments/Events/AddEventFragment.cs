@@ -29,6 +29,7 @@ namespace VolleyballApp {
 
 			EditText name = view.FindViewById<EditText>(Resource.Id.addEventName);
 			EditText location = view.FindViewById<EditText>(Resource.Id.addEventLocation);
+			EditText info = view.FindViewById<EditText>(Resource.Id.addEventEventDescriptionValue);
 			TextView startDate = view.FindViewById<TextView>(Resource.Id.addEventStartDateValue);
 			TextView startTime = view.FindViewById<TextView>(Resource.Id.addEventStartDateTimeValue);
 			TextView endDate = view.FindViewById<TextView>(Resource.Id.addEventEndDateValue);
@@ -42,10 +43,11 @@ namespace VolleyballApp {
 			view.FindViewById<Button>(Resource.Id.btnCreateEvent).Click += async delegate {
 				ProgressDialog d = (this.Activity as MainActivity).createProgressDialog("Please wait!", "Creating event...");
 				//Excepted format by php 2015-10-30T19:00:00
-				string start = startDate.Text + "T" + startTime.Text + ":00";
-				string end = endDate.Text + "T" + endTime.Text + ":00";
 
-				JsonValue json = await DB_Communicator.getInstance().createEvent(name.Text, location.Text, start, end);
+				string start = ViewController.getInstance().convertDateForDb(startDate.Text) + "T" + startTime.Text + ":00";
+				string end = ViewController.getInstance().convertDateForDb(endDate.Text) + "T" + endTime.Text + ":00";
+
+				JsonValue json = await DB_Communicator.getInstance().createEvent(name.Text, location.Text, start, end, info.Text);
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
@@ -119,10 +121,14 @@ namespace VolleyballApp {
 		}
 
 		public void OnDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-			t.Text = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+//			t.Text = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+//
+//			if(t2 != null)
+//				t2.Text = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+			t.Text = dayOfMonth + "." + (monthOfYear+1) + "." + year;
 
 			if(t2 != null)
-				t2.Text = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
+				t2.Text = dayOfMonth + "." + (monthOfYear + 1) + "." + year;
 		}
 	}
 

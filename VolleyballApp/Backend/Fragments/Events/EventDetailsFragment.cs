@@ -41,6 +41,11 @@ namespace VolleyballApp {
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
 			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
+			if(_event.description != null) {
+				view.FindViewById<LinearLayout>(Resource.Id.eventDetailsEventDescriptionLine).Visibility = ViewStates.Visible;
+				view.FindViewById<TextView>(Resource.Id.eventDetailsEventDescriptionValue).Text = _event.description;
+			}
+
 			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
 			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
 			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
@@ -79,51 +84,50 @@ namespace VolleyballApp {
 			};
 
 			#region toolbar
-			btnInvite.Click += async delegate {
-				JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
-				MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
-
-				if(iud == null)
-					iud = new InviteUserDialog(savedInstanceState, _event);
-
-				if(iud.isShown) 
-					iud.Dismiss();
-
-				try {
-					iud.Show(FragmentManager, "INVITE_USER_DIALOG");
-				} catch (NullPointerException) {
-					//FragmentManager was null
-					//App will deal with this problem itself and show dialog.
-				}
+			btnInvite.Click += (object sender, EventArgs e) => {
+				onInvite();
 			};
 
 			btnEdit.Click += delegate {
 				main.switchFragment(ViewController.EVENT_DETAILS_FRAGMENT, ViewController.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
 			};
 
-			btnDelete.Click += delegate {
-				try {
-					AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
-					builder.SetTitle("Event löschen!")
-						.SetMessage("Sind sie sicher?")
-						.SetIcon(Android.Resource.Drawable.IcDialogAlert)
-						.SetNegativeButton("Ja", async (sender, e) => { //left button
-							JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
-							ViewController.getInstance().toastJson(main, json, ToastLength.Long, "Event delted");
-							await ViewController.getInstance().refreshEvents();
-							builder.Dispose();
-							main.popBackstack();
-						})
-						.SetPositiveButton("Nein", (sender, e) => { //right button
-						})
-						.Show();
-				} catch (Java.Lang.NullPointerException) {
-					//App will deal with this problem itself and show dialog.
-				}
+			btnDelete.Click += (object sender, EventArgs e) => {
+				onDelete();
 			};
 			#endregion
 
 			return view;
+		}
+
+		private async void onInvite() {
+			JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
+			MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
+
+			if(iud == null)
+				iud = new InviteUserDialog(null, _event);
+
+			if(iud.isShown) 
+				iud.Dismiss();
+
+			iud.Show(main.FragmentManager, "INVITE_USER_DIALOG");
+		}
+
+		public void onDelete() {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
+			builder.SetTitle("Event löschen!")
+				.SetMessage("Sind sie sicher?")
+				.SetIcon(Android.Resource.Drawable.IcDialogAlert)
+				.SetNegativeButton("Ja", async (sender, e) => { //left button
+					JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
+					ViewController.getInstance().toastJson(main, json, ToastLength.Long, "Event delted");
+					await ViewController.getInstance().refreshEvents();
+					builder.Dispose();
+					main.popBackstack();
+				})
+				.SetPositiveButton("Nein", (sender, e) => { //right button
+				})
+				.Show();
 		}
 
 		private bool isEditable(DateTime startDate, DateTime endDate) {
@@ -172,6 +176,13 @@ namespace VolleyballApp {
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar).Visibility = ViewStates.Gone;
 		}
+	}
+
+	class EventDetailsClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
+		public void OnClick(View v) { //sender oder so wär noch nicht schlecht
+			throw new NotImplementedException();
+		}
+		
 	}
 }
 

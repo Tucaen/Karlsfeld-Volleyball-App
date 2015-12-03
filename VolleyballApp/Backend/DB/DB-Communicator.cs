@@ -116,9 +116,9 @@ namespace VolleyballApp {
 			return await db.deleteEvent(id);
 		}
 
-		public async Task<JsonValue> createEvent(string name, string location, string start, string end) {
+		public async Task<JsonValue> createEvent(string name, string location, string start, string end, string info) {
 			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
-			return await dbInsertEvent.createEvent(name, location, start, end);
+			return await dbInsertEvent.createEvent(name, location, start, end, info);
 		}
 
 		public async Task<JsonValue> createEvent(int teamId, string name, string location, string start, string end) {
@@ -131,9 +131,9 @@ namespace VolleyballApp {
 			return await dbUpdate.inviteUserToEvent(idEvent, toInvite);
 		}
 
-		public async Task<JsonValue> updateEvent(int idEvent, string name, string location, string start, string end) {
+		public async Task<JsonValue> updateEvent(int idEvent, string name, string location, string start, string end, string info) {
 			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.updateEvent(idEvent, name, location, start, end);
+			return await dbUpdate.updateEvent(idEvent, name, location, start, end, info);
 		}
 
 		/**
