@@ -1,17 +1,16 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Json;
 using System.Linq;
-using System.Text;
 
+using System.Text;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
-using Android.Widget;
-using System.Json;
 using Android.Widget;
 
 namespace VolleyballApp {
@@ -38,7 +37,7 @@ namespace VolleyballApp {
 				view.FindViewById(Resource.Id.profileNameLine).Visibility = ViewStates.Visible;
 				name.Text = user.name;
 				view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Visible;
-				position.SetSelection(getIdOfPosition(user.position));
+				position.SetSelection(getIdOfPosition(user.teamRole.position));
 
 //				view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Visible;
 				//			number.Text = user.number.ToString();
@@ -50,7 +49,7 @@ namespace VolleyballApp {
 				
 				view.FindViewById<Button>(Resource.Id.profileBtnSave).Click += async delegate {
 					DB_Communicator db = DB_Communicator.getInstance();
-					JsonValue json = await db.UpdateUser(name.Text, user.role, Convert.ToInt32(number.Text), position.SelectedItem.ToString());
+					JsonValue json = await db.UpdateUser(name.Text, user.teamRole.role, Convert.ToInt32(number.Text), position.SelectedItem.ToString(), 1);
 					
 					//ändernungen im user speichern
 					//TODO Update-Skript muss noch angepasst werden. Liefert im Moment nur den Namen zurück
@@ -74,15 +73,15 @@ namespace VolleyballApp {
 		private int getIdOfPosition(string position) {
 			switch(position) {
 			case "Außenangreifer":
-				return 2;
+				return 1;
 			case "Diagonalangreifer":
+				return 2;
+			case "Libero":
 				return 3;
 			case "Mittelblocker":
 				return 4;
-			case "Libero":
-				return 5;
 			case "Steller":
-				return 6;
+				return 5;
 			default:
 				return 0;
 			}

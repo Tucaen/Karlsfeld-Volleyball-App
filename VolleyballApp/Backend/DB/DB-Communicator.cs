@@ -95,11 +95,11 @@ namespace VolleyballApp {
 		 * Updates a user with the given userId with the given parameters.
 		 **/
 		public async Task<JsonValue> UpdateUser(string name) {
-			return await UpdateUser(name, "", 0, "");
+			return await UpdateUser(name, "", 0, "", 1);
 		}
-		public async Task<JsonValue> UpdateUser(string name, string role, int number, string position) {
+		public async Task<JsonValue> UpdateUser(string name, string role, int number, string position, int teamId) {
 			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.UpdateUser(host, name, role, number, position);
+			return await dbUpdate.UpdateUser(host, name, role, number, position, teamId);
 		}
 
 		public List<MySqlUser> createUserFromResponse(JsonValue json) {
@@ -149,7 +149,7 @@ namespace VolleyballApp {
 		}
 
 		public int convertAndInitializeToInt(JsonValue value) {
-			return (value == null) ? 0 : Convert.ToInt32(value.ToString().Replace("\"", ""));
+			return (value == null || value.ToString().Replace("\"", "") == "") ? 0 : Convert.ToInt32(value.ToString().Replace("\"", ""));
 		}
 
 		public DateTime convertAndInitializeToDateTime(JsonValue value) {
@@ -169,7 +169,8 @@ namespace VolleyballApp {
 				nullValue = new JsonPrimitive(new DateTime());
 				break;
 			}
-				
+			if(value == null)
+				return nullValue;
 			return (value.ContainsKey(key)) ? value[key] : nullValue;
 		}
 

@@ -20,9 +20,11 @@ namespace VolleyballApp {
 
 		MySqlUser user;
 		public MySqlEvent _event { set; get;}
+		private List<MySqlUser> listUser;
 
-		public EventDetailsFragment(MySqlEvent _event) {
+		public EventDetailsFragment(MySqlEvent _event, List<MySqlUser> listUser) {
 			this._event = _event;
+			this.listUser = listUser;
 		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ namespace VolleyballApp {
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
+//			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
 			user = MySqlUser.GetUserFromPreferences();
 
 			View view = inflater.Inflate(Resource.Layout.EventDetails, container, false);
@@ -84,7 +86,18 @@ namespace VolleyballApp {
 			};
 
 			#region toolbar
+//			btnInvite.Touch += (object sender, View.TouchEventArgs e) => {
+//				if(e.Event.Action == MotionEventActions.Down) {
+//					Console.WriteLine("Down");
+//				}
+//
+//				if(e.Event.Action == MotionEventActions.Up) {
+//					Console.WriteLine("Up");
+//					onInvite();
+//				}
+//			};
 			btnInvite.Click += (object sender, EventArgs e) => {
+				Console.WriteLine("Click_Invite");
 				onInvite();
 			};
 
@@ -93,6 +106,7 @@ namespace VolleyballApp {
 			};
 
 			btnDelete.Click += (object sender, EventArgs e) => {
+				Console.WriteLine("Click_Delte");
 				onDelete();
 			};
 			#endregion
@@ -102,10 +116,10 @@ namespace VolleyballApp {
 
 		private async void onInvite() {
 			JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
-			MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
+//			MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
 
 			if(iud == null)
-				iud = new InviteUserDialog(null, _event);
+				iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
 
 			if(iud.isShown) 
 				iud.Dismiss();
@@ -125,7 +139,7 @@ namespace VolleyballApp {
 					builder.Dispose();
 					main.popBackstack();
 				})
-				.SetPositiveButton("Nein", (sender, e) => { //right button
+				.SetPositiveButton("Abbrechen", (sender, e) => { //right button
 				})
 				.Show();
 		}
@@ -136,7 +150,15 @@ namespace VolleyballApp {
 
 		private void initalizeListView(ListView listView, List<MySqlUser> list, string eventState, TextView textView) {
 			List<MySqlUser> filteredList = getUserWithEventState(list, eventState);
-			listView.Adapter = new ListUserAdapter(this, filteredList);
+			List<MySqlUser> sortedList = filteredList.OrderBy(u => u.teamRole.position.Equals("Keine") || u.teamRole.position.Equals("")).
+									ThenBy(u => u.teamRole.position.Equals("Steller")).
+									ThenBy(u => u.teamRole.position.Equals("Mittelblocker")).
+									ThenBy(u => u.teamRole.position.Equals("Libero")).
+									ThenBy(u => u.teamRole.position.Equals("Diagonalangreifer")).
+									ThenBy(u => u.teamRole.position.Equals("Außenangreifer")).
+									ThenBy(u => u.name). 
+									ToList();
+			listView.Adapter = new ListUserAdapter(this, sortedList);
 			textView.Text = filteredList.Count.ToString();
 		}
 
@@ -176,13 +198,6 @@ namespace VolleyballApp {
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar).Visibility = ViewStates.Gone;
 		}
-	}
-
-	class EventDetailsClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
-		public void OnClick(View v) { //sender oder so wär noch nicht schlecht
-			throw new NotImplementedException();
-		}
-		
 	}
 }
 

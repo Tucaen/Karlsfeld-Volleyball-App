@@ -30,14 +30,14 @@ namespace VolleyballApp {
 
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
-			try {
+//			try {
 				MySqlUser user  = createUserFromResponse(JsonValue.Parse(responseText), password)[0];
 				if(debug)
 					Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
 				return user;
-			} catch (Exception) {
-				return null;
-			}
+//			} catch (Exception) {
+//				return null;
+//			}
 			
 		}
 
@@ -60,27 +60,32 @@ namespace VolleyballApp {
 				try {
 					foreach (JsonValue u in json["data"]) {
 						JsonValue user = u["User"];
+						JsonValue teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
 						listUser.Add( new MySqlUser(
 							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
 							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
-							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
 							password,
-							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))) );
+							createTeamrole(teamrole)
+						));
 					}
 				} catch(Exception) { //es wurde nur ein User und kein Array zurückgegeben
 					JsonValue user = json["data"]["User"];
-					listUser.Add( new MySqlUser(
+					JsonValue teamrole;
+					if(user["teamroles"] is JsonObject) {
+						teamrole = user["teamroles"]["TeamRole"];
+					} else {
+						teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
+					}
+					listUser.Add(new MySqlUser(
 						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
 						password,
-						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING))) );
+						createTeamrole(teamrole)
+					));
 				}
 
 			}
@@ -97,19 +102,26 @@ namespace VolleyballApp {
 				
 				foreach (JsonValue u in attendences) {
 					JsonValue user = u["Attendence"]["userObj"]["User"];
+					JsonValue teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
 					listUser.Add(new MySqlUser(
 						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
 						"", //state e.g. "FILLDATA" or "FINAL"; isn't send
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "role", DB_Communicator.JSON_TYPE_STRING)),
 						"", //password; isn't send
-						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "number", DB_Communicator.JSON_TYPE_INT)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "position", DB_Communicator.JSON_TYPE_STRING)),
+						createTeamrole(teamrole),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(u["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
 				}
 			}
 			return listUser.OrderBy(u => u.eventState).ToList();
+		}
+
+		private MySqlTeamrole createTeamrole(JsonValue json) {
+			return new MySqlTeamrole(
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "userType", DB_Communicator.JSON_TYPE_STRING)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "role", DB_Communicator.JSON_TYPE_STRING)),
+				dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(json, "number", DB_Communicator.JSON_TYPE_INT)),
+				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "position", DB_Communicator.JSON_TYPE_STRING)) );
 		}
 	}
 }

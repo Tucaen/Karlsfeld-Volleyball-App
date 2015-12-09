@@ -14,6 +14,7 @@ namespace VolleyballApp {
 		public MainActivity mainActivity { private get; set; }
 
 		public int pushEventId { get; set; }
+		public string token { get; set; }
 
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 										ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
@@ -118,8 +119,9 @@ namespace VolleyballApp {
 		}
 
 		public async Task<MySqlEvent> refreshDataForEvent(int idEvent) {
-			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
-			MySqlUser.StoreUserListInPreferences(mainActivity.Intent, listUser);
+			//macht keinen sinn mehr UserList wird nicht mher in den Preferences gespeichert, sondern direkt an EventDetailsFragment übergeben
+//			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
+//			MySqlUser.StoreUserListInPreferences(mainActivity.Intent, listUser);
 
 			List<MySqlEvent> listEvents = await this.refreshEvents();
 			foreach(MySqlEvent e in listEvents) {

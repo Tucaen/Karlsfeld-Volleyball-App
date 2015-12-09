@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
 using System.Json;
+using Android.Util;
 
 namespace VolleyballApp {
 	[Activity(Label = "AbstractLogin")]			
@@ -24,7 +25,7 @@ namespace VolleyballApp {
 		}
 
 		public async Task<bool> login(string username, string password) {
-			ProgressDialog dialog = this.createProgressDialog("Please wait!", "Loading...");
+//			ProgressDialog dialog = this.createProgressDialog("Please wait!", "Loading...");
 			bool wasSuccessful = false;
 
 			MySqlUser user = await db.login(username, password);
@@ -33,11 +34,11 @@ namespace VolleyballApp {
 				//storing user information for usage in other activities
 				user.StoreUserInPreferences(this, user);
 
-				dialog.Dismiss();
+//				dialog.Dismiss();
 				Toast.MakeText(this, "Login successful!", ToastLength.Short).Show();
 				wasSuccessful = true;
 			} else { //login failed
-				dialog.Dismiss();
+//				dialog.Dismiss();
 				Toast.MakeText(this, "Login failed!", ToastLength.Long).Show();
 				wasSuccessful = false;
 			}
@@ -67,6 +68,7 @@ namespace VolleyballApp {
 		 *Than switches to LogIn-Activity.
 		 **/
 		public async void logout() {
+			await this.deleteToken();
 			await db.logout();
 			MySqlUser.DeleteUserFromPreferences();
 			Intent i = new Intent(this, typeof(LogIn));
@@ -74,29 +76,14 @@ namespace VolleyballApp {
 			StartActivity(i);
 		}
 
-//		/**Loads all events for the given user.
-//		 **/
-//		public async Task<List<MySqlEvent>> loadEvents(MySqlUser user, EventType eventType) {
-//			List<MySqlEvent> listEvents = new List<MySqlEvent>();
-//			JsonValue json;
-//			string alternativeMessage = "";
-//
-//			if(eventType == EventType.Past) {
-//				json = await db.SelectPastEventsForUser(user.idUser, null);
-//				alternativeMessage = "Error while loading past events!";
-//			} else {
-//				json = await db.SelectUpcomingEventsForUser(user.idUser, null);
-//				alternativeMessage = "Error while loading upcoming events!";
-//			}
-//			
-//			if(db.wasSuccesful(json)) {
-//				listEvents = db.createEventFromResponse(json);
-//			} else {
-//				this.toastJson(this, json, ToastLength.Long, alternativeMessage);
-//			}
-////			MySqlEvent.StoreEventListInPreferences(Intent, listEvents);
-//			return listEvents;
-//		}
+		public async Task<JsonValue> deleteToken() {
+			//delete token from database
+			int userId = MySqlUser.GetUserFromPreferences().idUser;
+			JsonValue json = JsonValue.Parse(await DB_Communicator.getInstance().makeWebRequest("service/user/delete_token.php?userId=" + userId + "&token=" + ViewController.getInstance().token, "AbstractActivity.deleteToken()"));
+			Log.Info("AbstractActivity.deleteToken", "json message: " + json["message"].ToString());
+			return json;
+			//token should be deleted from GCM automatically
+		}
 
 		/** Creates a uncancaleable, indeterminate ProgressDialog.
 		 *Use to wait till loading data finshed.
@@ -108,11 +95,6 @@ namespace VolleyballApp {
 			dialog.Indeterminate = true;
 			return dialog;
 		}
-
-//		public void toastJson(Context context, JsonValue json, ToastLength length, string alternativeMessage) {
-//			string message = (json.ContainsKey("message")) ? json["message"].ToString() : alternativeMessage;
-//			Toast.MakeText(context, message, length).Show();
-//		}
 	}
 }
 

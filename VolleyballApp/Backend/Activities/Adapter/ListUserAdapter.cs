@@ -31,8 +31,8 @@ namespace VolleyballApp {
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.UserListView, null);
 			
 			view.FindViewById<TextView>(Resource.Id.UserListViewName).Text = item.name;
-			if(item.position != null && !item.position.Equals("") && !item.position.Equals("Keine"))
-				view.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + item.position + ")";
+			if(item.teamRole.position != null && !item.teamRole.position.Equals("") && !item.teamRole.position.Equals("Keine"))
+				view.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + item.teamRole.position + ")";
 			else
 				view.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "";
 			return view;

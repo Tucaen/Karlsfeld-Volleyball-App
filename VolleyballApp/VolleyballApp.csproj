@@ -93,6 +93,8 @@
     <Compile Include="Backend\DB\Delete\DB_Delete.cs" />
     <Compile Include="Backend\EventType.cs" />
     <Compile Include="Backend\ViewController.cs" />
+    <Compile Include="Backend\MySqlObjects\MySqlTeamrole.cs" />
+    <Compile Include="Backend\UserType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

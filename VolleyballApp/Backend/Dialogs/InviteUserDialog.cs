@@ -17,17 +17,19 @@ namespace VolleyballApp {
 	class InviteUserDialog : DialogFragment {
 		private MySqlEvent _event;
 		public bool isShown { get; private set; }
+		private List<MySqlUser> listUser;
 
-		public InviteUserDialog (Bundle bundle, MySqlEvent _event) {
+		public InviteUserDialog (Bundle bundle, MySqlEvent _event, List<MySqlUser> listUser) {
 			this.Arguments = bundle;
 			this._event = _event;
+			this.listUser = listUser;
 			this.SetStyle(DialogFragmentStyle.Normal, 4);
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.Inflate(Resource.Layout.InviteUserDialog, container, false);
 
-			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
+//			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
 			ListView listView = view.FindViewById<ListView>(Resource.Id.InviteUserDialog_ListUser);
 			listView.Adapter = new InviteUserDialogListAdapter(this, listUser);
 

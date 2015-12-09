@@ -29,8 +29,10 @@ namespace VolleyballApp {
 				EditText username = FindViewById<EditText>(Resource.Id.usernameText);
 				EditText password = FindViewById<EditText>(Resource.Id.passwordText);
 
+				ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Log in...");
 				if(await base.login(username.Text, password.Text))
 					base.proceedAfterManualLogin();
+				dialog.Dismiss();
 			};
 
 			FindViewById<TextView>(Resource.Id.registrierenText).Click += (object sender, EventArgs e) => {

@@ -24,11 +24,6 @@ namespace VolleyballApp {
 		private FlyOutContainer menu;
 		private int eventPosition;
 		public FragmentTransaction trans { get; private set; }
-//		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
-//									ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
-//									PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
-//									PAST_EVENTS_FRAGMENT="PastEventsFragment";
-
 		private string activeFragment;
 
 		protected override void OnCreate(Bundle bundle) {
@@ -38,7 +33,6 @@ namespace VolleyballApp {
 			base.OnCreate(bundle);
 
 			SetContentView(Resource.Layout.FlyOutContainer);
-
 		}
 
 		protected override void OnResume() {
@@ -50,7 +44,7 @@ namespace VolleyballApp {
 		}
 
 		private async void startApp() {
-			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Loading...");
+			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Checking login data...");
 			ViewController.getInstance().mainActivity = this;
 
 			MySqlUser.context = this;
@@ -62,6 +56,7 @@ namespace VolleyballApp {
 			} else {
 				//log in, if the session timed out
 				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
+					dialog.SetMessage("Log in...");
 					if(!await base.login(user.email, user.password)) {
 						Intent i = new Intent(this, typeof(LogIn));
 						i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
@@ -70,6 +65,7 @@ namespace VolleyballApp {
 				}
 
 				//set up push-notifications
+				dialog.SetMessage("Check services...");
 				if (ViewController.getInstance().IsPlayServicesAvailable ()) {
 					var intent = new Intent (this, typeof (RegistrationIntentService));
 					StartService (intent);
@@ -80,13 +76,16 @@ namespace VolleyballApp {
 					case MyGcmListenerService.PUSH_EVENT_UPDATE:
 						//do same as for PUSH_INVITE
 					case MyGcmListenerService.PUSH_INVITE:
+						dialog.SetMessage("Load event details...");
 						MySqlEvent e = await ViewController.getInstance().refreshDataForEvent(ViewController.getInstance().pushEventId);
-						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e));
+						List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(ViewController.getInstance().pushEventId, "");
+						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e, listUser));
 						break;
 
 					default:
+						dialog.SetMessage("Load events...");
 						List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
-						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventsFragment(listEvents));
+						this.initalizeFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 						break;
 					}
 				}
@@ -153,7 +152,7 @@ namespace VolleyballApp {
 			trans = FragmentManager.BeginTransaction();
 			Fragment oldFragment = FragmentManager.FindFragmentByTag(oldFragmentTag);
 
-			if(addToBackStack && oldFragment != null)
+			if(addToBackStack && oldFragment != null) //des is null obwohls nicht null sein sollte, weil EventFragemnt dse oldFragment nicht akutalliesiert
 				trans.AddToBackStack(oldFragmentTag);
 
 			if(oldFragment != null)
@@ -177,9 +176,9 @@ namespace VolleyballApp {
 			MySqlEvent clickedEvent = listEvents[eventPosition];
 
 			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
-			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
+//			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
 
-			this.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent));
+			this.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent, listUser));
 
 			dialog.Dismiss();
 		}

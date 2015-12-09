@@ -8,35 +8,31 @@ using System.Linq;
 
 namespace VolleyballApp {
 	public class MySqlUser : MySqlObject {
-		public int idUser{ get; set; }
-		public string name{ get; set; }
-		public string email{ get; set; }
-		public string state{ get; set; }
-		public string role{ get; set; }
-		public string password{ get; set; }
-		public int number{ get; set; }
-		public string position{ get; set; }
-		public string eventState{ get; set; }
-
-		private static Intent intent;
+		public int idUser { get; set; }
+		public string name { get; set; }
+		public string email { get; set; }
+		public string state { get; set; } //e.g. FILLDATA or FINAL
+//		public string role{ get; set; }
+		public string password { get; set; }
+//		public int number{ get; set; }
+//		public string position{ get; set; }
+		public string eventState{ get; set; } //e.g. INVITED
+		public MySqlTeamrole teamRole { get; set; }
 		public static Context context { get; set; }
-		private static readonly string LIST_USER = "listUser";
 
 		public MySqlUser() {}
 
-		public MySqlUser(int idUser, string name, string email, string state, string role, string password, int number, string position)
-			: this(idUser, name, email, state, role, password, number, position, "") {
+		public MySqlUser(int idUser, string name, string email, string state, string password, MySqlTeamrole teamRole)
+			: this(idUser, name, email, state, password, teamRole, "") {
 		}
 
-		public MySqlUser(int idUser, string name, string email, string state, string role, string password, int number, string position, string eventState) {
+		public MySqlUser(int idUser, string name, string email, string state, string password, MySqlTeamrole teamRole, string eventState) {
 			this.idUser = idUser;
 			this.name = name;
 			this.email = email;
 			this.state = state;
-			this.role = role;
 			this.password = password;
-			this.number = number;
-			this.position = position;
+			this.teamRole = teamRole;
 
 			switch(eventState) {
 			case "G":
@@ -62,10 +58,10 @@ namespace VolleyballApp {
 			editor.PutString("name", user.name);
 			editor.PutString("email", user.email);
 			editor.PutString("state", user.state);
-			editor.PutString("role", user.role);
+			editor.PutString("role", user.teamRole.role);
 			editor.PutString("password", user.password);
-			editor.PutInt("number", user.number);
-			editor.PutString("position", user.position);
+			editor.PutInt("number", user.teamRole.number);
+			editor.PutString("position", user.teamRole.position);
 			editor.Commit();
 		}
 
@@ -77,40 +73,22 @@ namespace VolleyballApp {
 			ISharedPreferences prefs = MySqlUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 
 			if(prefs.Contains("idUser")) {
+				MySqlTeamrole teamRole = new MySqlTeamrole("", prefs.GetString("role", ""), 
+					prefs.GetInt("number", 0),prefs.GetString("position", ""));
+
 				return new MySqlUser(prefs.GetInt("idUser", 0),
 					prefs.GetString("name", ""),
 					prefs.GetString("email", ""),
 					prefs.GetString("state", ""),
-					prefs.GetString("role", ""),
 					prefs.GetString("password", ""),
-					prefs.GetInt("number", 0),
-					prefs.GetString("position", ""));
+					teamRole);
 			} else {
 				return null;
 			}
 		}
 
-		public static void StoreUserListInPreferences(Intent intent, List<MySqlUser> listUser) {
-			MySqlUser.intent = intent;
-			MySqlUser[] array = new MySqlUser[listUser.Count];
-			for(int i = 0; i < array.Length; i++) {
-				array[i] = listUser[i];
-			}
-			intent.PutParcelableArrayListExtra(LIST_USER, array);
-			MySqlUser[] tempArray = intent.GetParcelableArrayListExtra(LIST_USER).Cast<MySqlUser>().ToArray();
-		}
-
-		public static List<MySqlUser> GetListUserFromPreferences() {
-			List<MySqlUser> listUser = new List<MySqlUser>();
-			MySqlUser[] array = MySqlUser.intent.GetParcelableArrayListExtra(LIST_USER).Cast<MySqlUser>().ToArray();
-			for(int i = 0; i < array.Length; i++) {
-				listUser.Add(array[i]);
-			}
-			return listUser;
-		}
-
 		public override String ToString() {
-			return "Id: " + idUser + ", Name: " + name + ", Email: " + email + ", State: " + state + ", Role: " + role + ", Number: " + number + ", Position: " + position;
+			return "Id: " + idUser + ", Name: " + name + ", Email: " + email + ", State: " + state + ", Teamrole: " + teamRole;
 		}
 
 		#region ParcelableImplementation
@@ -119,10 +97,10 @@ namespace VolleyballApp {
 			this.name = p.ReadString();
 			this.email = p.ReadString();
 			this.state = p.ReadString();
-			this.role = p.ReadString();
+			this.teamRole.role = p.ReadString();
 			this.password = p.ReadString();
-			this.number = p.ReadInt();
-			this.position = p.ReadString();
+			this.teamRole.number = p.ReadInt();
+			this.teamRole.position = p.ReadString();
 		}
 
 		public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {
@@ -130,10 +108,10 @@ namespace VolleyballApp {
 			dest.WriteString(name);
 			dest.WriteString(email);
 			dest.WriteString(state);
-			dest.WriteString(role);
+			dest.WriteString(teamRole.role);
 			dest.WriteString(password);
-			dest.WriteInt(number);
-			dest.WriteString(position);
+			dest.WriteInt(teamRole.number);
+			dest.WriteString(teamRole.position);
 		}
 
 		public static readonly MyParcelableCreator<MySqlUser> _creator 

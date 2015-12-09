@@ -20,9 +20,6 @@ namespace VolleyballApp {
 		public List<MySqlEvent> listEvents { get; set; }
 		View view;
 
-//		public EventsFragment() {
-//		}
-
 		public EventsFragment(List<MySqlEvent> listEvents) {
 			this.listEvents = listEvents;
 		}
@@ -32,9 +29,6 @@ namespace VolleyballApp {
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			//Get all events for the logged in user
-//			listEvents = MySqlEvent.GetListEventsFromPreferences();
-
 			view = inflater.Inflate(Resource.Layout.EventsFragment, container, false);
 			if(listEvents.Count == 0) {
 				//display text that there are currently no events and hide list with events
