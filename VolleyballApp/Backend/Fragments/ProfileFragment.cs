@@ -23,7 +23,8 @@ namespace VolleyballApp {
 			View view = inflater.Inflate(Resource.Layout.ProfileFragment, container, false);
 
 			MySqlUser user = MySqlUser.GetUserFromPreferences();
-			EditText name = view.FindViewById<EditText>(Resource.Id.profileFirstnameValue);
+			TextView userType = view.FindViewById<TextView>(Resource.Id.profileUserTypeValue);
+			EditText name = view.FindViewById<EditText>(Resource.Id.profileNameValue);
 			Spinner position = view.FindViewById<Spinner>(Resource.Id.profilePositionValue);
 			EditText number = view.FindViewById<EditText>(Resource.Id.profileNumberValue);
 			EditText team = view.FindViewById<EditText>(Resource.Id.profileTeamValue);
@@ -34,17 +35,29 @@ namespace VolleyballApp {
 			position.Adapter = adapter;
 
 			if(user != null) {
+				//UserType
+				userType.Text = user.teamRole.getUserType().ToString();
+
+				//Name
 				view.FindViewById(Resource.Id.profileNameLine).Visibility = ViewStates.Visible;
 				name.Text = user.name;
-				view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Visible;
-				position.SetSelection(getIdOfPosition(user.teamRole.position));
 
-//				view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Visible;
-				//			number.Text = user.number.ToString();
+				//Position
+				if(DB_Communicator.getInstance().isAtLeast(user, UserType.Coremember)) {
+					view.FindViewById(Resource.Id.profilePositionLine).Visibility = ViewStates.Visible;
+					position.SetSelection(getIdOfPosition(user.teamRole.position));
+				}
+
+				//Number
+				if(DB_Communicator.getInstance().isAtLeast(user, UserType.Coremember)) {
+					view.FindViewById(Resource.Id.profileNumberLine).Visibility = ViewStates.Visible;
+					number.Text = user.teamRole.number.ToString();
+				}
+
 //				view.FindViewById(Resource.Id.profileTeamLine).Visibility = ViewStates.Visible;
-				//			team.Text = user.team;
+//				team.Text = user.team;
 //				view.FindViewById(Resource.Id.profilePasswordLine).Visibility = ViewStates.Visible;
-				//			password.Text = user.password;
+//				password.Text = user.password;
 				
 				
 				view.FindViewById<Button>(Resource.Id.profileBtnSave).Click += async delegate {

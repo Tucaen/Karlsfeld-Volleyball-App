@@ -30,14 +30,14 @@ namespace VolleyballApp {
 
 		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
-//			try {
-				MySqlUser user  = createUserFromResponse(JsonValue.Parse(responseText), password)[0];
+			List<MySqlUser> listUser = createUserFromResponse(JsonValue.Parse(responseText), password);
+			if(listUser.Count > 0) {
 				if(debug)
-					Console.WriteLine("DB_SelectUser.validateLogin - user = " + user);
-				return user;
-//			} catch (Exception) {
-//				return null;
-//			}
+					Console.WriteLine("DB_SelectUser.validateLogin - user = " + listUser[0]);
+				return listUser[0];
+			} else {
+				return null;
+			}
 			
 		}
 

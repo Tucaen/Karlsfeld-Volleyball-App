@@ -172,6 +172,7 @@
     <AndroidResource Include="Resources\drawable-hdpi\menu_invite.png" />
     <AndroidResource Include="Resources\layout\SpinnerTextView.axml" />
     <AndroidResource Include="Resources\layout\SpinnerCheckedLayout.axml" />
+    <AndroidResource Include="Resources\drawable\divider.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />

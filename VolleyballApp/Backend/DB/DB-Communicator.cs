@@ -204,5 +204,36 @@ namespace VolleyballApp {
 
 			return responseText;
 		}
+
+		/**
+		 * Determines if the user has the necessary permission
+		 * Admin->Operator->Coremember->Member->Fan
+		 */
+		public bool isAtLeast(MySqlUser user, UserType userType) {
+			UserType ut = user.teamRole.getUserType();
+
+			switch(userType) {
+			case UserType.Admin:
+				if(ut.Equals(UserType.Admin))
+					return true;
+				return false;
+			case UserType.Operator:
+				if(ut.Equals(UserType.Admin) || ut.Equals(UserType.Operator))
+					return true;
+				return false;
+			case UserType.Coremember:
+				if(ut.Equals(UserType.Admin) || ut.Equals(UserType.Operator) || ut.Equals(UserType.Coremember))
+					return true;
+				return false;
+			case UserType.Member:
+				if(ut.Equals(UserType.Admin) || ut.Equals(UserType.Operator) || ut.Equals(UserType.Coremember) || ut.Equals(UserType.Member))
+					return true;
+				return false;
+			case UserType.Fan:
+				return true;
+			default :
+				return false;
+			}
+		}
 	}
 }

@@ -43,7 +43,7 @@ namespace VolleyballApp {
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
 			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
-			if(_event.description != null) {
+			if(_event.description != null && !_event.description.Equals("")) {
 				view.FindViewById<LinearLayout>(Resource.Id.eventDetailsEventDescriptionLine).Visibility = ViewStates.Visible;
 				view.FindViewById<TextView>(Resource.Id.eventDetailsEventDescriptionValue).Text = _event.description;
 			}
@@ -60,22 +60,22 @@ namespace VolleyballApp {
 				view.FindViewById<Button>(Resource.Id.btnEventAbsagen).Visibility = ViewStates.Gone;
 				view.FindViewById<Button>(Resource.Id.btnEventZusagen).Visibility = ViewStates.Gone;
 			} else {
-				btnInvite.Visibility = ViewStates.Visible;
-				btnEdit.Visibility = ViewStates.Visible;
-				btnDelete.Visibility = ViewStates.Visible;
+				if(DB_Communicator.getInstance().isAtLeast(user, UserType.Coremember)) {
+					btnInvite.Visibility = ViewStates.Visible;
+					btnEdit.Visibility = ViewStates.Visible;
+					btnDelete.Visibility = ViewStates.Visible;
+				}
 			}
 
 			//zusagen
-			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Zugesagt), listUser,
-				DB_Communicator.State.Accepted, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Zugesagt));
-
+			initalizeLinearLayout(view.FindViewById<LinearLayout>(Resource.Id.EventDetails_ListUser_Zugesagt), listUser,
+				DB_Communicator.State.Accepted, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Zugesagt), inflater);
 			//absagen
-			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Abgesagt), listUser,
-				DB_Communicator.State.Denied, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Abgesagt));
-
+			initalizeLinearLayout(view.FindViewById<LinearLayout>(Resource.Id.EventDetails_ListUser_Abgesagt), listUser,
+				DB_Communicator.State.Denied, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Abgesagt), inflater);
 			//eingeladen
-			initalizeListView(view.FindViewById<ListView>(Resource.Id.EventDetails_ListUser_Eingeladen), listUser,
-				DB_Communicator.State.Invited, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Eingeladen));
+			initalizeLinearLayout(view.FindViewById<LinearLayout>(Resource.Id.EventDetails_ListUser_Eingeladen), listUser,
+				DB_Communicator.State.Invited, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Eingeladen), inflater);
 
 			view.FindViewById<Button>(Resource.Id.btnEventZusagen).Click += delegate {
 				this.answerEventIvitation("G");
@@ -116,7 +116,6 @@ namespace VolleyballApp {
 
 		private async void onInvite() {
 			JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
-//			MySqlUser.StoreUserListInPreferences(main.Intent, DB_Communicator.getInstance().createUserFromResponse(json));
 
 			if(iud == null)
 				iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
@@ -146,6 +145,31 @@ namespace VolleyballApp {
 
 		private bool isEditable(DateTime startDate, DateTime endDate) {
 			return startDate >  DateTime.Today;
+		}
+
+		private void initalizeLinearLayout(LinearLayout listView, List<MySqlUser> list, string eventState, TextView textView, LayoutInflater inflater) {
+			List<MySqlUser> filteredList = getUserWithEventState(list, eventState);
+			List<MySqlUser> sortedList = filteredList.OrderBy(u => u.teamRole.position.Equals("Keine") || u.teamRole.position.Equals("")).
+				ThenBy(u => u.teamRole.position.Equals("Steller")).
+				ThenBy(u => u.teamRole.position.Equals("Mittelblocker")).
+				ThenBy(u => u.teamRole.position.Equals("Libero")).
+				ThenBy(u => u.teamRole.position.Equals("Diagonalangreifer")).
+				ThenBy(u => u.teamRole.position.Equals("Außenangreifer")).
+				ThenBy(u => u.name). 
+				ToList();
+				
+			foreach(MySqlUser user in sortedList) {
+				View row = inflater.Inflate(Resource.Layout.UserListView, null);
+				row.FindViewById<TextView>(Resource.Id.UserListViewName).Text = user.name;
+				if(user.teamRole.position != null && !user.teamRole.position.Equals("") && !user.teamRole.position.Equals("Keine"))
+					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + user.teamRole.position + ")";
+				else
+					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "";
+
+				listView.AddView(row);
+			}
+
+			textView.Text = filteredList.Count.ToString();
 		}
 
 		private void initalizeListView(ListView listView, List<MySqlUser> list, string eventState, TextView textView) {

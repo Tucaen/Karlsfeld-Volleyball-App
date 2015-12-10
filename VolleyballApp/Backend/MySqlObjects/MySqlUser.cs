@@ -62,6 +62,7 @@ namespace VolleyballApp {
 			editor.PutString("password", user.password);
 			editor.PutInt("number", user.teamRole.number);
 			editor.PutString("position", user.teamRole.position);
+			editor.PutString("userType", user.teamRole.getUserType().ToString().Substring(0,1));
 			editor.Commit();
 		}
 
@@ -73,7 +74,7 @@ namespace VolleyballApp {
 			ISharedPreferences prefs = MySqlUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 
 			if(prefs.Contains("idUser")) {
-				MySqlTeamrole teamRole = new MySqlTeamrole("", prefs.GetString("role", ""), 
+				MySqlTeamrole teamRole = new MySqlTeamrole(prefs.GetString("userType", ""), prefs.GetString("role", ""), 
 					prefs.GetInt("number", 0),prefs.GetString("position", ""));
 
 				return new MySqlUser(prefs.GetInt("idUser", 0),
