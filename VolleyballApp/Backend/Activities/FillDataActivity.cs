@@ -29,7 +29,7 @@ namespace VolleyballApp {
 				Toast.MakeText(this, json["message"].ToString(), ToastLength.Long).Show();
 
 				Intent i = new Intent(this, typeof(MainActivity));	
-				await ViewController.getInstance().loadEvents(MySqlUser.GetUserFromPreferences(), EventType.Upcoming);
+				await ViewController.getInstance().loadEvents(VBUser.GetUserFromPreferences(), EventType.Upcoming);
 				StartActivity(i);
 			};
 

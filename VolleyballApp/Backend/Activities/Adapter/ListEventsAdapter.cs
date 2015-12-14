@@ -10,11 +10,11 @@ using System.Collections.Generic;
 
 namespace VolleyballApp
 {
-	public class ListEventsAdapter : BaseAdapter<MySqlEvent> {
-		List<MySqlEvent> listEvents;
+	public class ListEventsAdapter : BaseAdapter<VBEvent> {
+		List<VBEvent> listEvents;
 		Fragment context;
 
-		public ListEventsAdapter(Fragment context, List<MySqlEvent> listEvents) : base() {
+		public ListEventsAdapter(Fragment context, List<VBEvent> listEvents) : base() {
 			this.context = context;
 			this.listEvents = listEvents;
 
@@ -24,7 +24,7 @@ namespace VolleyballApp
 		public override long GetItemId(int position) {
 			return position;
 		}
-		public override MySqlEvent this[int position] {
+		public override VBEvent this[int position] {
 			get { return listEvents[position]; }
 		}
 		public override int Count {

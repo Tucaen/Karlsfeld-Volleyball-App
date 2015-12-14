@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace VolleyballApp {
-	public class MySqlUser : MySqlObject {
+	public class VBUser {
 		public int idUser { get; set; }
 		public string name { get; set; }
 		public string email { get; set; }
@@ -17,16 +17,16 @@ namespace VolleyballApp {
 //		public int number{ get; set; }
 //		public string position{ get; set; }
 		public string eventState{ get; set; } //e.g. INVITED
-		public MySqlTeamrole teamRole { get; set; }
+		public VBTeamrole teamRole { get; set; }
 		public static Context context { get; set; }
 
-		public MySqlUser() {}
+		public VBUser() {}
 
-		public MySqlUser(int idUser, string name, string email, string state, string password, MySqlTeamrole teamRole)
+		public VBUser(int idUser, string name, string email, string state, string password, VBTeamrole teamRole)
 			: this(idUser, name, email, state, password, teamRole, "") {
 		}
 
-		public MySqlUser(int idUser, string name, string email, string state, string password, MySqlTeamrole teamRole, string eventState) {
+		public VBUser(int idUser, string name, string email, string state, string password, VBTeamrole teamRole, string eventState) {
 			this.idUser = idUser;
 			this.name = name;
 			this.email = email;
@@ -50,8 +50,8 @@ namespace VolleyballApp {
 			}
 		}
 
-		public void StoreUserInPreferences(Context context, MySqlUser user) {
-			MySqlUser.context = context;
+		public void StoreUserInPreferences(Context context, VBUser user) {
+			VBUser.context = context;
 			ISharedPreferences prefs = context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 			ISharedPreferencesEditor editor = prefs.Edit();
 			editor.PutInt("idUser", user.idUser);
@@ -67,17 +67,17 @@ namespace VolleyballApp {
 		}
 
 		public static void DeleteUserFromPreferences() {
-			MySqlUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private).Edit().Clear().Commit();
+			VBUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private).Edit().Clear().Commit();
 		}
 
-		public static MySqlUser GetUserFromPreferences() {
-			ISharedPreferences prefs = MySqlUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private);
+		public static VBUser GetUserFromPreferences() {
+			ISharedPreferences prefs = VBUser.context.GetSharedPreferences("userinformation", FileCreationMode.Private);
 
 			if(prefs.Contains("idUser")) {
-				MySqlTeamrole teamRole = new MySqlTeamrole(prefs.GetString("userType", ""), prefs.GetString("role", ""), 
+				VBTeamrole teamRole = new VBTeamrole(prefs.GetString("userType", ""), prefs.GetString("role", ""), 
 					prefs.GetInt("number", 0),prefs.GetString("position", ""));
 
-				return new MySqlUser(prefs.GetInt("idUser", 0),
+				return new VBUser(prefs.GetInt("idUser", 0),
 					prefs.GetString("name", ""),
 					prefs.GetString("email", ""),
 					prefs.GetString("state", ""),
@@ -91,38 +91,6 @@ namespace VolleyballApp {
 		public override String ToString() {
 			return "Id: " + idUser + ", Name: " + name + ", Email: " + email + ", State: " + state + ", Teamrole: " + teamRole;
 		}
-
-		#region ParcelableImplementation
-		public MySqlUser(Parcel p) {
-			this.idUser = p.ReadInt();
-			this.name = p.ReadString();
-			this.email = p.ReadString();
-			this.state = p.ReadString();
-			this.teamRole.role = p.ReadString();
-			this.password = p.ReadString();
-			this.teamRole.number = p.ReadInt();
-			this.teamRole.position = p.ReadString();
-		}
-
-		public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags) {
-			dest.WriteInt(idUser);
-			dest.WriteString(name);
-			dest.WriteString(email);
-			dest.WriteString(state);
-			dest.WriteString(teamRole.role);
-			dest.WriteString(password);
-			dest.WriteInt(teamRole.number);
-			dest.WriteString(teamRole.position);
-		}
-
-		public static readonly MyParcelableCreator<MySqlUser> _creator 
-		= new MyParcelableCreator<MySqlUser>((parcel) => new MySqlUser(parcel));
-
-		[ExportField ("CREATOR")]
-		public static MyParcelableCreator<MySqlUser> InitializeCreator() {
-			return _creator;
-		}
-		#endregion
 	}
 }
 

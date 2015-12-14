@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System.Json;
-using System.Net;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using Android.Widget;
+using System.Json;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 
 namespace VolleyballApp {
 	public class DB_SelectUser : DB_Select {
@@ -28,9 +28,9 @@ namespace VolleyballApp {
 			return JsonValue.Parse(responseText);
 		}
 
-		public async Task<MySqlUser> validateLogin(string host, string username, string password) {
+		public async Task<VBUser> validateLogin(string host, string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
-			List<MySqlUser> listUser = createUserFromResponse(JsonValue.Parse(responseText), password);
+			List<VBUser> listUser = createUserFromResponse(JsonValue.Parse(responseText), password);
 			if(listUser.Count > 0) {
 				if(debug)
 					Console.WriteLine("DB_SelectUser.validateLogin - user = " + listUser[0]);
@@ -44,7 +44,7 @@ namespace VolleyballApp {
 		/**
 		 *Returns a list with all users for the given eventId and state
 		 **/
-		public async Task<List<MySqlUser>> SelectUserForEvent(string host, int idEvent, string state) {
+		public async Task<List<VBUser>> SelectUserForEvent(string host, int idEvent, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/event/load_event.php?id=" + idEvent + "&loadAttendences=true", "DB_SelectUser.SelectUserForEvent");
 
 			return createUserAttendanceListFromResponse(responseText);
@@ -54,14 +54,19 @@ namespace VolleyballApp {
 		 * Creates a List<MySqlUser> object from a JsonValue.
 		 * And saves the given password for automatic relogin.
 		 **/
-		public List<MySqlUser> createUserFromResponse(JsonValue json, string password) {
-			List<MySqlUser> listUser = new List<MySqlUser>();
+		public List<VBUser> createUserFromResponse(JsonValue json, string password) {
+			List<VBUser> listUser = new List<VBUser>();
 			if(dbCommunicator.wasSuccesful(json)) {
-				try {
+				if(json["data"] is JsonArray) {
 					foreach (JsonValue u in json["data"]) {
 						JsonValue user = u["User"];
-						JsonValue teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
-						listUser.Add( new MySqlUser(
+						JsonValue teamrole;
+						if(u.ContainsKey("teamrole")) {
+							teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
+						} else {
+							teamrole = null;
+						}
+						listUser.Add( new VBUser(
 							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
@@ -70,15 +75,19 @@ namespace VolleyballApp {
 							createTeamrole(teamrole)
 						));
 					}
-				} catch(Exception) { //es wurde nur ein User und kein Array zurückgegeben
+				} else { //es wurde nur ein User und kein Array zurückgegeben
 					JsonValue user = json["data"]["User"];
 					JsonValue teamrole;
-					if(user["teamroles"] is JsonObject) {
-						teamrole = user["teamroles"]["TeamRole"];
+					if(user.ContainsKey("teamroles")) {
+						if(user["teamroles"] is JsonObject) {
+							teamrole = user["teamroles"]["TeamRole"];
+						} else {
+							teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
+						} 
 					} else {
-						teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
+						teamrole = null;
 					}
-					listUser.Add(new MySqlUser(
+					listUser.Add(new VBUser(
 						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
@@ -89,21 +98,21 @@ namespace VolleyballApp {
 				}
 
 			}
-			List<MySqlUser> sortedList = listUser.OrderBy(u => u.name).ToList();
+			List<VBUser> sortedList = listUser.OrderBy(u => u.name).ToList();
 			return sortedList;
 		}
 
 		/**Creates a list of user who attend an event*/
-		private List<MySqlUser> createUserAttendanceListFromResponse(string response) {
+		private List<VBUser> createUserAttendanceListFromResponse(string response) {
 			JsonValue json = JsonValue.Parse(response);
-			List<MySqlUser> listUser = new List<MySqlUser>();
+			List<VBUser> listUser = new List<VBUser>();
 			if(dbCommunicator.wasSuccesful(json)) {
 				JsonValue attendences = json["data"][0]["Event"]["attendences"];
 				
 				foreach (JsonValue u in attendences) {
 					JsonValue user = u["Attendence"]["userObj"]["User"];
 					JsonValue teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
-					listUser.Add(new MySqlUser(
+					listUser.Add(new VBUser(
 						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
 						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
@@ -116,8 +125,8 @@ namespace VolleyballApp {
 			return listUser.OrderBy(u => u.eventState).ToList();
 		}
 
-		private MySqlTeamrole createTeamrole(JsonValue json) {
-			return new MySqlTeamrole(
+		private VBTeamrole createTeamrole(JsonValue json) {
+			return new VBTeamrole(
 				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "userType", DB_Communicator.JSON_TYPE_STRING)),
 				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "role", DB_Communicator.JSON_TYPE_STRING)),
 				dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(json, "number", DB_Communicator.JSON_TYPE_INT)),

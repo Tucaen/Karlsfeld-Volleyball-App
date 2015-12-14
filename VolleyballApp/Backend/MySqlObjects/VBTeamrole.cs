@@ -1,13 +1,13 @@
 ﻿using System;
 
 namespace VolleyballApp {
-	public class MySqlTeamrole {
+	public class VBTeamrole {
 		private UserType userType;
 		public string role { get; set; }
 		public int number { get; set; }
 		public string position { get; set; }
 
-		public MySqlTeamrole(string userType, string role, int number, string position) {
+		public VBTeamrole(string userType, string role, int number, string position) {
 			setUserType(userType);
 			this.role = role;
 			this.number = number;

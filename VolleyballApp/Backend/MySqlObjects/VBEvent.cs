@@ -6,7 +6,7 @@ using Android.OS;
 using System.Linq;
 
 namespace VolleyballApp {
-	public class MySqlEvent {
+	public class VBEvent {
 		public int idEvent { get; set; }
 		public string name { get; set; }
 		public DateTime startDate { get; set; }
@@ -17,9 +17,9 @@ namespace VolleyballApp {
 //		private static Intent intent;
 
 		/** Constructor for Parcelable **/
-		public MySqlEvent(){}
+		public VBEvent(){}
 
-		public MySqlEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state, string description) {
+		public VBEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state, string description) {
 			this.idEvent = idEvent;
 			this.name = name;
 			this.startDate = startDate;
@@ -48,11 +48,15 @@ namespace VolleyballApp {
 		 *	If the the dates occur on the same day the output format will be dd.MM.yy HH:mm - HH:mm
 		 *	else dd.MM.yy HH:mm - dd.MM.yy HH:mm
 		 **/
-		public string convertDateForLayout(MySqlEvent item) {
+		public string convertDateForLayout(VBEvent item) {
 			if(item.startDate.Day == item.endDate.Day && item.startDate.Month == item.endDate.Month && item.startDate.Year == item.endDate.Year) {
-				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
+				return item.startDate.ToString("dd.MM.yy") + " (" + item.startDate.ToString("HH:mm") + " - "
+														 + item.endDate.ToString("HH:mm") + ")";
+//				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("HH:mm");
 			} else {
-				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
+				return item.startDate.ToString("dd.MM.yy") + " (" + item.startDate.ToString("HH:mm") + ") - "
+					+ item.endDate.ToString("dd.MM.yy") + " (" + item.endDate.ToString("HH:mm") + ")";
+//				return item.startDate.ToString("dd.MM.yy HH:mm") + " - " + item.endDate.ToString("dd.MM.yy HH:mm");
 			}
 		}
 

@@ -5,11 +5,11 @@ using Android.App;
 using Android.Views;
 
 namespace VolleyballApp {
-	public class ListUserAdapter : BaseAdapter<MySqlUser> {
-		List<MySqlUser> listUser;
+	public class ListUserAdapter : BaseAdapter<VBUser> {
+		List<VBUser> listUser;
 		Fragment context;
 
-		public ListUserAdapter(Fragment context, List<MySqlUser> listUser) : base() {
+		public ListUserAdapter(Fragment context, List<VBUser> listUser) : base() {
 			this.context = context;
 			this.listUser = listUser;
 		}
@@ -17,7 +17,7 @@ namespace VolleyballApp {
 		public override long GetItemId(int position) {
 			return position;
 		}
-		public override MySqlUser this[int position] {
+		public override VBUser this[int position] {
 			get { return listUser[position]; }
 		}
 		public override int Count {

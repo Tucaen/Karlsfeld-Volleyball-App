@@ -17,10 +17,10 @@ using System.Threading;
 namespace VolleyballApp {
 	public class EventsFragment : Fragment {
 		ListView listView;
-		public List<MySqlEvent> listEvents { get; set; }
+		public List<VBEvent> listEvents { get; set; }
 		View view;
 
-		public EventsFragment(List<MySqlEvent> listEvents) {
+		public EventsFragment(List<VBEvent> listEvents) {
 			this.listEvents = listEvents;
 		}
 
@@ -40,6 +40,12 @@ namespace VolleyballApp {
 				listView = view.FindViewById<ListView>(Resource.Id.listEvents);
 				listView.Adapter = new ListEventsAdapter(this, listEvents);
 				listView.ItemClick += OnListItemClick;
+			}
+
+			if(DB_Communicator.getInstance().isAtLeast(VBUser.GetUserFromPreferences(), UserType.Coremember)) {
+				view.FindViewById<LinearLayout>(Resource.Id.eventsFragmentBtnAddLine).Visibility = ViewStates.Visible;
+			} else {
+				view.FindViewById<LinearLayout>(Resource.Id.eventsFragmentBtnAddLine).Visibility = ViewStates.Gone;
 			}
 
 			view.FindViewById<Button>(Resource.Id.btnAddEvent).Click += (object sender, EventArgs e) => {

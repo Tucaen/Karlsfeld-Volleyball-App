@@ -16,13 +16,13 @@ using Java.Lang;
 namespace VolleyballApp {
 	public class EventDetailsFragment : Fragment {
 		MainActivity main;
-		InviteUserDialog iud;
 
-		MySqlUser user;
-		public MySqlEvent _event { set; get;}
-		private List<MySqlUser> listUser;
 
-		public EventDetailsFragment(MySqlEvent _event, List<MySqlUser> listUser) {
+		VBUser user;
+		public VBEvent _event { set; get;}
+		public List<VBUser> listUser { get; set; }
+
+		public EventDetailsFragment(VBEvent _event, List<VBUser> listUser) {
 			this._event = _event;
 			this.listUser = listUser;
 		}
@@ -33,8 +33,7 @@ namespace VolleyballApp {
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
-			user = MySqlUser.GetUserFromPreferences();
+			user = VBUser.GetUserFromPreferences();
 
 			View view = inflater.Inflate(Resource.Layout.EventDetails, container, false);
 
@@ -77,79 +76,30 @@ namespace VolleyballApp {
 			initalizeLinearLayout(view.FindViewById<LinearLayout>(Resource.Id.EventDetails_ListUser_Eingeladen), listUser,
 				DB_Communicator.State.Invited, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Eingeladen), inflater);
 
-			view.FindViewById<Button>(Resource.Id.btnEventZusagen).Click += delegate {
-				this.answerEventIvitation("G");
-			};
+			view.FindViewById<Button>(Resource.Id.btnEventZusagen).
+			SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_ANSWER_INVITE, _event, "G"));
 
-			view.FindViewById<Button>(Resource.Id.btnEventAbsagen).Click += delegate {
-				this.answerEventIvitation("D");
-			};
+			view.FindViewById<Button>(Resource.Id.btnEventAbsagen).
+			SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_ANSWER_INVITE, _event, "D"));
 
 			#region toolbar
-//			btnInvite.Touch += (object sender, View.TouchEventArgs e) => {
-//				if(e.Event.Action == MotionEventActions.Down) {
-//					Console.WriteLine("Down");
-//				}
-//
-//				if(e.Event.Action == MotionEventActions.Up) {
-//					Console.WriteLine("Up");
-//					onInvite();
-//				}
-//			};
-			btnInvite.Click += (object sender, EventArgs e) => {
-				Console.WriteLine("Click_Invite");
-				onInvite();
-			};
+			btnInvite.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_INVITE, _event));
 
-			btnEdit.Click += delegate {
-				main.switchFragment(ViewController.EVENT_DETAILS_FRAGMENT, ViewController.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
-			};
+			btnEdit.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_EDIT, _event));
 
-			btnDelete.Click += (object sender, EventArgs e) => {
-				Console.WriteLine("Click_Delte");
-				onDelete();
-			};
+			btnDelete.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_DELETE, _event));
 			#endregion
 
 			return view;
-		}
-
-		private async void onInvite() {
-			JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
-
-			if(iud == null)
-				iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
-
-			if(iud.isShown) 
-				iud.Dismiss();
-
-			iud.Show(main.FragmentManager, "INVITE_USER_DIALOG");
-		}
-
-		public void onDelete() {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this.Activity);
-			builder.SetTitle("Event löschen!")
-				.SetMessage("Sind sie sicher?")
-				.SetIcon(Android.Resource.Drawable.IcDialogAlert)
-				.SetNegativeButton("Ja", async (sender, e) => { //left button
-					JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
-					ViewController.getInstance().toastJson(main, json, ToastLength.Long, "Event delted");
-					await ViewController.getInstance().refreshEvents();
-					builder.Dispose();
-					main.popBackstack();
-				})
-				.SetPositiveButton("Abbrechen", (sender, e) => { //right button
-				})
-				.Show();
 		}
 
 		private bool isEditable(DateTime startDate, DateTime endDate) {
 			return startDate >  DateTime.Today;
 		}
 
-		private void initalizeLinearLayout(LinearLayout listView, List<MySqlUser> list, string eventState, TextView textView, LayoutInflater inflater) {
-			List<MySqlUser> filteredList = getUserWithEventState(list, eventState);
-			List<MySqlUser> sortedList = filteredList.OrderBy(u => u.teamRole.position.Equals("Keine") || u.teamRole.position.Equals("")).
+		private void initalizeLinearLayout(LinearLayout listView, List<VBUser> list, string eventState, TextView textView, LayoutInflater inflater) {
+			List<VBUser> filteredList = getUserWithEventState(list, eventState);
+			List<VBUser> sortedList = filteredList.OrderBy(u => u.teamRole.position.Equals("Keine") || u.teamRole.position.Equals("")).
 				ThenBy(u => u.teamRole.position.Equals("Steller")).
 				ThenBy(u => u.teamRole.position.Equals("Mittelblocker")).
 				ThenBy(u => u.teamRole.position.Equals("Libero")).
@@ -158,7 +108,7 @@ namespace VolleyballApp {
 				ThenBy(u => u.name). 
 				ToList();
 				
-			foreach(MySqlUser user in sortedList) {
+			foreach(VBUser user in sortedList) {
 				View row = inflater.Inflate(Resource.Layout.UserListView, null);
 				row.FindViewById<TextView>(Resource.Id.UserListViewName).Text = user.name;
 				if(user.teamRole.position != null && !user.teamRole.position.Equals("") && !user.teamRole.position.Equals("Keine"))
@@ -172,23 +122,9 @@ namespace VolleyballApp {
 			textView.Text = filteredList.Count.ToString();
 		}
 
-		private void initalizeListView(ListView listView, List<MySqlUser> list, string eventState, TextView textView) {
-			List<MySqlUser> filteredList = getUserWithEventState(list, eventState);
-			List<MySqlUser> sortedList = filteredList.OrderBy(u => u.teamRole.position.Equals("Keine") || u.teamRole.position.Equals("")).
-									ThenBy(u => u.teamRole.position.Equals("Steller")).
-									ThenBy(u => u.teamRole.position.Equals("Mittelblocker")).
-									ThenBy(u => u.teamRole.position.Equals("Libero")).
-									ThenBy(u => u.teamRole.position.Equals("Diagonalangreifer")).
-									ThenBy(u => u.teamRole.position.Equals("Außenangreifer")).
-									ThenBy(u => u.name). 
-									ToList();
-			listView.Adapter = new ListUserAdapter(this, sortedList);
-			textView.Text = filteredList.Count.ToString();
-		}
-
-		private List<MySqlUser> getUserWithEventState(List<MySqlUser> list, string eventState) {
-			List<MySqlUser> newList = new List<MySqlUser>();
-			foreach(MySqlUser user in list) {
+		private List<VBUser> getUserWithEventState(List<VBUser> list, string eventState) {
+			List<VBUser> newList = new List<VBUser>();
+			foreach(VBUser user in list) {
 				if(user.eventState.Equals(eventState))
 					newList.Add(user);
 			}
@@ -196,20 +132,8 @@ namespace VolleyballApp {
 			return newList;
 		}
 
-		private async void answerEventIvitation(string state) {
-			JsonValue json = await DB_Communicator.getInstance().updateEventState(_event.idEvent, state);
-
-			if(!DB_Communicator.getInstance().wasSuccesful(json)) {
-				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
-			}
-
-			//refresh the view
-			await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
-			ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
-		}
-
-		private MySqlUser getLoggedInUser(int id, List<MySqlUser> listUser) {
-			foreach(MySqlUser u in listUser) {
+		private VBUser getLoggedInUser(int id, List<VBUser> listUser) {
+			foreach(VBUser u in listUser) {
 				if(u.idUser == id)
 					return u;
 			}
@@ -221,6 +145,82 @@ namespace VolleyballApp {
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar).Visibility = ViewStates.Gone;
+		}
+	}
+
+	class EventDetailsClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
+		public const string ON_ANSWER_INVITE = "onAnswerInvite", ON_INVITE = "onInvite", ON_EDIT = "onEdit", ON_DELETE = "onDelete";
+		private string source;
+		private VBEvent _event;
+		private string answer;
+
+		public EventDetailsClickListener(string source, VBEvent _event) : this(source, _event, ""){}
+
+		public EventDetailsClickListener(string source, VBEvent _event, string answer) {
+			this.source = source;
+			this._event = _event;
+			this.answer = answer;
+		}
+
+		public void OnClick(View v) {
+			switch(this.source) {
+			case ON_ANSWER_INVITE:
+				answerEventIvitation(answer);
+				break;
+			case ON_INVITE:
+				onInvite();
+				break;
+			case ON_EDIT:
+				onEdit();
+				break;
+			case ON_DELETE:
+				onDelete();
+				break;
+			}
+		}
+
+		private async void answerEventIvitation(string state) {
+			JsonValue json = await DB_Communicator.getInstance().updateEventState(_event.idEvent, state);
+
+			if(!DB_Communicator.getInstance().wasSuccesful(json)) {
+				Toast.MakeText(ViewController.getInstance().mainActivity, json["message"].ToString(), ToastLength.Long).Show();
+			}
+
+			//refresh the view
+			await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+			EventDetailsFragment edf = ViewController.getInstance().mainActivity.FindFragmentByTag(ViewController.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment;
+			List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(_event.idEvent, "");
+			edf.listUser = listUser;
+			ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
+		}
+
+		private async void onInvite() {
+			JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
+
+			InviteUserDialog iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
+
+			iud.Show(ViewController.getInstance().mainActivity.FragmentManager, "INVITE_USER_DIALOG");
+		}
+
+		private void onEdit() {
+			ViewController.getInstance().mainActivity.switchFragment(ViewController.EVENT_DETAILS_FRAGMENT, ViewController.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
+		}
+
+		private void onDelete() {
+			AlertDialog.Builder builder = new AlertDialog.Builder(ViewController.getInstance().mainActivity);
+			builder.SetTitle("Event löschen!")
+				.SetMessage("Sind sie sicher?")
+				.SetIcon(Android.Resource.Drawable.IcDialogAlert)
+				.SetNegativeButton("Ja", async (sender, e) => { //left button
+					JsonValue json = await DB_Communicator.getInstance().deleteEvent(_event.idEvent);
+					ViewController.getInstance().toastJson(ViewController.getInstance().mainActivity, json, ToastLength.Long, "Event delted");
+					await ViewController.getInstance().refreshEvents();
+					builder.Dispose();
+					ViewController.getInstance().mainActivity.popBackstack();
+				})
+				.SetPositiveButton("Abbrechen", (sender, e) => { //right button
+				})
+				.Show();
 		}
 	}
 }

@@ -30,8 +30,8 @@ namespace VolleyballApp {
 		/**
 		 * Creates a MySqlEvent for every row in the response string.
 		 **/
-		public List<MySqlEvent> createEventFromResponse(JsonValue json) {
-			List<MySqlEvent> listEvent = new List<MySqlEvent>();
+		public List<VBEvent> createEventFromResponse(JsonValue json) {
+			List<VBEvent> listEvent = new List<VBEvent>();
 
 			if(dbCommunicator.wasSuccesful(json)) {
 				if(json["data"].Count > 0) {
@@ -40,7 +40,7 @@ namespace VolleyballApp {
 							if(e["Attendence"].ContainsKey("eventObj")) {
 								JsonValue jsonEvent = e["Attendence"]["eventObj"]["Event"];
 								Console.WriteLine("createEventFromResponse- creating event - " + e["Attendence"].ToString());
-								listEvent.Add(new MySqlEvent(
+								listEvent.Add(new VBEvent(
 									dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(jsonEvent, "id", DB_Communicator.JSON_TYPE_INT)),
 									dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(jsonEvent, "name", DB_Communicator.JSON_TYPE_STRING)),
 									dbCommunicator.convertAndInitializeToDateTime(dbCommunicator.containsKey(jsonEvent, "startDate", DB_Communicator.JSON_TYPE_DATE)),
@@ -53,7 +53,7 @@ namespace VolleyballApp {
 					}
 				}
 			}
-			List<MySqlEvent> sortedList = listEvent.OrderBy(o => o.startDate).ToList();
+			List<VBEvent> sortedList = listEvent.OrderBy(o => o.startDate).ToList();
 			return sortedList;
 		}
 	}

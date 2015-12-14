@@ -28,7 +28,7 @@ namespace VolleyballApp {
 //			ProgressDialog dialog = this.createProgressDialog("Please wait!", "Loading...");
 			bool wasSuccessful = false;
 
-			MySqlUser user = await db.login(username, password);
+			VBUser user = await db.login(username, password);
 
 			if(user != null) { //login successful
 				//storing user information for usage in other activities
@@ -52,7 +52,7 @@ namespace VolleyballApp {
 		 *Also calls Finish().
 		 */
 		public void proceedAfterManualLogin() {
-			MySqlUser user = MySqlUser.GetUserFromPreferences();
+			VBUser user = VBUser.GetUserFromPreferences();
 			Intent i = null;
 			if(user.state.Equals("\"FILLDATA\"") || user.state.Equals("FILLDATA")) {
 				i = new Intent(this, typeof(FillDataActivity));
@@ -70,7 +70,7 @@ namespace VolleyballApp {
 		public async void logout() {
 			await this.deleteToken();
 			await db.logout();
-			MySqlUser.DeleteUserFromPreferences();
+			VBUser.DeleteUserFromPreferences();
 			Intent i = new Intent(this, typeof(LogIn));
 			i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
 			StartActivity(i);
@@ -78,7 +78,7 @@ namespace VolleyballApp {
 
 		public async Task<JsonValue> deleteToken() {
 			//delete token from database
-			int userId = MySqlUser.GetUserFromPreferences().idUser;
+			int userId = VBUser.GetUserFromPreferences().idUser;
 			JsonValue json = JsonValue.Parse(await DB_Communicator.getInstance().makeWebRequest("service/user/delete_token.php?userId=" + userId + "&token=" + ViewController.getInstance().token, "AbstractActivity.deleteToken()"));
 			Log.Info("AbstractActivity.deleteToken", "json message: " + json["message"].ToString());
 			return json;

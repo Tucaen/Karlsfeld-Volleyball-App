@@ -38,7 +38,8 @@ namespace VolleyballApp {
 			return db;
 		}
 
-		public async Task<MySqlUser> login(string username, string password) {
+		#region user
+		public async Task<VBUser> login(string username, string password) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
 			return await dbSelectUser.validateLogin(host, username, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
@@ -67,28 +68,9 @@ namespace VolleyballApp {
 			return await dbSelectEvent.SelectPastEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
-		public async Task<JsonValue> updateEventState(int idEvent, string state) {
-			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.updateEventState(idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
-		}
-
-		/**
-		 * Provides you with list of all users for a specific event and state.
-		 *If state is null all states will be selected.
-		 **/
-		public async Task<List<MySqlUser>> SelectUserForEvent(int idEvent, string state) {
-			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
-			return await dbSelectUser.SelectUserForEvent(host, idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
-		}
-
 		public async Task<JsonValue> SelectAllUser() {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
 			return await dbSelectUser.SelectAllUser().ConfigureAwait(continueOnCapturedContext:false);
-		}
-
-		public List<MySqlEvent> createEventFromResponse(JsonValue json) {
-			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			return dbSelectEvent.createEventFromResponse(json);
 		}
 
 		/**
@@ -102,13 +84,34 @@ namespace VolleyballApp {
 			return await dbUpdate.UpdateUser(host, name, role, number, position, teamId);
 		}
 
-		public List<MySqlUser> createUserFromResponse(JsonValue json) {
+		public List<VBUser> createUserFromResponse(JsonValue json) {
 			return this.createUserFromResponse(json, "");
 		}
 
-		public List<MySqlUser> createUserFromResponse(JsonValue json, string password) {
+		public List<VBUser> createUserFromResponse(JsonValue json, string password) {
 			DB_SelectUser selectUser = new DB_SelectUser(this);
 			return selectUser.createUserFromResponse(json, password);
+		}
+		#endregion
+
+		#region event
+		public async Task<JsonValue> updateEventState(int idEvent, string state) {
+			DB_Update dbUpdate = new DB_Update(this);
+			return await dbUpdate.updateEventState(idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
+		}
+
+		/**
+		 * Provides you with list of all users for a specific event and state.
+		 *If state is null all states will be selected.
+		 **/
+		public async Task<List<VBUser>> SelectUserForEvent(int idEvent, string state) {
+			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
+			return await dbSelectUser.SelectUserForEvent(host, idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
+		}
+
+		public List<VBEvent> createEventFromResponse(JsonValue json) {
+			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
+			return dbSelectEvent.createEventFromResponse(json);
 		}
 
 		public async Task<JsonValue> deleteEvent(int id) {
@@ -135,7 +138,21 @@ namespace VolleyballApp {
 			DB_Update dbUpdate = new DB_Update(this);
 			return await dbUpdate.updateEvent(idEvent, name, location, start, end, info);
 		}
+		#endregion
 
+		#region team
+		public async Task<List<VBTeam>> SelectTeams() {
+			DB_SelectTeam dbSelectTeam = new DB_SelectTeam(this);
+			return await dbSelectTeam.SelectTeams(host);
+		}
+
+		public async Task<List<VBTeam>> SelectTeamsForUser(int idUser) {
+			DB_SelectTeam dbSelectTeam = new DB_SelectTeam(this);
+			return await dbSelectTeam.SelectTeamsForUser(host, idUser);
+		}
+		#endregion
+
+		#region general
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/
@@ -209,7 +226,7 @@ namespace VolleyballApp {
 		 * Determines if the user has the necessary permission
 		 * Admin->Operator->Coremember->Member->Fan
 		 */
-		public bool isAtLeast(MySqlUser user, UserType userType) {
+		public bool isAtLeast(VBUser user, UserType userType) {
 			UserType ut = user.teamRole.getUserType();
 
 			switch(userType) {
@@ -235,5 +252,6 @@ namespace VolleyballApp {
 				return false;
 			}
 		}
+		#endregion
 	}
 }

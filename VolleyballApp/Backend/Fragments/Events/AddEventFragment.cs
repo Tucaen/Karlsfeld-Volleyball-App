@@ -111,10 +111,10 @@ namespace VolleyballApp {
 				month = c.Get(CalendarField.Month);
 				day = c.Get(CalendarField.DayOfMonth);
 			} else {
-				string[] date = t.Text.Split('-');
-				year = Convert.ToInt32(date[0]);
+				string[] date = t.Text.Split('.');
+				year = Convert.ToInt32(date[2]);
 				month = (Convert.ToInt32(date[1])-1);
-				day = Convert.ToInt32(date[2]);
+				day = Convert.ToInt32(date[0]);
 			}
 
 			return new DatePickerDialog(this.Activity, this, year, month, day);
@@ -157,8 +157,10 @@ namespace VolleyballApp {
 			
 			t.Text = hourOfDay + ":" + temp;
 
-			if(t2 != null)
-				t2.Text = (hourOfDay+2) + ":" + temp;
+			if(t2 != null) {
+				int hour = (hourOfDay + 2 > 23) ? hourOfDay : hourOfDay + 2;
+				t2.Text = hour + ":" + temp;
+			}
 		}
 	}
 }

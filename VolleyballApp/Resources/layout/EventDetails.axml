@@ -28,29 +28,29 @@
             android:paddingLeft="5dip"
             android:id="@+id/eventState" />
     </LinearLayout>
-    <LinearLayout
+<!--    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:layout_marginBottom="10.0dp">
-        <TextView
-            android:text="Krenmosshalle - Karlsfeld"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:layout_marginLeft="5dp"
-            android:textSize="15dip"
-            android:id="@+id/eventLocation" />
-        <TextView
-            android:text="17.10.2015 - 12:00 - 18:00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="15dip"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/eventTime" />
-    </LinearLayout>
+        android:layout_marginBottom="10.0dp">-->
+    <TextView
+        android:text="Krenmosshalle - Karlsfeld"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="5dp"
+        android:textSize="18dip"
+        android:id="@+id/eventLocation" />
+    <TextView
+        android:text="17.10.2015 - 12:00 - 18:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textSize="18dip"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/eventTime" />
+<!--    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/eventDetailsEventDescriptionLine"
         android:orientation="horizontal"
@@ -97,14 +97,16 @@
                         android:text="Zugesagt:"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="0dp"
-                        android:textSize="17dip"
+                        android:textSize="20dip"
+                        android:textStyle="bold"
                         style="@style/text" />
                     <TextView
                         android:text="0"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:textSize="17dip"
+                        android:textSize="20dip"
                         android:id="@+id/EventDetails_Count_Zugesagt"
+                        android:textStyle="bold"
                         style="@style/text" />
                 </LinearLayout>
                 <LinearLayout
@@ -134,13 +136,15 @@
                         android:text="Abgesagt:"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="0dp"
-                        android:textSize="17dip"
+                        android:textSize="20dip"
+                        android:textStyle="bold"
                         style="@style/text" />
                     <TextView
                         android:text="0"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:textSize="17dip"
+                        android:textSize="20dip"
+                        android:textStyle="bold"
                         android:id="@+id/EventDetails_Count_Abgesagt"
                         style="@style/text" />
                 </LinearLayout>
@@ -172,13 +176,15 @@
                         android:text="Eingeladen:"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="0dp"
-                        android:textSize="17dip"
+                        android:textSize="20dip"
+                        android:textStyle="bold"
                         style="@style/text" />
                     <TextView
                         android:text="0"
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:textSize="17dip"
+                        android:textSize="20dip"
+                        android:textStyle="bold"
                         android:id="@+id/EventDetails_Count_Eingeladen"
                         style="@style/text" />
                 </LinearLayout>

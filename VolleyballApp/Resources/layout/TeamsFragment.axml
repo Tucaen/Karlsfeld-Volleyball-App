@@ -3,9 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000000"
-    android:minWidth="25px"
-    android:minHeight="25px">
+    android:background="#000000">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,20 +18,20 @@
             android:scrollbars="vertical"
             android:divider="@android:color/holo_blue_bright"
             android:dividerHeight="1dp"
-            android:id="@+id/listEvents" />
-    <!-- start NoEvents -->
-    <!-- end NoEvents -->
+            android:id="@+id/teamsFragmentListTeams" />
+    <!-- start NoTeams -->
         <TextView
-            android:id="@+id/noEvents"
+            android:id="@+id/teamsFragmentNoTeams"
             android:layout_width="fill_parent"
-            android:text="Keine Veranstaltungen!"
+            android:text="Keine Teams gefunden!"
             android:gravity="center"
             android:layout_weight="1"
             style="@style/text"
             android:layout_height="wrap_content" />
+    <!-- end NoTeams -->
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/eventsFragmentBtnAddLine"
+        android:id="@+id/teamsFragmentBtnAddLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
@@ -52,7 +50,7 @@
             android:background="@drawable/roundbutton"
             android:layout_width="wrap_content"
             android:gravity="center_horizontal"
-            android:id="@+id/btnAddEvent"
+            android:id="@+id/teamsFragmentBtnAdd"
             style="@style/button" />
     </LinearLayout>
 </LinearLayout>

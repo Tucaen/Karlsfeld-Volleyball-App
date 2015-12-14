@@ -15,11 +15,11 @@ using System.Json;
 namespace VolleyballApp {
 
 	class InviteUserDialog : DialogFragment {
-		private MySqlEvent _event;
+		private VBEvent _event;
 		public bool isShown { get; private set; }
-		private List<MySqlUser> listUser;
+		private List<VBUser> listUser;
 
-		public InviteUserDialog (Bundle bundle, MySqlEvent _event, List<MySqlUser> listUser) {
+		public InviteUserDialog (Bundle bundle, VBEvent _event, List<VBUser> listUser) {
 			this.Arguments = bundle;
 			this._event = _event;
 			this.listUser = listUser;
@@ -77,13 +77,13 @@ namespace VolleyballApp {
 		}
 	}
 
-	class InviteUserDialogListAdapter : BaseAdapter<MySqlUser> {
-		List<MySqlUser> listUser;
+	class InviteUserDialogListAdapter : BaseAdapter<VBUser> {
+		List<VBUser> listUser;
 		public List<UserToInvite> listUserToInvite { get; private set; }
 		Fragment context;
-		MySqlUser item;
+		VBUser item;
 
-		public InviteUserDialogListAdapter(Fragment context, List<MySqlUser> listUser) : base() {
+		public InviteUserDialogListAdapter(Fragment context, List<VBUser> listUser) : base() {
 			this.context = context;
 			this.listUser = listUser;
 			this.listUserToInvite = new List<UserToInvite>();
@@ -92,7 +92,7 @@ namespace VolleyballApp {
 		public override long GetItemId(int position) {
 			return position;
 		}
-		public override MySqlUser this[int position] {
+		public override VBUser this[int position] {
 			get { return listUser[position]; }
 		}
 		public override int Count {
@@ -118,10 +118,10 @@ namespace VolleyballApp {
 	}
 
 	class UserToInvite {
-		public MySqlUser user { get; set; }
+		public VBUser user { get; set; }
 		public bool isChecked { get; set; }
 
-		public UserToInvite(MySqlUser user, bool isChecked) {
+		public UserToInvite(VBUser user, bool isChecked) {
 			this.user = user;
 			this.isChecked = isChecked;
 		}
@@ -129,11 +129,11 @@ namespace VolleyballApp {
 
 	class UserToInviteClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
 		private CheckBox checkBox;
-		private MySqlUser item;
+		private VBUser item;
 		private bool switchChecked;
 		private List<UserToInvite> listUserToInvite;
 
-		public UserToInviteClickListener(CheckBox checkBox, MySqlUser item, bool switchChecked, List<UserToInvite> listUserToInvite) {
+		public UserToInviteClickListener(CheckBox checkBox, VBUser item, bool switchChecked, List<UserToInvite> listUserToInvite) {
 			this.checkBox = checkBox;
 			this.item = item;
 			this.switchChecked = switchChecked;

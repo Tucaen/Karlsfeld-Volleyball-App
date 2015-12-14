@@ -48,6 +48,44 @@
             style="@style/text" />
     </LinearLayout>
 <!-- end profile -->
+<!-- start team -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:id="@+id/menuTeamComplete"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffc1c1c1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:id="@+id/menuTeam"
+            android:layout_margin="8dp"
+            style="@style/responsiveText">
+        <!--
+	        <ImageView
+	            android:src="@android:drawable/ic_lock_power_off"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:id="@+id/imageView1" />
+	            -->
+            <TextView
+                android:text="Teams"
+                android:layout_width="wrap_content"
+                android:id="@+id/menuProfileText"
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:textSize="20dp"
+                style="@style/text" />
+        </LinearLayout>
+    </LinearLayout>
+<!-- end team -->
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"

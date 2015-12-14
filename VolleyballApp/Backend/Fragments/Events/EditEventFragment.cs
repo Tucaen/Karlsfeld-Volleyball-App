@@ -18,9 +18,9 @@ using System.Threading.Tasks;
 namespace VolleyballApp {
 	public class EditEventFragment : Fragment {
 		View view;
-		MySqlEvent _event;
+		VBEvent _event;
 
-		public EditEventFragment(MySqlEvent _event) {
+		public EditEventFragment(VBEvent _event) {
 			this._event = _event;
 		}
 

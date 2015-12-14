@@ -11,7 +11,7 @@ using Java.Lang;
 namespace VolleyballApp {
 	public class ViewController {
 		private static ViewController Instance;
-		public MainActivity mainActivity { private get; set; }
+		public MainActivity mainActivity { get; set; }
 
 		public int pushEventId { get; set; }
 		public string token { get; set; }
@@ -19,7 +19,7 @@ namespace VolleyballApp {
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 										ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
 										PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
-										PAST_EVENTS_FRAGMENT="PastEventsFragment";
+										PAST_EVENTS_FRAGMENT="PastEventsFragment", TEAMS_FRAGMENT="TeamsFragment";
 
 
 		private ViewController() {
@@ -32,13 +32,13 @@ namespace VolleyballApp {
 			return Instance;
 		}
 
-		public async Task<List<MySqlEvent>> refreshEvents() {
+		public async Task<List<VBEvent>> refreshEvents() {
 			EventType eventType = this.GetEventTypeFromBackstack();
 			Fragment eventsFragment = null;
-			List<MySqlEvent> listEvents = new List<MySqlEvent>();
+			List<VBEvent> listEvents = new List<VBEvent>();
 
 			if(eventType != EventType.Unknown) {
-				listEvents = await loadEvents(MySqlUser.GetUserFromPreferences(), eventType);
+				listEvents = await loadEvents(VBUser.GetUserFromPreferences(), eventType);
 
 				if(eventType == EventType.Upcoming)
 					eventsFragment = mainActivity.FindFragmentByTag(UPCOMING_EVENTS_FRAGMENT);
@@ -48,7 +48,7 @@ namespace VolleyballApp {
 				if(eventsFragment != null)
 					(eventsFragment as EventsFragment).listEvents = listEvents;
 			} else {
-				listEvents = await loadEvents(MySqlUser.GetUserFromPreferences(), EventType.Upcoming);
+				listEvents = await loadEvents(VBUser.GetUserFromPreferences(), EventType.Upcoming);
 			}
 
 			return listEvents;
@@ -79,9 +79,9 @@ namespace VolleyballApp {
 
 		/**Loads all events for the given user.
 		 **/
-		public async Task<List<MySqlEvent>> loadEvents(MySqlUser user, EventType eventType) {
+		public async Task<List<VBEvent>> loadEvents(VBUser user, EventType eventType) {
 			DB_Communicator db = DB_Communicator.getInstance();
-			List<MySqlEvent> listEvents = new List<MySqlEvent>();
+			List<VBEvent> listEvents = new List<VBEvent>();
 			JsonValue json;
 			string alternativeMessage = "";
 
@@ -118,15 +118,16 @@ namespace VolleyballApp {
 			trans.Commit();
 		}
 
-		public async Task<MySqlEvent> refreshDataForEvent(int idEvent) {
+		public async Task<VBEvent> refreshDataForEvent(int idEvent) {
 			//macht keinen sinn mehr UserList wird nicht mher in den Preferences gespeichert, sondern direkt an EventDetailsFragment übergeben
 //			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
 //			MySqlUser.StoreUserListInPreferences(mainActivity.Intent, listUser);
 
-			List<MySqlEvent> listEvents = await this.refreshEvents();
-			foreach(MySqlEvent e in listEvents) {
-				if(e.idEvent == idEvent)
+			List<VBEvent> listEvents = await this.refreshEvents();
+			foreach(VBEvent e in listEvents) {
+				if(e.idEvent == idEvent) {
 					return e;
+				}
 			}
 
 			return null;

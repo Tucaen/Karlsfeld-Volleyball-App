@@ -22,7 +22,7 @@ namespace VolleyballApp {
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.Inflate(Resource.Layout.ProfileFragment, container, false);
 
-			MySqlUser user = MySqlUser.GetUserFromPreferences();
+			VBUser user = VBUser.GetUserFromPreferences();
 			TextView userType = view.FindViewById<TextView>(Resource.Id.profileUserTypeValue);
 			EditText name = view.FindViewById<EditText>(Resource.Id.profileNameValue);
 			Spinner position = view.FindViewById<Spinner>(Resource.Id.profilePositionValue);
@@ -66,9 +66,9 @@ namespace VolleyballApp {
 					
 					//ändernungen im user speichern
 					//TODO Update-Skript muss noch angepasst werden. Liefert im Moment nur den Namen zurück
-					List<MySqlUser> list = db.createUserFromResponse(json, user.password);
+					List<VBUser> list = db.createUserFromResponse(json, user.password);
 					if(list.Count > 0) {
-						MySqlUser updatedUser = db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
+						VBUser updatedUser = db.createUserFromResponse(json, user.password)[0]; //TODO user.password durch password.Text ersetzen
 						updatedUser.StoreUserInPreferences(this.Activity, updatedUser);
 					}
 					

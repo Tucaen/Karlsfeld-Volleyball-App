@@ -11,14 +11,15 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="2dp">
         <TextView
             android:id="@+id/UserListViewName"
             android:text="UserListViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
-            android:textSize="16dip" />
+            android:textSize="20dip" />
         <TextView
             android:id="@+id/UserListViewPosition"
             android:text="(Position)"
@@ -26,6 +27,6 @@
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:layout_marginLeft="5dp"
-            android:textSize="16dip" />
+            android:textSize="20dip" />
     </LinearLayout>
 </RelativeLayout>

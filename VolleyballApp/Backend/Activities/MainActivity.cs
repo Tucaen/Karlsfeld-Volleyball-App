@@ -47,8 +47,8 @@ namespace VolleyballApp {
 			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Checking login data...");
 			ViewController.getInstance().mainActivity = this;
 
-			MySqlUser.context = this;
-			MySqlUser user = MySqlUser.GetUserFromPreferences();
+			VBUser.context = this;
+			VBUser user = VBUser.GetUserFromPreferences();
 			if(user == null) {
 				Intent i = new Intent(this, typeof(LogIn));
 				i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
@@ -77,14 +77,14 @@ namespace VolleyballApp {
 						//do same as for PUSH_INVITE
 					case MyGcmListenerService.PUSH_INVITE:
 						dialog.SetMessage("Load event details...");
-						MySqlEvent e = await ViewController.getInstance().refreshDataForEvent(ViewController.getInstance().pushEventId);
-						List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(ViewController.getInstance().pushEventId, "");
+						VBEvent e = await ViewController.getInstance().refreshDataForEvent(ViewController.getInstance().pushEventId);
+						List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(ViewController.getInstance().pushEventId, "");
 						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e, listUser));
 						break;
 
 					default:
 						dialog.SetMessage("Load events...");
-						List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
+						List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
 						this.initalizeFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 						break;
 					}
@@ -102,16 +102,23 @@ namespace VolleyballApp {
 					d.Dismiss();
 				};
 
+				FindViewById<LinearLayout>(Resource.Id.menuTeam).Click += async (sender, e) => {
+					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
+					List<VBTeam> list = await DB_Communicator.getInstance().SelectTeams();
+					switchFragment(activeFragment, ViewController.TEAMS_FRAGMENT, new TeamsFragment(list));
+					d.Dismiss();
+				};
+
 				FindViewById(Resource.Id.menuEventsUpcoming).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
+					List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
 					switchFragment(activeFragment, ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
 
 				FindViewById(Resource.Id.menuEventsPast).Click += async (sender, e) => {
 					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					List<MySqlEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Past);
+					List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Past);
 					switchFragment(activeFragment, ViewController.PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 					d.Dismiss();
 				};
@@ -170,13 +177,12 @@ namespace VolleyballApp {
 			FragmentManager.PopBackStackImmediate();
 		}
 
-		public async void OnListEventClicked(AdapterView.ItemClickEventArgs e, List<MySqlEvent> listEvents) {
+		public async void OnListEventClicked(AdapterView.ItemClickEventArgs e, List<VBEvent> listEvents) {
 			ProgressDialog dialog = base.createProgressDialog("Please wait!", "Loading...");
 			this.eventPosition = e.Position;
-			MySqlEvent clickedEvent = listEvents[eventPosition];
+			VBEvent clickedEvent = listEvents[eventPosition];
 
-			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
-//			MySqlUser.StoreUserListInPreferences(this.Intent, listUser);
+			List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(clickedEvent.idEvent, "");
 
 			this.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(clickedEvent, listUser));
 

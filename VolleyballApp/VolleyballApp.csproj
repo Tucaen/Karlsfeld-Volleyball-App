@@ -79,9 +79,6 @@
     <Compile Include="Backend\Fragments\Events\EventDetailsFragment.cs" />
     <Compile Include="Backend\Fragments\Events\EventsFragment.cs" />
     <Compile Include="Backend\Fragments\ProfileFragment.cs" />
-    <Compile Include="Backend\MySqlObjects\MySqlEvent.cs" />
-    <Compile Include="Backend\MySqlObjects\MySqlObject.cs" />
-    <Compile Include="Backend\MySqlObjects\MySqlUser.cs" />
     <Compile Include="Backend\DB\Insert\DB_InsertEvent.cs" />
     <Compile Include="Backend\DB\Select\DB_Select.cs" />
     <Compile Include="Backend\DB\Select\DB_SelectEvent.cs" />
@@ -93,8 +90,15 @@
     <Compile Include="Backend\DB\Delete\DB_Delete.cs" />
     <Compile Include="Backend\EventType.cs" />
     <Compile Include="Backend\ViewController.cs" />
-    <Compile Include="Backend\MySqlObjects\MySqlTeamrole.cs" />
     <Compile Include="Backend\UserType.cs" />
+    <Compile Include="Backend\DB\Select\DB_SelectTeam.cs" />
+    <Compile Include="Backend\MySqlObjects\VBEvent.cs" />
+    <Compile Include="Backend\MySqlObjects\VBUser.cs" />
+    <Compile Include="Backend\MySqlObjects\VBTeamrole.cs" />
+    <Compile Include="Backend\MySqlObjects\VBObject.cs" />
+    <Compile Include="Backend\MySqlObjects\VBTeam.cs" />
+    <Compile Include="Backend\Fragments\TeamsFragment.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListTeamsAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -173,6 +177,8 @@
     <AndroidResource Include="Resources\layout\SpinnerTextView.axml" />
     <AndroidResource Include="Resources\layout\SpinnerCheckedLayout.axml" />
     <AndroidResource Include="Resources\drawable\divider.xml" />
+    <AndroidResource Include="Resources\layout\TeamsFragment.axml" />
+    <AndroidResource Include="Resources\layout\TeamListView.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />

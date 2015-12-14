@@ -3,8 +3,8 @@ using Android.OS;
 using Object = Java.Lang.Object;
 
 namespace VolleyballApp {
-	public abstract class MySqlObject : Object, IParcelable {
-		public MySqlObject() {
+	public abstract class VBObject : Object, IParcelable {
+		public VBObject() {
 		}
 
 		public abstract void WriteToParcel(Parcel dest, ParcelableWriteFlags flags);
