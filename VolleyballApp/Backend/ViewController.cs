@@ -19,7 +19,8 @@ namespace VolleyballApp {
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 										ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
 										PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
-										PAST_EVENTS_FRAGMENT="PastEventsFragment", TEAMS_FRAGMENT="TeamsFragment";
+										PAST_EVENTS_FRAGMENT="PastEventsFragment", TEAMS_FRAGMENT="TeamsFragment",
+										ADD_TEAM_FRAGMENT="AddTeamFragment", TEAM_DETAILS_FRAGMENT="TeamDetailsFragment";
 
 
 		private ViewController() {
@@ -103,8 +104,9 @@ namespace VolleyballApp {
 		}
 
 		public void toastJson(Context context, JsonValue json, ToastLength length, string alternativeMessage) {
+			Context c = (context != null) ? context : mainActivity;
 			string message = (json.ContainsKey("message")) ? json["message"].ToString() : alternativeMessage;
-			Toast.MakeText(context, message, length).Show();
+			Toast.MakeText(c, message, length).Show();
 		}
 
 		/**

@@ -41,7 +41,7 @@ namespace VolleyballApp {
 		#region user
 		public async Task<VBUser> login(string username, string password) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
-			return await dbSelectUser.validateLogin(host, username, password).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectUser.validateLogin(username, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		public async Task<JsonValue> logout() {
@@ -51,7 +51,7 @@ namespace VolleyballApp {
 
 		public async Task<JsonValue> register(string email, string password) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
-			return await dbSelectUser.register(host, email, password).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectUser.register(email, password).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		/**
@@ -60,12 +60,12 @@ namespace VolleyballApp {
 		 **/
 		public async Task<JsonValue> SelectUpcomingEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			return await dbSelectEvent.SelectUpcomingEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectEvent.SelectUpcomingEventsForUser(idUser, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		public async Task<JsonValue> SelectPastEventsForUser(int idUser, string state) {
 			DB_SelectEvent dbSelectEvent = new DB_SelectEvent(this);
-			return await dbSelectEvent.SelectPastEventsForUser(host, idUser, state).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectEvent.SelectPastEventsForUser(idUser, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		public async Task<JsonValue> SelectAllUser() {
@@ -76,12 +76,13 @@ namespace VolleyballApp {
 		/**
 		 * Updates a user with the given userId with the given parameters.
 		 **/
-		public async Task<JsonValue> UpdateUser(string name) {
-			return await UpdateUser(name, "", 0, "", 1);
+		public async Task<JsonValue> UpdateUser(string name, string userType) {
+			DB_Update dbUpdate = new DB_Update(this);
+			return await dbUpdate.UpdateUser(name, userType);
 		}
 		public async Task<JsonValue> UpdateUser(string name, string role, int number, string position, int teamId) {
 			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.UpdateUser(host, name, role, number, position, teamId);
+			return await dbUpdate.UpdateUser(name, role, number, position, teamId);
 		}
 
 		public List<VBUser> createUserFromResponse(JsonValue json) {
@@ -91,6 +92,11 @@ namespace VolleyballApp {
 		public List<VBUser> createUserFromResponse(JsonValue json, string password) {
 			DB_SelectUser selectUser = new DB_SelectUser(this);
 			return selectUser.createUserFromResponse(json, password);
+		}
+
+		public async Task<JsonValue> createUserTypeRequest(int userId, int teamId, string userType) {
+			string service = "service/user/create_request.php?userId=" + userId + "&teamId=" + teamId + "&userType=" + userType;
+			return await this.makeWebRequest(service, "RequestUserTypeDialog.onRequest");
 		}
 		#endregion
 
@@ -106,7 +112,7 @@ namespace VolleyballApp {
 		 **/
 		public async Task<List<VBUser>> SelectUserForEvent(int idEvent, string state) {
 			DB_SelectUser dbSelectUser = new DB_SelectUser(this);
-			return await dbSelectUser.SelectUserForEvent(host, idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
+			return await dbSelectUser.SelectUserForEvent(idEvent, state).ConfigureAwait(continueOnCapturedContext:false);
 		}
 
 		public List<VBEvent> createEventFromResponse(JsonValue json) {
@@ -141,14 +147,19 @@ namespace VolleyballApp {
 		#endregion
 
 		#region team
-		public async Task<List<VBTeam>> SelectTeams() {
+		public async Task<VBTeam> SelectTeam(int idTeam) {
 			DB_SelectTeam dbSelectTeam = new DB_SelectTeam(this);
-			return await dbSelectTeam.SelectTeams(host);
+			return await dbSelectTeam.SelectTeam(idTeam);
 		}
 
-		public async Task<List<VBTeam>> SelectTeamsForUser(int idUser) {
+		public async Task<List<VBTeam>> SelectTeams() {
 			DB_SelectTeam dbSelectTeam = new DB_SelectTeam(this);
-			return await dbSelectTeam.SelectTeamsForUser(host, idUser);
+			return await dbSelectTeam.SelectTeams();
+		}
+
+		public async Task<JsonValue> createTeam(string name, string sport, string location, string description) {
+			DB_SelectTeam dbSelectTeam = new DB_SelectTeam(this);
+			return await dbSelectTeam.createTeam(name, sport, location, description);
 		}
 		#endregion
 
@@ -210,7 +221,7 @@ namespace VolleyballApp {
 					responseText = sr.ReadToEnd();
 				} catch (WebException we) {
 					if(debug) 
-						Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Source: " + we.Source);
+						Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Message: " + we.Message);
 					responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script! "+
 						type + "\",\"data\":{}}";
 				}
@@ -226,9 +237,7 @@ namespace VolleyballApp {
 		 * Determines if the user has the necessary permission
 		 * Admin->Operator->Coremember->Member->Fan
 		 */
-		public bool isAtLeast(VBUser user, UserType userType) {
-			UserType ut = user.teamRole.getUserType();
-
+		public bool isAtLeast(UserType ut, UserType userType) {
 			switch(userType) {
 			case UserType.Admin:
 				if(ut.Equals(UserType.Admin))
@@ -247,7 +256,9 @@ namespace VolleyballApp {
 					return true;
 				return false;
 			case UserType.Fan:
-				return true;
+				if(ut.Equals(UserType.Admin) || ut.Equals(UserType.Operator) || ut.Equals(UserType.Coremember) || ut.Equals(UserType.Member) || ut.Equals(UserType.Fan))
+					return true;
+				return false;
 			default :
 				return false;
 			}

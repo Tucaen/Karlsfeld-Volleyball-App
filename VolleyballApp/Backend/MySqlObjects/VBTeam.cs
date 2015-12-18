@@ -18,6 +18,10 @@ namespace VolleyballApp {
 			this.location = location;
 			this.description = description;
 		}
+
+		public override string ToString() {
+			return string.Format("[VBTeam: id={0}, name={1}, sport={2}, location={3}, description={4}]", id, name, sport, location, description);
+		}
 	}
 }
 

@@ -42,21 +42,25 @@ namespace VolleyballApp {
 				listView.ItemClick += OnListItemClick;
 			}
 
-			if(DB_Communicator.getInstance().isAtLeast(VBUser.GetUserFromPreferences(), UserType.Coremember)) {
+			if(DB_Communicator.getInstance().isAtLeast(VBUser.GetUserFromPreferences().getUserType(), UserType.Coremember)) {
 				view.FindViewById<LinearLayout>(Resource.Id.teamsFragmentBtnAddLine).Visibility = ViewStates.Visible;
 			} else {
 				view.FindViewById<LinearLayout>(Resource.Id.teamsFragmentBtnAddLine).Visibility = ViewStates.Gone;
 			}
 
 			view.FindViewById<Button>(Resource.Id.teamsFragmentBtnAdd).Click += (object sender, EventArgs e) => {
-//				MainActivity mainActivity = (MainActivity) this.Activity;
-//				mainActivity.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.ADD_EVENT_FRAGMENT, new AddEventFragment());
+				ViewController.getInstance().mainActivity.switchFragment(ViewController.TEAMS_FRAGMENT, 
+					ViewController.ADD_TEAM_FRAGMENT, new AddTeamFragment());
 			};
 
 			return view;
 		}
 
-		void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
+		private void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
+			VBTeam team = listTeams[e.Position];
+			VBUser user = VBUser.GetUserFromPreferences();
+			ViewController.getInstance().mainActivity.switchFragment(ViewController.TEAMS_FRAGMENT,
+				ViewController.TEAM_DETAILS_FRAGMENT, new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id)));
 			Console.WriteLine("Clicked on Team");
 		}
 	}

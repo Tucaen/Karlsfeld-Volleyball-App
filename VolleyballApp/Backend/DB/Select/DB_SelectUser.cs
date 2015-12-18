@@ -22,13 +22,13 @@ namespace VolleyballApp {
 			return JsonValue.Parse(responseText);
 		}
 
-		public async Task<JsonValue> register(string host, string email, string password) {
+		public async Task<JsonValue> register(string email, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/register.php?email=" + email + "&password="  + password, "DB_SelectUser.register");
 			
 			return JsonValue.Parse(responseText);
 		}
 
-		public async Task<VBUser> validateLogin(string host, string username, string password) {
+		public async Task<VBUser> validateLogin(string username, string password) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/login.php?email=" + username + "&password=" + password, "DB_SelectUser.validateLogin");
 			List<VBUser> listUser = createUserFromResponse(JsonValue.Parse(responseText), password);
 			if(listUser.Count > 0) {
@@ -44,7 +44,7 @@ namespace VolleyballApp {
 		/**
 		 *Returns a list with all users for the given eventId and state
 		 **/
-		public async Task<List<VBUser>> SelectUserForEvent(string host, int idEvent, string state) {
+		public async Task<List<VBUser>> SelectUserForEvent(int idEvent, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/event/load_event.php?id=" + idEvent + "&loadAttendences=true", "DB_SelectUser.SelectUserForEvent");
 
 			return createUserAttendanceListFromResponse(responseText);
@@ -60,41 +60,13 @@ namespace VolleyballApp {
 				if(json["data"] is JsonArray) {
 					foreach (JsonValue u in json["data"]) {
 						JsonValue user = u["User"];
-						JsonValue teamrole;
-						if(u.ContainsKey("teamrole")) {
-							teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
-						} else {
-							teamrole = null;
-						}
-						listUser.Add( new VBUser(
-							dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
-							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
-							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-							dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
-							password,
-							createTeamrole(teamrole)
-						));
+					
+						listUser.Add(createUserFromJson(user, password));
 					}
 				} else { //es wurde nur ein User und kein Array zurückgegeben
 					JsonValue user = json["data"]["User"];
-					JsonValue teamrole;
-					if(user.ContainsKey("teamroles")) {
-						if(user["teamroles"] is JsonObject) {
-							teamrole = user["teamroles"]["TeamRole"];
-						} else {
-							teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
-						} 
-					} else {
-						teamrole = null;
-					}
-					listUser.Add(new VBUser(
-						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "state", DB_Communicator.JSON_TYPE_STRING)),
-						password,
-						createTeamrole(teamrole)
-					));
+
+					listUser.Add(createUserFromJson(user, password));
 				}
 
 			}
@@ -111,26 +83,29 @@ namespace VolleyballApp {
 				
 				foreach (JsonValue u in attendences) {
 					JsonValue user = u["Attendence"]["userObj"]["User"];
-					JsonValue teamrole = (user["teamroles"].Count > 0) ? user["teamroles"][0]["TeamRole"] : null;
-					listUser.Add(new VBUser(
-						dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(user, "id", DB_Communicator.JSON_TYPE_INT)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "name", DB_Communicator.JSON_TYPE_STRING)),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(user, "email", DB_Communicator.JSON_TYPE_STRING)),
-						"", //state e.g. "FILLDATA" or "FINAL"; isn't send
-						"", //password; isn't send
-						createTeamrole(teamrole),
-						dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(u["Attendence"], "state", DB_Communicator.JSON_TYPE_STRING))));
+
+					listUser.Add(createUserFromJson(user, ""));
 				}
 			}
 			return listUser.OrderBy(u => u.eventState).ToList();
 		}
 
-		private VBTeamrole createTeamrole(JsonValue json) {
-			return new VBTeamrole(
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "userType", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "role", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(json, "number", DB_Communicator.JSON_TYPE_INT)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "position", DB_Communicator.JSON_TYPE_STRING)) );
+		private VBUser createUserFromJson(JsonValue json, string password) {
+			VBUser vbuser = new VBUser(json);
+			vbuser.password = password;
+
+			if(json.ContainsKey("teamroles")) {
+				if(json["teamroles"] is JsonObject) {
+					JsonValue teamrole = json["teamroles"]["TeamRole"];
+					vbuser.listTeamRole.Add(new VBTeamrole(teamrole));
+				} else {
+					foreach(JsonValue teamrole in json["teamroles"]) {
+						vbuser.listTeamRole.Add(new VBTeamrole(teamrole["TeamRole"]));
+					}
+				} 
+			}
+
+			return vbuser;
 		}
 	}
 }

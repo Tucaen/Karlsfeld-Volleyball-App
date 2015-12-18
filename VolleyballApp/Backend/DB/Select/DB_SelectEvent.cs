@@ -13,14 +13,14 @@ namespace VolleyballApp {
 		/**
 		 * Returns a JsonValue with all events for the given userId and state.
 		 **/
-		public async Task<JsonValue> SelectUpcomingEventsForUser(string host, int idUser, string state) {
+		public async Task<JsonValue> SelectUpcomingEventsForUser(int idUser, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/load_user.php?id=" + idUser + 
 				"&loadAttendences=true", "DB_SelectEvent.SelectEventsForUser()");
 
 			return JsonValue.Parse(responseText);
 		}
 
-		public async Task<JsonValue> SelectPastEventsForUser(string host, int idUser, string state) {
+		public async Task<JsonValue> SelectPastEventsForUser(int idUser, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/load_user.php?id=" + idUser + 
 				"&loadAttendences=true&loadPastEvents=true", "DB_SelectEvent.SelectEventsForUser()");
 

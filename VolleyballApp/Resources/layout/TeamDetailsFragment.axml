@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#000000"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<!-- start Headline -->
+    <LinearLayout
+        android:id="@+id/teamDetailsHeadline"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/teamDetailsLocation"
+                android:text="Karlsfeld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dip"
+                android:textColor="#FFFFFF"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/teamDetailsSport"
+                android:text="Volleyball"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="20dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/teamDetailsName"
+            android:text="Herrenmannschaft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="25dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+<!-- end Headline -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_margin="0dp" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <!-- start listRequests -->
+            <LinearLayout
+                android:id="@+id/teamDetailsRequestList"
+                android:divider="@drawable/divider"
+                android:showDividers="middle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        <!-- end listRequests -->
+        <!-- start userType -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/teamDetailsUserTypeLine">
+                <TextView
+                    android:text="Status:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsUserTypeLabel"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+                <TextView
+                    android:text="userType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsUserTypeValue"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+            </LinearLayout>
+        <!-- end userType -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:orientation="vertical">
+                <Button
+                    android:text="Neuen Status beantragen"
+                    android:background="@drawable/normalbutton"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/teamDetailsBtnRequestRank"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    style="@style/button" />
+            </LinearLayout>
+        <!-- start Position -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/teamDetailsPositionLine">
+                <TextView
+                    android:text="Position:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsPositionLabel"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+                <Spinner
+                    android:id="@+id/teamDetailsPositionValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/positions"
+                    android:layout_marginLeft="5.0dp"
+                    android:prompt="@string/position_prompt" />
+            </LinearLayout>
+        <!-- end Position -->
+        <!-- start Number -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/teamDetailsNumberLine">
+                <TextView
+                    android:text="Nummer:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsNumberLabel"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+                <EditText
+                    android:text="13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsNumberValue"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/editText" />
+            </LinearLayout>
+        <!-- end Number -->
+        <!-- start btnSave -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:orientation="vertical">
+                <Button
+                    android:text="Speichern"
+                    android:layout_width="fill_parent"
+                    android:id="@+id/teamDetailsBtnSave"
+                    android:gravity="center|bottom"
+                    style="@style/button" />
+            </LinearLayout>
+        <!-- end btnSave -->
+        </LinearLayout>
+    </ScrollView>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_margin="0dp" />
+<!-- start Buttons -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
+        <Button
+            android:text="Beitreten"
+            android:background="@drawable/normalbutton"
+            android:layout_width="wrap_content"
+            android:id="@+id/teamDetailsBtnJoin"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            style="@style/button" />
+        <Button
+            android:text="Folgen"
+            android:background="@drawable/normalbutton"
+            android:layout_width="wrap_content"
+            android:id="@+id/teamDetailsBtnFollow"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            style="@style/button" />
+        <Button
+            android:text="Verlassen"
+            android:background="@drawable/normalbutton"
+            android:layout_width="wrap_content"
+            android:id="@+id/teamDetailsBtnLeave"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            style="@style/button" />
+    </LinearLayout>
+<!-- end Buttons -->
+</LinearLayout>

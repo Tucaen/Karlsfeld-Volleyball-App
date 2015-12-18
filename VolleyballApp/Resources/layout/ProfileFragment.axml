@@ -43,13 +43,6 @@
             android:id="@+id/profileNameLabel"
             android:layout_marginLeft="5.0dp"
             style="@style/text" />
-    <!--        <EditText
-            android:text="Vorname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/profileFirstnameValue"
-            android:layout_marginLeft="5.0dp"
-            style="@style/editText" />-->
         <EditText
             android:text="Name"
             android:layout_width="wrap_content"
@@ -81,13 +74,6 @@
             android:entries="@array/positions"
             android:layout_marginLeft="5.0dp"
             android:prompt="@string/position_prompt" />
-    <!--        <EditText
-            android:text="Mittelblocker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/profilePositionValue"
-            android:layout_marginLeft="5.0dp"
-            style="@style/editText" />-->
     </LinearLayout>
 <!-- end Position -->
 <!-- start Number -->

@@ -28,12 +28,6 @@
             android:paddingLeft="5dip"
             android:id="@+id/eventState" />
     </LinearLayout>
-<!--    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="10.0dp">-->
     <TextView
         android:text="Krenmosshalle - Karlsfeld"
         android:layout_width="wrap_content"
@@ -50,7 +44,6 @@
         android:textSize="18dip"
         android:layout_marginLeft="5dp"
         android:id="@+id/eventTime" />
-<!--    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/eventDetailsEventDescriptionLine"
         android:orientation="horizontal"

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000">
+    <ScrollView
+        android:id="@+id/addTeamScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addTeamName"
+                android:hint="Name"
+                android:textColorHint="#6699FF"
+                android:layout_marginTop="10dp"
+                style="@style/editText" />
+        <!-- start sport -->
+            <EditText
+                android:id="@+id/addTeamSport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sportart"
+                android:textColorHint="#6699FF"
+                android:layout_marginTop="10dp"
+                android:maxLength="250"
+                style="@style/editText" />
+        <!-- end sport -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/addTeamLocation"
+                android:hint="Ort"
+                android:textColorHint="#6699FF"
+                android:layout_marginTop="10dp"
+                style="@style/editText" />
+        <!-- start Descripition -->
+            <EditText
+                android:id="@+id/addTeamDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Zusätzliche Informationen"
+                android:textColorHint="#6699FF"
+                android:layout_marginTop="10dp"
+                android:maxLength="250"
+                style="@style/editText" />
+        <!-- end Descripition -->
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:text="Erstellen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/normalbutton"
+        android:id="@+id/addTeamBtnCreate"
+        android:gravity="center|bottom"
+        android:layout_marginBottom="10dp"
+        style="@style/button" />
+</LinearLayout>

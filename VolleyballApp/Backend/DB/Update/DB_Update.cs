@@ -13,11 +13,18 @@ namespace VolleyballApp {
 			this.debug = dbCommunicator.debug;
 		}
 
+		public async Task<JsonValue> UpdateUser(string name, string userType) {
+			string responseText = await dbCommunicator.makeWebRequest("service/user/update_userinfo.php" + "?name=" + name 
+				+ "&userType=" + userType, "DB_Update.UpdateUser()");
+
+			return JsonValue.Parse(responseText);
+		}
+
 		/**
 		 * Updates a user with the given id with the given parameters.
 		 * You can check if the insert was succesful in the state variable.
 		 **/
-		public async Task<JsonValue> UpdateUser(string host, string name, string role, int number, string position, int teamId) {
+		public async Task<JsonValue> UpdateUser(string name, string role, int number, string position, int teamId) {
 			string responseText = await dbCommunicator.makeWebRequest("service/user/update_userinfo.php" + "?name=" + name 
 				+ "&role=" + role + "&number=" + number + "&position=" + position + "&teamId=" + teamId, "DB_Update.UpdateUser()");
 

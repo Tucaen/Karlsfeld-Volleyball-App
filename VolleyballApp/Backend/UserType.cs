@@ -6,7 +6,8 @@ namespace VolleyballApp {
 		Operator,
 		Coremember,
 		Member,
-		Fan
+		Fan,
+		None
 	}
 }
 

@@ -97,8 +97,11 @@
     <Compile Include="Backend\MySqlObjects\VBTeamrole.cs" />
     <Compile Include="Backend\MySqlObjects\VBObject.cs" />
     <Compile Include="Backend\MySqlObjects\VBTeam.cs" />
-    <Compile Include="Backend\Fragments\TeamsFragment.cs" />
     <Compile Include="Backend\Activities\Adapter\ListTeamsAdapter.cs" />
+    <Compile Include="Backend\Fragments\Teams\TeamsFragment.cs" />
+    <Compile Include="Backend\Fragments\Teams\AddTeamFragment.cs" />
+    <Compile Include="Backend\Fragments\Teams\TeamDetailsFragment.cs" />
+    <Compile Include="Backend\Dialogs\RequestUserTypeDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -179,6 +182,12 @@
     <AndroidResource Include="Resources\drawable\divider.xml" />
     <AndroidResource Include="Resources\layout\TeamsFragment.axml" />
     <AndroidResource Include="Resources\layout\TeamListView.axml" />
+    <AndroidResource Include="Resources\layout\AddTeamFragment.axml" />
+    <AndroidResource Include="Resources\layout\TeamDetailsFragment.axml" />
+    <AndroidResource Include="Resources\layout\RequestUserType.axml" />
+    <AndroidResource Include="Resources\layout\RequestListView.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\check.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />
@@ -187,6 +196,7 @@
     <Folder Include="Backend\Dialogs\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Backend\DB\Delete\" />
+    <Folder Include="Backend\Fragments\Teams\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

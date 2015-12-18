@@ -42,7 +42,7 @@ namespace VolleyballApp {
 				listView.ItemClick += OnListItemClick;
 			}
 
-			if(DB_Communicator.getInstance().isAtLeast(VBUser.GetUserFromPreferences(), UserType.Coremember)) {
+			if(DB_Communicator.getInstance().isAtLeast(VBUser.GetUserFromPreferences().getUserType(), UserType.Coremember)) {
 				view.FindViewById<LinearLayout>(Resource.Id.eventsFragmentBtnAddLine).Visibility = ViewStates.Visible;
 			} else {
 				view.FindViewById<LinearLayout>(Resource.Id.eventsFragmentBtnAddLine).Visibility = ViewStates.Gone;

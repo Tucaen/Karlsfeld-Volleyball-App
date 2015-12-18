@@ -59,7 +59,7 @@ namespace VolleyballApp {
 				view.FindViewById<Button>(Resource.Id.btnEventAbsagen).Visibility = ViewStates.Gone;
 				view.FindViewById<Button>(Resource.Id.btnEventZusagen).Visibility = ViewStates.Gone;
 			} else {
-				if(DB_Communicator.getInstance().isAtLeast(user, UserType.Coremember)) {
+				if(DB_Communicator.getInstance().isAtLeast(user.getUserType(), UserType.Coremember)) {
 					btnInvite.Visibility = ViewStates.Visible;
 					btnEdit.Visibility = ViewStates.Visible;
 					btnDelete.Visibility = ViewStates.Visible;
@@ -99,20 +99,20 @@ namespace VolleyballApp {
 
 		private void initalizeLinearLayout(LinearLayout listView, List<VBUser> list, string eventState, TextView textView, LayoutInflater inflater) {
 			List<VBUser> filteredList = getUserWithEventState(list, eventState);
-			List<VBUser> sortedList = filteredList.OrderBy(u => u.teamRole.position.Equals("Keine") || u.teamRole.position.Equals("")).
-				ThenBy(u => u.teamRole.position.Equals("Steller")).
-				ThenBy(u => u.teamRole.position.Equals("Mittelblocker")).
-				ThenBy(u => u.teamRole.position.Equals("Libero")).
-				ThenBy(u => u.teamRole.position.Equals("Diagonalangreifer")).
-				ThenBy(u => u.teamRole.position.Equals("Außenangreifer")).
+			List<VBUser> sortedList = filteredList.OrderBy(u => u.listTeamRole[0].position.Equals("Keine") || u.listTeamRole[0].position.Equals("")).
+				ThenBy(u => u.listTeamRole[0].position.Equals("Steller")).
+				ThenBy(u => u.listTeamRole[0].position.Equals("Mittelblocker")).
+				ThenBy(u => u.listTeamRole[0].position.Equals("Libero")).
+				ThenBy(u => u.listTeamRole[0].position.Equals("Diagonalangreifer")).
+				ThenBy(u => u.listTeamRole[0].position.Equals("Außenangreifer")).
 				ThenBy(u => u.name). 
 				ToList();
 				
 			foreach(VBUser user in sortedList) {
 				View row = inflater.Inflate(Resource.Layout.UserListView, null);
 				row.FindViewById<TextView>(Resource.Id.UserListViewName).Text = user.name;
-				if(user.teamRole.position != null && !user.teamRole.position.Equals("") && !user.teamRole.position.Equals("Keine"))
-					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + user.teamRole.position + ")";
+				if(user.listTeamRole[0].position != null && !user.listTeamRole[0].position.Equals("") && !user.listTeamRole[0].position.Equals("Keine"))
+					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + user.listTeamRole[0].position + ")";
 				else
 					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "";
 

@@ -36,8 +36,16 @@ namespace VolleyballApp
 
 			if (view == null) // no view to re-use, create new
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.TeamListView, null);
-			
-			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
+
+			view.FindViewById<TextView>(Resource.Id.teamListViewName).Text = item.name;
+			view.FindViewById<TextView>(Resource.Id.teamListViewSport).Text = item.sport;
+
+			TextView location = view.FindViewById<TextView>(Resource.Id.teamListViewOrt);
+			if(!item.location.Equals("") && !item.sport.Equals("")) {
+				location.Text = item.location + " - ";
+			} else {
+				location.Text = item.location;
+			}
 
 			return view;
 		}

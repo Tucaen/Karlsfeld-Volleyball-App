@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Tobias Winbauer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/requestListViewName"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+                <TextView
+                    android:text="möchte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/requestListViewText"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Coremember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/requestListViewUserType"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+                <TextView
+                    android:text="werden"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/requestListViewText"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="5.0dp"
+                    style="@style/text" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_margin="5dp">
+            <ImageView
+                android:src="@drawable/check"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:id="@+id/requestListViewBtnAccept" />
+            <ImageView
+                android:src="@drawable/delete"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:id="@+id/requestListViewBtnDenie" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
