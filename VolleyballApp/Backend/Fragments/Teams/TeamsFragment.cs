@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Json;
 
 namespace VolleyballApp {
 	public class TeamsFragment : Fragment {
@@ -56,11 +57,14 @@ namespace VolleyballApp {
 			return view;
 		}
 
-		private void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
+		private async void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e) {
 			VBTeam team = listTeams[e.Position];
 			VBUser user = VBUser.GetUserFromPreferences();
+			DB_Communicator db = DB_Communicator.getInstance();
+			List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(team.id)));
+
 			ViewController.getInstance().mainActivity.switchFragment(ViewController.TEAMS_FRAGMENT,
-				ViewController.TEAM_DETAILS_FRAGMENT, new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id)));
+				ViewController.TEAM_DETAILS_FRAGMENT, new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id), listRequests));
 			Console.WriteLine("Clicked on Team");
 		}
 	}

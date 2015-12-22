@@ -83,27 +83,28 @@ namespace VolleyballApp {
 				
 				foreach (JsonValue u in attendences) {
 					JsonValue user = u["Attendence"]["userObj"]["User"];
-
-					listUser.Add(createUserFromJson(user, ""));
+					VBUser temp = createUserFromJson(user, "");
+					temp.setEventState(u["Attendence"]["state"]);
+					listUser.Add(temp);
 				}
 			}
-			return listUser.OrderBy(u => u.eventState).ToList();
+			return listUser.OrderBy(u => u.getEventState()).ToList();
 		}
 
 		private VBUser createUserFromJson(JsonValue json, string password) {
 			VBUser vbuser = new VBUser(json);
 			vbuser.password = password;
 
-			if(json.ContainsKey("teamroles")) {
-				if(json["teamroles"] is JsonObject) {
-					JsonValue teamrole = json["teamroles"]["TeamRole"];
-					vbuser.listTeamRole.Add(new VBTeamrole(teamrole));
-				} else {
-					foreach(JsonValue teamrole in json["teamroles"]) {
-						vbuser.listTeamRole.Add(new VBTeamrole(teamrole["TeamRole"]));
-					}
-				} 
-			}
+//			if(json.ContainsKey("teamroles")) {
+//				if(json["teamroles"] is JsonObject) {
+//					JsonValue teamrole = json["teamroles"]["TeamRole"];
+//					vbuser.listTeamRole.Add(new VBTeamrole(teamrole));
+//				} else {
+//					foreach(JsonValue teamrole in json["teamroles"]) {
+//						vbuser.listTeamRole.Add(new VBTeamrole(teamrole["TeamRole"]));
+//					}
+//				} 
+//			}
 
 			return vbuser;
 		}

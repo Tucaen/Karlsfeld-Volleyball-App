@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Tobias Winbauer"
+                    android:text="Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/requestListViewName"
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Coremember"
+                    android:text="UserType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/requestListViewUserType"
@@ -54,9 +54,13 @@
                     style="@style/text" />
             </LinearLayout>
         </LinearLayout>
+        <View
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_weight="1" />
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_margin="5dp">
@@ -66,14 +70,16 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:id="@+id/requestListViewBtnAccept" />
+                android:id="@+id/requestListViewBtnAccept"
+                style="@style/toolbarIcon" />
             <ImageView
                 android:src="@drawable/delete"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:id="@+id/requestListViewBtnDenie" />
+                android:id="@+id/requestListViewBtnDenie"
+                style="@style/toolbarIcon" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

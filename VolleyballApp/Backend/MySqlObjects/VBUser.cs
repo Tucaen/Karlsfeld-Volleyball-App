@@ -14,7 +14,7 @@ namespace VolleyballApp {
 		public string email { get; set; }
 		public string state { get; set; } //e.g. FILLDATA or FINAL
 		public string password { get; set; }
-		public string eventState{ get; set; } //e.g. INVITED
+		private string eventState; //e.g. INVITED
 		public UserType userType;
 		public List<VBTeamrole> listTeamRole { get; set; }
 		public static Context context { get; set; }
@@ -45,6 +45,16 @@ namespace VolleyballApp {
 			this.state = db.convertAndInitializeToString(db.containsKey(json, "state", DB_Communicator.JSON_TYPE_STRING));
 			this.setUserType(db.convertAndInitializeToString(db.containsKey(json, "userType", DB_Communicator.JSON_TYPE_STRING)));
 			this.listTeamRole = new List<VBTeamrole>();
+			if(json.ContainsKey("teamroles")) {
+				if(json["teamroles"] is JsonObject) {
+					JsonValue teamrole = json["teamroles"]["TeamRole"];
+					this.listTeamRole.Add(new VBTeamrole(teamrole));
+				} else {
+					foreach(JsonValue teamrole in json["teamroles"]) {
+						this.listTeamRole.Add(new VBTeamrole(teamrole["TeamRole"]));
+					}
+				} 
+			}
 		}
 
 		public UserType getUserType() {
@@ -95,12 +105,17 @@ namespace VolleyballApp {
 			}
 		}
 
+		public string getEventState() {
+			return this.eventState;
+		}
+
 		public VBTeamrole getTeamroleForTeam(int teamId) {
 			foreach(VBTeamrole teamrole in listTeamRole) {
 				if(teamrole.teamId == teamId)
 					return teamrole;
 			}
-			return null;
+			//return dummy teamrole so sorting won't throw a NullPointerException
+			return new VBTeamrole(teamId, UserType.None.ToString(), "", 0, "Keine");
 		}
 
 		#region preferences
@@ -112,7 +127,8 @@ namespace VolleyballApp {
 			editor.PutString("name", user.name);
 			editor.PutString("email", user.email);
 			editor.PutString("state", user.state);
-			editor.PutString("password", user.password);
+			if(user.password != null && !user.password.Equals(""))
+				editor.PutString("password", user.password);
 			editor.PutString("userType", user.getUserType().ToString().Substring(0,1));
 			for(int i = 0; i < listTeamRole.Count; i++) {
 				editor.PutInt("teamId"+i, user.listTeamRole[i].teamId);

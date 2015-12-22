@@ -102,6 +102,7 @@
     <Compile Include="Backend\Fragments\Teams\AddTeamFragment.cs" />
     <Compile Include="Backend\Fragments\Teams\TeamDetailsFragment.cs" />
     <Compile Include="Backend\Dialogs\RequestUserTypeDialog.cs" />
+    <Compile Include="Backend\MySqlObjects\VBRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

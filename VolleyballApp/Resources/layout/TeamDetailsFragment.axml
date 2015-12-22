@@ -55,116 +55,159 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-        <!-- start listRequests -->
+        <!-- start Requests Layout -->
             <LinearLayout
-                android:id="@+id/teamDetailsRequestList"
-                android:divider="@drawable/divider"
-                android:showDividers="middle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        <!-- end listRequests -->
-        <!-- start userType -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
+                android:id="@+id/teamDetailsRequestsLayout"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/teamDetailsUserTypeLine">
+                android:layout_height="fill_parent">
                 <TextView
-                    android:text="Status:"
+                    android:text="Anfragen:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/teamDetailsUserTypeLabel"
+                    android:id="@+id/teamDetailsHeadlineRequests"
                     android:layout_marginLeft="5.0dp"
+                    android:textStyle="bold"
                     style="@style/text" />
-                <TextView
-                    android:text="userType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/teamDetailsUserTypeValue"
-                    android:layout_marginLeft="5.0dp"
-                    style="@style/text" />
-            </LinearLayout>
-        <!-- end userType -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="4dp"
-                android:orientation="vertical">
-                <Button
-                    android:text="Neuen Status beantragen"
-                    android:background="@drawable/normalbutton"
-                    android:layout_width="fill_parent"
-                    android:id="@+id/teamDetailsBtnRequestRank"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    style="@style/button" />
-            </LinearLayout>
-        <!-- start Position -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/teamDetailsPositionLine">
-                <TextView
-                    android:text="Position:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/teamDetailsPositionLabel"
-                    android:layout_marginLeft="5.0dp"
-                    style="@style/text" />
-                <Spinner
-                    android:id="@+id/teamDetailsPositionValue"
+            <!-- start listRequests -->
+                <LinearLayout
+                    android:id="@+id/teamDetailsRequestList"
+                    android:divider="@drawable/divider"
+                    android:showDividers="middle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/positions"
-                    android:layout_marginLeft="5.0dp"
-                    android:prompt="@string/position_prompt" />
-            </LinearLayout>
-        <!-- end Position -->
-        <!-- start Number -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/teamDetailsNumberLine">
-                <TextView
-                    android:text="Nummer:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/teamDetailsNumberLabel"
-                    android:layout_marginLeft="5.0dp"
-                    style="@style/text" />
-                <EditText
-                    android:text="13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/teamDetailsNumberValue"
-                    android:layout_marginLeft="5.0dp"
-                    style="@style/editText" />
-            </LinearLayout>
-        <!-- end Number -->
-        <!-- start btnSave -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_margin="4dp"
-                android:orientation="vertical">
-                <Button
-                    android:text="Speichern"
+                    android:orientation="vertical" />
+            <!-- end listRequests -->
+                <View
                     android:layout_width="fill_parent"
-                    android:id="@+id/teamDetailsBtnSave"
-                    android:gravity="center|bottom"
-                    style="@style/button" />
+                    android:layout_height="1dp"
+                    android:background="#ffc1c1c1"
+                    android:layout_margin="0dp" />
             </LinearLayout>
-        <!-- end btnSave -->
+        <!-- end Requests Layout -->
+        <!-- start Profile Layout -->
+            <LinearLayout
+                android:id="@+id/teamDetailsProfileLayout"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <TextView
+                    android:text="Profil:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsHeadlineProfile"
+                    android:layout_marginLeft="5.0dp"
+                    android:textStyle="bold"
+                    style="@style/text" />
+            <!-- start userType -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsUserTypeLine">
+                    <TextView
+                        android:text="Status:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teamDetailsUserTypeLabel"
+                        android:layout_marginLeft="5.0dp"
+                        style="@style/text" />
+                    <TextView
+                        android:text="userType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teamDetailsUserTypeValue"
+                        android:layout_marginLeft="5.0dp"
+                        style="@style/text" />
+                </LinearLayout>
+            <!-- end userType -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical">
+                    <Button
+                        android:text="Neuen Status beantragen"
+                        android:background="@drawable/normalbutton"
+                        android:layout_width="fill_parent"
+                        android:id="@+id/teamDetailsBtnRequestRank"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        style="@style/button" />
+                </LinearLayout>
+            <!-- start Position -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsPositionLine">
+                    <TextView
+                        android:text="Position:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teamDetailsPositionLabel"
+                        android:layout_marginLeft="5.0dp"
+                        style="@style/text" />
+                    <Spinner
+                        android:id="@+id/teamDetailsPositionValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/positions"
+                        android:layout_marginLeft="5.0dp"
+                        android:prompt="@string/position_prompt" />
+                </LinearLayout>
+            <!-- end Position -->
+            <!-- start Number -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/teamDetailsNumberLine">
+                    <TextView
+                        android:text="Nummer:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teamDetailsNumberLabel"
+                        android:layout_marginLeft="5.0dp"
+                        style="@style/text" />
+                    <EditText
+                        android:text="13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/teamDetailsNumberValue"
+                        android:layout_marginLeft="5.0dp"
+                        style="@style/editText" />
+                </LinearLayout>
+            <!-- end Number -->
+            <!-- start btnSave -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical">
+                    <Button
+                        android:text="Speichern"
+                        android:layout_width="fill_parent"
+                        android:id="@+id/teamDetailsBtnSave"
+                        android:gravity="center|bottom"
+                        style="@style/button" />
+                </LinearLayout>
+            <!-- end btnSave -->
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#ffc1c1c1"
+                    android:layout_margin="0dp" />
+            </LinearLayout>
+        <!-- end Profile Layout -->
         </LinearLayout>
     </ScrollView>
     <View

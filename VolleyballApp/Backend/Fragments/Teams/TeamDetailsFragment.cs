@@ -15,14 +15,16 @@ using Java.Lang;
 
 namespace VolleyballApp {
 	public class TeamDetailsFragment : Fragment {
-		private VBTeam team;
+		public VBTeam team { get; set; }
 		private VBTeamrole teamrole;
-		public static Spinner position;
-		public static EditText number;
+		public Spinner position;
+		public EditText number;
+		public List<VBRequest> listRequests { get; set; }
 
-		public TeamDetailsFragment(VBTeam team, VBTeamrole teamrole) {
+		public TeamDetailsFragment(VBTeam team, VBTeamrole teamrole, List<VBRequest> listRequests) {
 			this.team = team;
 			this.teamrole = teamrole;
+			this.listRequests = listRequests;
 		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
@@ -34,6 +36,24 @@ namespace VolleyballApp {
 
 			View view = inflater.Inflate(Resource.Layout.TeamDetailsFragment, container, false);
 
+			#region initialize buttons
+			Button btnSave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnSave);
+			Button btnRequestRank = view.FindViewById<Button>(Resource.Id.teamDetailsBtnRequestRank);
+			Button btnJoin = view.FindViewById<Button>(Resource.Id.teamDetailsBtnJoin);
+			Button btnFollow = view.FindViewById<Button>(Resource.Id.teamDetailsBtnFollow);
+			Button btnLeave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnLeave);
+			
+			btnSave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_SAVE, this));
+			btnRequestRank.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_REQUEST_RANK, this));
+			btnJoin.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_JOIN, this));
+			btnFollow.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_FOLLOW, this));
+			btnLeave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_LEAVE, this));
+			
+			btnLeave.Visibility = ViewStates.Gone;
+			btnRequestRank.Visibility = ViewStates.Gone;
+			#endregion
+
+			#region header
 			view.FindViewById<TextView>(Resource.Id.teamDetailsName).Text = team.name;
 			view.FindViewById<TextView>(Resource.Id.teamDetailsSport).Text = team.sport;
 			if(!team.location.Equals("") && !team.sport.Equals("")) {
@@ -41,29 +61,24 @@ namespace VolleyballApp {
 			} else {
 				view.FindViewById<TextView>(Resource.Id.teamDetailsLocation).Text = team.location;
 			}
-
-			#region initialize buttons
-			Button btnSave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnSave);
-			Button btnRequestRank = view.FindViewById<Button>(Resource.Id.teamDetailsBtnRequestRank);
-			Button btnJoin = view.FindViewById<Button>(Resource.Id.teamDetailsBtnJoin);
-			Button btnFollow = view.FindViewById<Button>(Resource.Id.teamDetailsBtnFollow);
-			Button btnLeave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnLeave);
-
-			btnSave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_SAVE, this));
-			btnRequestRank.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_REQUEST_RANK, this));
-			btnJoin.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_JOIN, this));
-			btnFollow.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_FOLLOW, this));
-			btnLeave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_LEAVE, this));
-
-			btnLeave.Visibility = ViewStates.Gone;
-			btnRequestRank.Visibility = ViewStates.Gone;
 			#endregion
 
+			#region requests
+			if(this.listRequests.Count > 0) {
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
+				this.initialzeListRequests(view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestList), this.listRequests, inflater);
+			} else {
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Gone;
+			}
+			#endregion
+
+			#region teamrole
 			view.FindViewById<LinearLayout>(Resource.Id.teamDetailsUserTypeLine).Visibility = ViewStates.Gone;
 			view.FindViewById<LinearLayout>(Resource.Id.teamDetailsPositionLine).Visibility = ViewStates.Gone;
 			view.FindViewById<LinearLayout>(Resource.Id.teamDetailsNumberLine).Visibility = ViewStates.Gone;
 
 			if(teamrole != null ) {
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsProfileLayout).Visibility = ViewStates.Visible;
 				btnSave.Visibility = ViewStates.Visible;
 
 				//userTyp
@@ -111,11 +126,27 @@ namespace VolleyballApp {
 					btnLeave.Visibility = ViewStates.Gone;
 				}
 			} else {
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsProfileLayout).Visibility = ViewStates.Gone;
 				view.FindViewById<TextView>(Resource.Id.teamDetailsUserTypeValue).Visibility = ViewStates.Gone;
 				btnSave.Visibility = ViewStates.Gone;
 			}
-
+			#endregion
 			return view;
+		}
+
+		private void initialzeListRequests(LinearLayout listView, List<VBRequest> list, LayoutInflater inflater) {
+			foreach(VBRequest request in list) {
+				View row = inflater.Inflate(Resource.Layout.RequestListView, null);
+				row.FindViewById<TextView>(Resource.Id.requestListViewName).Text = request.userName;
+				row.FindViewById<TextView>(Resource.Id.requestListViewUserType).Text = request.getUserType().ToString();
+
+				ImageView btnAccept = row.FindViewById<ImageView>(Resource.Id.requestListViewBtnAccept);
+				ImageView btnDenie = row.FindViewById<ImageView>(Resource.Id.requestListViewBtnDenie);
+				btnAccept.SetOnClickListener(new RequestClickListener(RequestClickListener.ON_ACCEPT_REQUEST, request, this));
+				btnDenie.SetOnClickListener(new RequestClickListener(RequestClickListener.ON_DENIE_REQUEST, request, this));
+
+				listView.AddView(row);
+			}
 		}
 
 		private int getIdOfPosition(string position) {
@@ -169,8 +200,8 @@ namespace VolleyballApp {
 
 			private async void onSave() {
 				DB_Communicator db = DB_Communicator.getInstance();
-				JsonValue json = await db.UpdateUser(user.name, teamrole.role, Convert.ToInt32(number.Text), 
-					position.SelectedItem.ToString(), teamrole.teamId);
+				JsonValue json = await db.UpdateUser(user.name, t.teamrole.role, Convert.ToInt32(t.number.Text), 
+					t.position.SelectedItem.ToString(), t.teamrole.teamId);
 
 				//ändernungen im user speichern
 				List<VBUser> list = db.createUserFromResponse(json, user.password);
@@ -203,13 +234,13 @@ namespace VolleyballApp {
 					"?userId=" + user.idUser +"&teamId=" + t.team.id, 
 					"TeamDetailsFragment.onLeave");
 
-				user.removeTeamrole(teamrole.teamId);
+				user.removeTeamrole(t.teamrole.teamId);
 				user.StoreUserInPreferences(ViewController.getInstance().mainActivity, user);
 				this.refreshTeamDetailsFragment();
 			}
 
 			private void onRequestRank() {
-				RequestUserTypeDialog d = new RequestUserTypeDialog(user.idUser, team.id);
+				RequestUserTypeDialog d = new RequestUserTypeDialog(user.idUser, t);
 				d.Show(ViewController.getInstance().mainActivity.FragmentManager, "REQUEST_USERTYPE_DIALOG");
 
 			}
@@ -235,8 +266,49 @@ namespace VolleyballApp {
 				string tag = ViewController.TEAM_DETAILS_FRAGMENT;
 
 				TeamDetailsFragment frag = vc.mainActivity.FindFragmentByTag(tag) as TeamDetailsFragment;
-				frag.teamrole = user.getTeamroleForTeam(team.id);
+				frag.teamrole = user.getTeamroleForTeam(t.team.id);
 
+				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
+			}
+		}
+	
+		class RequestClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
+			public const string ON_ACCEPT_REQUEST="onAcceptRequest", ON_DENIE_REQUEST="onDenieRequest";
+			private string source;
+			private VBRequest r;
+			private TeamDetailsFragment t;
+
+			public RequestClickListener(string source, VBRequest r, TeamDetailsFragment t) {
+				this.source = source;
+				this.r = r;
+				this.t = t;
+			}
+
+			public void OnClick(View view) {
+				switch(this.source) {
+				case ON_ACCEPT_REQUEST:
+					this.handleRequest("A");
+					break;
+				case ON_DENIE_REQUEST:
+					this.handleRequest("D");
+					break;
+				}
+			}
+
+			private async void handleRequest(string answer) {
+				DB_Communicator db = DB_Communicator.getInstance();
+				string response = await db.handleUserTypeRequest(r, answer);
+				JsonValue json = JsonValue.Parse(response);
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "handleRequest");
+
+				//refresh the user
+				VBUser user = new VBUser(json["data"]["User"]);
+				user.StoreUserInPreferences(ViewController.getInstance().mainActivity, user);
+
+				//refresh the view
+				t.teamrole = user.getTeamroleForTeam(r.teamId);
+				List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(r.teamId)));
+				this.t.listRequests = listRequests;
 				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
 			}
 		}

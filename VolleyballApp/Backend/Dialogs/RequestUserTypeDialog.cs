@@ -17,10 +17,12 @@ namespace VolleyballApp {
 	class RequestUserTypeDialog : DialogFragment {
 		public int userId { get; set; }
 		public int teamId { get; set; }
+		public TeamDetailsFragment t { get; set; }
 
-		public RequestUserTypeDialog (int userId, int teamId) {
+		public RequestUserTypeDialog (int userId, TeamDetailsFragment t) {
 			this.userId = userId;
-			this.teamId = teamId;
+			this.teamId = t.team.id;
+			this.t = t;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,15 +43,12 @@ namespace VolleyballApp {
 		public const string ON_SEND_REQUEST="onSendRequest";
 		private string source;
 		private RequestUserTypeDialog d;
-//		private int userId, teamId;
 		private View view;
 
 		public RequestUTClickListener(string source, View view, RequestUserTypeDialog d) {
 			this.source = source;
 			this.view = view;
 			this.d = d;
-//			this.userId = userId;
-//			this.teamId = teamId;
 		}
 
 		public void OnClick(View view) {
@@ -61,10 +60,15 @@ namespace VolleyballApp {
 		}
 
 		private async void onSendRequest() {
-//			Toast.MakeText(ViewController.getInstance().mainActivity, "Not implemented, yet!", ToastLength.Long).Show();
 			string response = await DB_Communicator.getInstance().createUserTypeRequest(d.userId, d.teamId, getRequest());
 			ViewController.getInstance().toastJson(null, JsonValue.Parse(response), ToastLength.Long, "Request was send");
 			d.Dismiss();
+
+			//refresh the view
+			DB_Communicator db = DB_Communicator.getInstance();
+			List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(d.teamId)));
+			d.t.listRequests = listRequests;
+			ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
 		}
 
 		private string getRequest() {

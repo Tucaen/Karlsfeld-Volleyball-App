@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" package="de.win.volleyballapp" android:versionName="0.0.12">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" package="de.win.volleyballapp" android:versionName="0.0.13">
 	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" />
 	<application android:label="VolleyballApp" android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
 		<receiver android:name="com.google.android.gms.gcm.GcmReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">

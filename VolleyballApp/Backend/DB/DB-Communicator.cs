@@ -94,9 +94,20 @@ namespace VolleyballApp {
 			return selectUser.createUserFromResponse(json, password);
 		}
 
-		public async Task<JsonValue> createUserTypeRequest(int userId, int teamId, string userType) {
+		public async Task<string> createUserTypeRequest(int userId, int teamId, string userType) {
 			string service = "service/user/create_request.php?userId=" + userId + "&teamId=" + teamId + "&userType=" + userType;
 			return await this.makeWebRequest(service, "RequestUserTypeDialog.onRequest");
+		}
+
+		public async Task<string> loadUserTypeRequest(int teamId) {
+			string service = "service/user/load_requestedUserTypes.php?teamId=" + teamId;
+			return await this.makeWebRequest(service, "RequestUserTypeDialog.loadUserTypeRequest");
+		}
+
+		public async Task<string> handleUserTypeRequest(VBRequest request, string answer) {
+			string service = "service/user/handleRequest.php?teamId=" + request.teamId + "&userId=" + request.userId + "&answer=" + answer +
+			                 "&userType=" + request.getUserType().ToString().Substring(0, 1);
+			return await this.makeWebRequest(service, "TeamDetailsFragment.handleUserTypeRequest");
 		}
 		#endregion
 
@@ -262,6 +273,17 @@ namespace VolleyballApp {
 			default :
 				return false;
 			}
+		}
+
+		public List<VBRequest> createReqeuestList(JsonValue json) {
+			if(this.wasSuccesful(json)) {
+				List<VBRequest> listRequests = new List<VBRequest>();
+				foreach(JsonValue request in json["data"]) {
+					listRequests.Add(new VBRequest(request["UserTypeRequest"]));
+				}
+				return listRequests;
+			}
+			return null;
 		}
 		#endregion
 	}

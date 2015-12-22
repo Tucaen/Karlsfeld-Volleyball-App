@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#000000"
+    android:background="#222"
     android:padding="8dp">
     <LinearLayout
         android:id="@+id/Text"
@@ -20,14 +20,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:textSize="20dip"
+                android:textSize="25dip"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/TitleText2"
                 android:text="TitleText2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dip"
+                android:textSize="20dip"
                 android:textColor="#FFFFFF"
                 android:textStyle="italic"
                 android:paddingLeft="5dip" />
@@ -37,7 +37,7 @@
             android:text="Date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dip"
+            android:textSize="20dip"
             android:textColor="#FFFFFF"
             android:paddingLeft="5dip" />
     </LinearLayout>
