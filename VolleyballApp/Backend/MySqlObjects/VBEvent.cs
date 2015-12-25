@@ -14,18 +14,16 @@ namespace VolleyballApp {
 		public string location { get; set; }
 		public string state { get; set; }
 		public string description { get; set; }
-//		private static Intent intent;
+		public int teamId { get; set; }
 
-		/** Constructor for Parcelable **/
-		public VBEvent(){}
-
-		public VBEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state, string description) {
+		public VBEvent(int idEvent, string name, DateTime startDate, DateTime endDate, string location, string state, string description, int teamId) {
 			this.idEvent = idEvent;
 			this.name = name;
 			this.startDate = startDate;
 			this.endDate = endDate;
 			this.location = location;
 			this.description = description;
+			this.teamId = teamId;
 
 			DB_Communicator db = DB_Communicator.getInstance();
 			switch(state) {

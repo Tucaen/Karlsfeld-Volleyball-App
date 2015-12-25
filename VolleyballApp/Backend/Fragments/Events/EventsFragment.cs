@@ -48,9 +48,10 @@ namespace VolleyballApp {
 				view.FindViewById<LinearLayout>(Resource.Id.eventsFragmentBtnAddLine).Visibility = ViewStates.Gone;
 			}
 
-			view.FindViewById<Button>(Resource.Id.btnAddEvent).Click += (object sender, EventArgs e) => {
+			view.FindViewById<Button>(Resource.Id.btnAddEvent).Click += async (object sender, EventArgs e) => {
 				MainActivity mainActivity = (MainActivity) this.Activity;
-				mainActivity.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.ADD_EVENT_FRAGMENT, new AddEventFragment());
+				List<VBTeam> listTeams = await DB_Communicator.getInstance().SelectTeams();
+				mainActivity.switchFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, ViewController.ADD_EVENT_FRAGMENT, new AddEventFragment(listTeams));
 			};
 
 			return view;

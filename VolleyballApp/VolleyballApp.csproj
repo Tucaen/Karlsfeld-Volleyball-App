@@ -103,6 +103,9 @@
     <Compile Include="Backend\Fragments\Teams\TeamDetailsFragment.cs" />
     <Compile Include="Backend\Dialogs\RequestUserTypeDialog.cs" />
     <Compile Include="Backend\MySqlObjects\VBRequest.cs" />
+    <Compile Include="Backend\Fragments\Teams\TeamDetailsProfileFragment.cs" />
+    <Compile Include="Backend\Fragments\Teams\TeamDetailsMemberFragment.cs" />
+    <Compile Include="Backend\Activities\Adapter\SpinnerTeamAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -189,6 +192,8 @@
     <AndroidResource Include="Resources\layout\RequestListView.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\check.png" />
     <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
+    <AndroidResource Include="Resources\layout\TeamDetailsProfileFragment.axml" />
+    <AndroidResource Include="Resources\layout\TeamDetailsMemberFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />

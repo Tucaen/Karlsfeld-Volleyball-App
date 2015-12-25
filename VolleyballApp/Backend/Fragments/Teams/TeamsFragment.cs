@@ -62,9 +62,12 @@ namespace VolleyballApp {
 			VBUser user = VBUser.GetUserFromPreferences();
 			DB_Communicator db = DB_Communicator.getInstance();
 			List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(team.id)));
+			List<VBUser> listMember = db.createMemberList(JsonValue.Parse(await db.loadMember(team.id)));
 
-			ViewController.getInstance().mainActivity.switchFragment(ViewController.TEAMS_FRAGMENT,
-				ViewController.TEAM_DETAILS_FRAGMENT, new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id), listRequests));
+			TeamDetailsFragment frag = new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id), listRequests, listMember);
+
+			ViewController.getInstance().mainActivity.switchFragment(
+													ViewController.TEAMS_FRAGMENT, ViewController.TEAM_DETAILS_FRAGMENT, frag);
 			Console.WriteLine("Clicked on Team");
 		}
 	}

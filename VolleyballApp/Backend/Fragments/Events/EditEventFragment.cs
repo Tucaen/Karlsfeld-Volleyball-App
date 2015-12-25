@@ -19,9 +19,17 @@ namespace VolleyballApp {
 	public class EditEventFragment : Fragment {
 		View view;
 		VBEvent _event;
+		private List<VBTeam> listTeams;
 
-		public EditEventFragment(VBEvent _event) {
+		public EditEventFragment(VBEvent _event, List<VBTeam> listTeams) {
 			this._event = _event;
+			this.listTeams = new List<VBTeam>();
+			VBTeam t = new VBTeam();
+			t.name = "Keines";
+			this.listTeams.Add(t);
+			foreach(VBTeam team in listTeams) {
+				this.listTeams.Add(team);
+			}
 		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
@@ -42,6 +50,12 @@ namespace VolleyballApp {
 			TextView endDate = view.FindViewById<TextView>(Resource.Id.addEventEndDateValue);
 			TextView endTime = view.FindViewById<TextView>(Resource.Id.addEventEndDateTimeValue);
 			Button btnSave = view.FindViewById<Button>(Resource.Id.btnCreateEvent);
+			Spinner teamIdSpinner = view.FindViewById<Spinner>(Resource.Id.addEventTeamIdValue);
+
+			SpinnerTeamAdapter adapter = new SpinnerTeamAdapter(this, Resource.Layout.SpinnerTextView, listTeams);
+			adapter.SetDropDownViewResource(Resource.Layout.SpinnerCheckedLayout);
+			teamIdSpinner.Adapter = adapter;
+			teamIdSpinner.SetSelection(this.getPositionOfTeam(_event.teamId), false);
 
 			//initialize components
 			name.Text = _event.name;
@@ -62,7 +76,10 @@ namespace VolleyballApp {
 				string start = ViewController.getInstance().convertDateForDb(startDate.Text) + "T" + startTime.Text + ":00";
 				string end = ViewController.getInstance().convertDateForDb(endDate.Text) + "T" + endTime.Text + ":00";
 
-				JsonValue json = await DB_Communicator.getInstance().updateEvent(_event.idEvent, name.Text, location.Text, start, end, info.Text);
+				VBTeam team = teamIdSpinner.SelectedItem as VBTeam;
+
+				JsonValue json = await DB_Communicator.getInstance().
+					updateEvent(_event.idEvent, name.Text, location.Text, start, end, info.Text, team.id);
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
@@ -70,6 +87,14 @@ namespace VolleyballApp {
 			};
 
 			return view;
+		}
+
+		private int getPositionOfTeam (int teamId) {
+			for(int i = 0; i < listTeams.Count; i++) {
+				if(listTeams[i].id == teamId)
+					return i;
+			}
+			return 0;
 		}
 
 		/**

@@ -4,12 +4,12 @@
 	<string name="app_name">VolleyballApp</string>
 
 	<string name="position_prompt">Wähle deine Position aus</string>
-   <string-array name="positions">
+   	<string-array name="positions">
    		<item>Keine</item>
         <item>Außenangreifer</item>
         <item>Diagonalangreifer</item>
         <item>Libero</item>
         <item>Mittelblocker</item>
         <item>Steller</item>
-    </string-array>
+	</string-array>
 </resources>

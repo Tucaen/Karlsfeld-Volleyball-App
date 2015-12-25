@@ -12,19 +12,29 @@ using Android.Views;
 using Android.Widget;
 using System.Json;
 using Java.Lang;
+using Android.Graphics;
+using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	public class TeamDetailsFragment : Fragment {
+		private const string MEMBER="teamDetailsMember", PROFILE="teamDetailsProfile";
+
 		public VBTeam team { get; set; }
-		private VBTeamrole teamrole;
-		public Spinner position;
-		public EditText number;
 		public List<VBRequest> listRequests { get; set; }
 
-		public TeamDetailsFragment(VBTeam team, VBTeamrole teamrole, List<VBRequest> listRequests) {
+		private VBTeamrole teamrole;
+		private List<VBUser> listMember { get; set; }
+		private TextView tabMember { get; set; }
+		private TextView tabProfile { get; set; }
+
+		private FragmentTransaction trans;
+		private string activeFragment;
+
+		public TeamDetailsFragment(VBTeam team, VBTeamrole teamrole, List<VBRequest> listRequests, List<VBUser> listMember) {
 			this.team = team;
 			this.teamrole = teamrole;
 			this.listRequests = listRequests;
+			this.listMember = listMember;
 		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
@@ -36,23 +46,6 @@ namespace VolleyballApp {
 
 			View view = inflater.Inflate(Resource.Layout.TeamDetailsFragment, container, false);
 
-			#region initialize buttons
-			Button btnSave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnSave);
-			Button btnRequestRank = view.FindViewById<Button>(Resource.Id.teamDetailsBtnRequestRank);
-			Button btnJoin = view.FindViewById<Button>(Resource.Id.teamDetailsBtnJoin);
-			Button btnFollow = view.FindViewById<Button>(Resource.Id.teamDetailsBtnFollow);
-			Button btnLeave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnLeave);
-			
-			btnSave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_SAVE, this));
-			btnRequestRank.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_REQUEST_RANK, this));
-			btnJoin.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_JOIN, this));
-			btnFollow.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_FOLLOW, this));
-			btnLeave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_LEAVE, this));
-			
-			btnLeave.Visibility = ViewStates.Gone;
-			btnRequestRank.Visibility = ViewStates.Gone;
-			#endregion
-
 			#region header
 			view.FindViewById<TextView>(Resource.Id.teamDetailsName).Text = team.name;
 			view.FindViewById<TextView>(Resource.Id.teamDetailsSport).Text = team.sport;
@@ -63,111 +56,87 @@ namespace VolleyballApp {
 			}
 			#endregion
 
-			#region requests
-			if(this.listRequests.Count > 0) {
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
-				this.initialzeListRequests(view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestList), this.listRequests, inflater);
+			#region tabs
+			tabMember = view.FindViewById<TextView>(Resource.Id.teamDetailsTabMember);
+			tabProfile = view.FindViewById<TextView>(Resource.Id.teamDetailsTabProfile);
+
+			tabMember.SetOnClickListener(new TabClickListener(TabClickListener.ON_TAB_MEMBER, this));
+			tabProfile.SetOnClickListener(new TabClickListener(TabClickListener.ON_TAB_PROFILE, this));
+
+			if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Member)) {
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsTabs).Visibility = ViewStates.Visible;
 			} else {
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Gone;
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsTabs).Visibility = ViewStates.Gone;
+			}
+
+			FrameLayout fragContainer = view.FindViewById<FrameLayout>(Resource.Id.teamDetailsFragmentContainer);
+
+			if(activeFragment == null) {
+				this.changeActiveTab(tabMember, tabProfile);
+				this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember));
+			} else {
+				if(activeFragment.Equals(TeamDetailsFragment.MEMBER)) {
+					this.changeActiveTab(tabMember, tabProfile);
+					this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember));
+				} else if(activeFragment.Equals(TeamDetailsFragment.PROFILE)) {
+					this.changeActiveTab(tabProfile, tabMember);
+					this.initalizeFragment(TeamDetailsFragment.PROFILE, new TeamDetailsProfileFragment(this.team, this.teamrole, this.listRequests));
+				}
 			}
 			#endregion
 
-			#region teamrole
-			view.FindViewById<LinearLayout>(Resource.Id.teamDetailsUserTypeLine).Visibility = ViewStates.Gone;
-			view.FindViewById<LinearLayout>(Resource.Id.teamDetailsPositionLine).Visibility = ViewStates.Gone;
-			view.FindViewById<LinearLayout>(Resource.Id.teamDetailsNumberLine).Visibility = ViewStates.Gone;
+			#region initialize buttons
+			Button btnJoin = view.FindViewById<Button>(Resource.Id.teamDetailsBtnJoin);
+			Button btnFollow = view.FindViewById<Button>(Resource.Id.teamDetailsBtnFollow);
+			Button btnLeave = view.FindViewById<Button>(Resource.Id.teamDetailsBtnLeave);
 
-			if(teamrole != null ) {
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsProfileLayout).Visibility = ViewStates.Visible;
-				btnSave.Visibility = ViewStates.Visible;
+			btnJoin.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_JOIN, this));
+			btnFollow.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_FOLLOW, this));
+			btnLeave.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_LEAVE, this));
 
-				//userTyp
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsUserTypeLine).Visibility = ViewStates.Visible;
-				view.FindViewById<TextView>(Resource.Id.teamDetailsUserTypeValue).Text = teamrole.getUserType().ToString();
-
-				if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Member)) {
-					btnRequestRank.Visibility = ViewStates.Visible;
-				} else {
-					btnRequestRank.Visibility = ViewStates.Gone;
-				}
-
-				if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Coremember)) {
-					//Position
-					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsPositionLine).Visibility = ViewStates.Visible;
-					position = view.FindViewById<Spinner>(Resource.Id.teamDetailsPositionValue);
-
-					ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this.Activity, Resource.Array.positions, Resource.Layout.SpinnerTextView);
-					adapter.SetDropDownViewResource(Resource.Layout.SpinnerCheckedLayout);
-					position.Adapter = adapter;
-
-					position.SetSelection(getIdOfPosition(teamrole.position));
-
-					//Number
-					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsNumberLine).Visibility = ViewStates.Visible;
-					number = view.FindViewById<EditText>(Resource.Id.teamDetailsNumberValue);
-
-					number.Text = teamrole.number.ToString();
-					
-				} else {
-					btnSave.Visibility = ViewStates.Gone;
-				}
-				
-				if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Member)) {
-					btnJoin.Visibility = ViewStates.Gone;
-					btnFollow.Visibility = ViewStates.Gone;
-					btnLeave.Visibility = ViewStates.Visible;
-				} else if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Fan)) {
-					btnJoin.Visibility = ViewStates.Visible;
-					btnFollow.Visibility = ViewStates.Gone;
-					btnLeave.Visibility = ViewStates.Visible;
-				} else {
-					btnJoin.Visibility = ViewStates.Visible;
-					btnFollow.Visibility = ViewStates.Visible;
-					btnLeave.Visibility = ViewStates.Gone;
-				}
+			if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Member)) {
+				btnJoin.Visibility = ViewStates.Gone;
+				btnFollow.Visibility = ViewStates.Gone;
+				btnLeave.Visibility = ViewStates.Visible;
+			} else if(DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Fan)) {
+				btnJoin.Visibility = ViewStates.Visible;
+				btnFollow.Visibility = ViewStates.Gone;
+				btnLeave.Visibility = ViewStates.Visible;
 			} else {
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsProfileLayout).Visibility = ViewStates.Gone;
-				view.FindViewById<TextView>(Resource.Id.teamDetailsUserTypeValue).Visibility = ViewStates.Gone;
-				btnSave.Visibility = ViewStates.Gone;
+				btnJoin.Visibility = ViewStates.Visible;
+				btnFollow.Visibility = ViewStates.Visible;
+				btnLeave.Visibility = ViewStates.Gone;
 			}
 			#endregion
+
 			return view;
 		}
 
-		private void initialzeListRequests(LinearLayout listView, List<VBRequest> list, LayoutInflater inflater) {
-			foreach(VBRequest request in list) {
-				View row = inflater.Inflate(Resource.Layout.RequestListView, null);
-				row.FindViewById<TextView>(Resource.Id.requestListViewName).Text = request.userName;
-				row.FindViewById<TextView>(Resource.Id.requestListViewUserType).Text = request.getUserType().ToString();
-
-				ImageView btnAccept = row.FindViewById<ImageView>(Resource.Id.requestListViewBtnAccept);
-				ImageView btnDenie = row.FindViewById<ImageView>(Resource.Id.requestListViewBtnDenie);
-				btnAccept.SetOnClickListener(new RequestClickListener(RequestClickListener.ON_ACCEPT_REQUEST, request, this));
-				btnDenie.SetOnClickListener(new RequestClickListener(RequestClickListener.ON_DENIE_REQUEST, request, this));
-
-				listView.AddView(row);
-			}
+		private void initalizeFragment(string activeFragmentTag, Fragment frag) {
+			activeFragment = activeFragmentTag;
+			trans = FragmentManager.BeginTransaction();
+			trans.Add(Resource.Id.teamDetailsFragmentContainer, frag, activeFragmentTag);
+			trans.AddToBackStack(activeFragmentTag);
+			trans.CommitAllowingStateLoss();
 		}
 
-		private int getIdOfPosition(string position) {
-			switch(position) {
-			case "Außenangreifer":
-				return 1;
-			case "Diagonalangreifer":
-				return 2;
-			case "Libero":
-				return 3;
-			case "Mittelblocker":
-				return 4;
-			case "Steller":
-				return 5;
-			default:
-				return 0;
-			}
+		private void changeActiveTab(TextView activeTab, TextView inactiveTab) {
+			this.markTabAsActive(activeTab);
+			this.markTabAsInactive(inactiveTab);
+		}
+
+		private void markTabAsActive(TextView activeTab) {
+			activeTab.SetBackgroundColor(Color.ParseColor("#333333"));
+			activeTab.PaintFlags = PaintFlags.UnderlineText;
+		}
+
+		private void markTabAsInactive(TextView inactiveTab) {
+			inactiveTab.SetBackgroundColor(Color.ParseColor("#000000"));
+			inactiveTab.SetTypeface(inactiveTab.Typeface, TypefaceStyle.Normal);
 		}
 
 		class TeamDetailsClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
-			public const string ON_SAVE = "onSave", ON_JOIN = "onJoin", ON_FOLLOW = "onFollow", ON_LEAVE = "onLeave", ON_REQUEST_RANK="onRequestRank";
+			public const string ON_JOIN = "onJoin", ON_FOLLOW = "onFollow", ON_LEAVE = "onLeave";
 			private string source;
 			private TeamDetailsFragment t;
 			private VBUser user;
@@ -180,9 +149,6 @@ namespace VolleyballApp {
 
 			public void OnClick(View view) {
 				switch(this.source) {
-				case ON_SAVE:
-					this.onSave();
-					break;
 				case ON_JOIN:
 					this.onJoin(t.team.id);
 					break;
@@ -192,32 +158,14 @@ namespace VolleyballApp {
 				case ON_LEAVE:
 					this.onLeave();
 					break;
-				case ON_REQUEST_RANK:
-					this.onRequestRank();
-					break;
 				}
 			}
 
-			private async void onSave() {
-				DB_Communicator db = DB_Communicator.getInstance();
-				JsonValue json = await db.UpdateUser(user.name, t.teamrole.role, Convert.ToInt32(t.number.Text), 
-					t.position.SelectedItem.ToString(), t.teamrole.teamId);
-
-				//ändernungen im user speichern
-				List<VBUser> list = db.createUserFromResponse(json, user.password);
-				if(list.Count > 0) {
-					VBUser updatedUser = db.createUserFromResponse(json, user.password)[0];
-					updatedUser.StoreUserInPreferences(ViewController.getInstance().mainActivity, updatedUser);
-				}
-
-				Toast.MakeText(ViewController.getInstance().mainActivity, json["message"].ToString(), ToastLength.Long).Show();
-			}
-		
 			private async void onJoin(int teamId) {
 				string response = await DB_Communicator.getInstance().makeWebRequest("service/team/join_team.php?id=" + teamId + "&type=M",
-																													"TeamDetailsFragment.onJoin");
-					
+					"TeamDetailsFragment.onJoin");
 				this.updateTeamrole(response);
+				await this.updateListMember();
 				this.refreshTeamDetailsFragment();
 			}
 
@@ -226,6 +174,7 @@ namespace VolleyballApp {
 					"TeamDetailsFragment.onFollow");
 
 				this.updateTeamrole(response);
+				await this.updateListMember();
 				this.refreshTeamDetailsFragment();
 			}
 
@@ -235,16 +184,15 @@ namespace VolleyballApp {
 					"TeamDetailsFragment.onLeave");
 
 				user.removeTeamrole(t.teamrole.teamId);
-				user.StoreUserInPreferences(ViewController.getInstance().mainActivity, user);
+				await this.updateListMember();
 				this.refreshTeamDetailsFragment();
 			}
 
-			private void onRequestRank() {
-				RequestUserTypeDialog d = new RequestUserTypeDialog(user.idUser, t);
-				d.Show(ViewController.getInstance().mainActivity.FragmentManager, "REQUEST_USERTYPE_DIALOG");
-
-			}
-
+			/**
+			 * Updates the user with the teamrole in the response
+			 * Doesn't affect the view!
+			 * To refresh the GUI call refreshTeamDetailsFragment();
+			 **/
 			private void updateTeamrole(string response) {
 				JsonValue json = JsonValue.Parse(response);
 
@@ -261,6 +209,13 @@ namespace VolleyballApp {
 				}
 			}
 
+			private async Task<List<VBUser>> updateListMember() {
+				DB_Communicator db = DB_Communicator.getInstance();
+				List<VBUser> listMember = db.createMemberList(JsonValue.Parse(await db.loadMember(t.team.id)));
+				t.listMember = listMember;
+				return listMember;
+			}
+
 			private void refreshTeamDetailsFragment() {
 				ViewController vc = ViewController.getInstance();
 				string tag = ViewController.TEAM_DETAILS_FRAGMENT;
@@ -272,44 +227,45 @@ namespace VolleyballApp {
 			}
 		}
 	
-		class RequestClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
-			public const string ON_ACCEPT_REQUEST="onAcceptRequest", ON_DENIE_REQUEST="onDenieRequest";
+		class TabClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
+			public const string ON_TAB_MEMBER = "onTabMember", ON_TAB_PROFILE = "onTabProfile";
 			private string source;
-			private VBRequest r;
 			private TeamDetailsFragment t;
 
-			public RequestClickListener(string source, VBRequest r, TeamDetailsFragment t) {
+			public TabClickListener(string source, TeamDetailsFragment t) {
 				this.source = source;
-				this.r = r;
 				this.t = t;
 			}
 
 			public void OnClick(View view) {
 				switch(this.source) {
-				case ON_ACCEPT_REQUEST:
-					this.handleRequest("A");
+				case ON_TAB_MEMBER:
+					if(!t.activeFragment.Equals(TeamDetailsFragment.MEMBER)) {
+						t.changeActiveTab(t.tabMember, t.tabProfile);
+						Fragment frag = new TeamDetailsMemberFragment(t.listMember);
+						this.switchFragment(t.activeFragment, TeamDetailsFragment.MEMBER, frag);
+					}
 					break;
-				case ON_DENIE_REQUEST:
-					this.handleRequest("D");
+				case ON_TAB_PROFILE:
+					if(!t.activeFragment.Equals(TeamDetailsFragment.PROFILE)) {
+						t.changeActiveTab(t.tabProfile, t.tabMember);
+						Fragment frag = new TeamDetailsProfileFragment(t.team, t.teamrole, t.listRequests);
+						this.switchFragment(t.activeFragment, TeamDetailsFragment.PROFILE, frag);
+					}
 					break;
 				}
 			}
 
-			private async void handleRequest(string answer) {
-				DB_Communicator db = DB_Communicator.getInstance();
-				string response = await db.handleUserTypeRequest(r, answer);
-				JsonValue json = JsonValue.Parse(response);
-				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "handleRequest");
+			private void switchFragment(string oldFragmentTag, string newFragmentTag, Fragment newFragment) {
+				t.activeFragment = newFragmentTag;
+				t.trans = t.FragmentManager.BeginTransaction();
 
-				//refresh the user
-				VBUser user = new VBUser(json["data"]["User"]);
-				user.StoreUserInPreferences(ViewController.getInstance().mainActivity, user);
+				Fragment oldFragment = t.FragmentManager.FindFragmentByTag(oldFragmentTag);
+				if(oldFragment != null)
+					t.trans.Remove(oldFragment);
 
-				//refresh the view
-				t.teamrole = user.getTeamroleForTeam(r.teamId);
-				List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(r.teamId)));
-				this.t.listRequests = listRequests;
-				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
+				t.trans.Add(Resource.Id.teamDetailsFragmentContainer, newFragment, newFragmentTag);
+				t.trans.Commit();
 			}
 		}
 	}

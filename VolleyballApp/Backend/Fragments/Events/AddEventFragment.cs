@@ -17,6 +17,18 @@ using Java.Util;
 namespace VolleyballApp {
 	public class AddEventFragment : Fragment {
 		View view;
+		private List<VBTeam> listTeams;
+
+		public AddEventFragment (List<VBTeam> listTeams) {
+//			this.listTeams = listTeams;
+			this.listTeams = new List<VBTeam>();
+			VBTeam t = new VBTeam();
+			t.name = "Keines";
+			this.listTeams.Add(t);
+			foreach(VBTeam team in listTeams) {
+				this.listTeams.Add(team);
+			}
+		}
 
 		public override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
@@ -34,6 +46,9 @@ namespace VolleyballApp {
 			TextView startTime = view.FindViewById<TextView>(Resource.Id.addEventStartDateTimeValue);
 			TextView endDate = view.FindViewById<TextView>(Resource.Id.addEventEndDateValue);
 			TextView endTime = view.FindViewById<TextView>(Resource.Id.addEventEndDateTimeValue);
+			Spinner teamIdSpinner = view.FindViewById<Spinner>(Resource.Id.addEventTeamIdValue);
+
+			teamIdSpinner.Adapter = new SpinnerTeamAdapter(this, Resource.Layout.SpinnerTextView, listTeams);
 
 			startDate.Click += delegate { pickDate(startDate, endDate); };
 			startTime.Click += delegate { pickTime(startTime, endTime); };
@@ -47,7 +62,10 @@ namespace VolleyballApp {
 				string start = ViewController.getInstance().convertDateForDb(startDate.Text) + "T" + startTime.Text + ":00";
 				string end = ViewController.getInstance().convertDateForDb(endDate.Text) + "T" + endTime.Text + ":00";
 
-				JsonValue json = await DB_Communicator.getInstance().createEvent(name.Text, location.Text, start, end, info.Text);
+				VBTeam team = teamIdSpinner.SelectedItem as VBTeam;
+
+				JsonValue json = await DB_Communicator.getInstance().
+					createEvent(name.Text, location.Text, start, end, info.Text, team.id);
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 

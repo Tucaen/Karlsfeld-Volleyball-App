@@ -136,9 +136,9 @@ namespace VolleyballApp {
 			return await db.deleteEvent(id);
 		}
 
-		public async Task<JsonValue> createEvent(string name, string location, string start, string end, string info) {
+		public async Task<JsonValue> createEvent(string name, string location, string start, string end, string info, int teamId) {
 			DB_InsertEvent dbInsertEvent = new DB_InsertEvent(this);
-			return await dbInsertEvent.createEvent(name, location, start, end, info);
+			return await dbInsertEvent.createEvent(name, location, start, end, info, teamId);
 		}
 
 		public async Task<JsonValue> createEvent(int teamId, string name, string location, string start, string end) {
@@ -151,9 +151,9 @@ namespace VolleyballApp {
 			return await dbUpdate.inviteUserToEvent(idEvent, toInvite);
 		}
 
-		public async Task<JsonValue> updateEvent(int idEvent, string name, string location, string start, string end, string info) {
+		public async Task<JsonValue> updateEvent(int idEvent, string name, string location, string start, string end, string info, int teamId) {
 			DB_Update dbUpdate = new DB_Update(this);
-			return await dbUpdate.updateEvent(idEvent, name, location, start, end, info);
+			return await dbUpdate.updateEvent(idEvent, name, location, start, end, info, teamId);
 		}
 		#endregion
 
@@ -171,6 +171,11 @@ namespace VolleyballApp {
 		public async Task<JsonValue> createTeam(string name, string sport, string location, string description) {
 			DB_SelectTeam dbSelectTeam = new DB_SelectTeam(this);
 			return await dbSelectTeam.createTeam(name, sport, location, description);
+		}
+
+		public async Task<string> loadMember(int teamId) {
+			string service = "service/team/load_teams.php?id=" + teamId + "&loadMember=true";
+			return await this.makeWebRequest(service, "RequestUserTypeDialog.loadMember");
 		}
 		#endregion
 
@@ -233,8 +238,8 @@ namespace VolleyballApp {
 				} catch (WebException we) {
 					if(debug) 
 						Console.WriteLine(type + " - FATAL ERROR: Error with php-script! Message: " + we.Message);
-					responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error with php-script! "+
-						type + "\",\"data\":{}}";
+					responseText = "{\"state\":\"error\",\"code\":\"n\\/a\",\"message\":\"Error at: "+
+						type + " Message: " + we.Message + "\",\"data\":{}}";
 				}
 				
 				if(debug) 
@@ -282,6 +287,17 @@ namespace VolleyballApp {
 					listRequests.Add(new VBRequest(request["UserTypeRequest"]));
 				}
 				return listRequests;
+			}
+			return null;
+		}
+
+		public List<VBUser> createMemberList(JsonValue json) {
+			if(this.wasSuccesful(json)) {
+				List<VBUser> list = new List<VBUser>();
+				foreach(JsonValue user in json["data"][0]["Team"]["member"]) {
+					list.Add(new VBUser(user["User"]));
+				}
+				return list;
 			}
 			return null;
 		}

@@ -175,6 +175,8 @@ namespace VolleyballApp {
 					listTeamRole.RemoveAt(i);
 				}
 			}
+
+			this.StoreUserInPreferences(ViewController.getInstance().mainActivity, this);
 		}
 
 		public override String ToString() {

@@ -45,9 +45,9 @@ namespace VolleyballApp {
 			return JsonValue.Parse(responseText);
 		}
 
-		public async Task<JsonValue> updateEvent (int idEvent, string name, string location, string start, string end, string info) {
+		public async Task<JsonValue> updateEvent (int idEvent, string name, string location, string start, string end, string info, int teamId) {
 			string responseText = await dbCommunicator.makeWebRequest("service/event/update_event.php" + "?idEvent=" + idEvent + 
-				"&name=" + name + "&startDate=" + start + "&endDate=" + end + "&location="+ location + "&desc="+ info,
+				"&name=" + name + "&startDate=" + start + "&endDate=" + end + "&location="+ location + "&desc="+ info + "&teamId=" + teamId,
 				"DB_Update.updateEvent");
 
 			return JsonValue.Parse(responseText);

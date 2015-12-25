@@ -1,12 +1,15 @@
 ﻿using System;
 
 namespace VolleyballApp {
-	public class VBTeam {
+	public class VBTeam : Java.Lang.Object {
 		public int id { get; set; }
 		public string name { get; set; }
 		public string sport { get; set; }
 		public string location { get; set; }
 		public string description { get; set; }
+
+		public VBTeam() {
+		}
 
 		public VBTeam(int id) : this(id, "", "", "", "") {
 		}
@@ -20,7 +23,7 @@ namespace VolleyballApp {
 		}
 
 		public override string ToString() {
-			return string.Format("[VBTeam: id={0}, name={1}, sport={2}, location={3}, description={4}]", id, name, sport, location, description);
+			return name;
 		}
 	}
 }

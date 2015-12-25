@@ -12,9 +12,10 @@ namespace VolleyballApp {
 			this.debug = dbCommunicator.debug;
 		}
 
-		public async Task<JsonValue> createEvent(string name, string location, string start, string end, string description) {
-			string responseText = await dbCommunicator.makeWebRequest("service/event/create_event.php" + "?name=" + name + 
-				"&start=" + start + "&end=" + end + "&location="+ location + "&desc="+ description, "DB_InsertEvent.createEvent()");
+		public async Task<JsonValue> createEvent(string name, string location, string start, string end, string description, int teamId) {
+			string service = "service/event/create_event.php" + "?name=" + name + "&start=" + start + "&end=" + end +
+			                 "&location=" + location + "&desc=" + description + "&teamId=" + teamId;
+			string responseText = await dbCommunicator.makeWebRequest(service, "DB_InsertEvent.createEvent()");
 
 			return JsonValue.Parse(responseText);
 		}

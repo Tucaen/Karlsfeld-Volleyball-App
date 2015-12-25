@@ -140,6 +140,25 @@
                 </LinearLayout>
             </LinearLayout>
         <!-- end endDate -->
+        <!-- start teamId -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addEventTeamIdLabel"
+                    android:text="Team: "
+                    style="@style/text" />
+                <Spinner
+                    android:id="@+id/addEventTeamIdValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5.0dp" />
+            </LinearLayout>
+        <!-- end teamId -->
         </LinearLayout>
     </ScrollView>
     <Button

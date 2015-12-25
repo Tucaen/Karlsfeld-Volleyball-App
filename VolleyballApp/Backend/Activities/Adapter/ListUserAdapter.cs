@@ -31,10 +31,14 @@ namespace VolleyballApp {
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.UserListView, null);
 			
 			view.FindViewById<TextView>(Resource.Id.UserListViewName).Text = item.name;
-			if(item.listTeamRole[0].position != null && !item.listTeamRole[0].position.Equals("") && !item.listTeamRole[0].position.Equals("Keine"))
+
+			if(item.listTeamRole != null && item.listTeamRole.Count > 0 && item.listTeamRole[0].position != null && 
+				!item.listTeamRole[0].position.Equals("") && !item.listTeamRole[0].position.Equals("Keine")) {
+
 				view.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + item.listTeamRole[0].position + ")";
-			else
+			} else {
 				view.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "";
+			}
 			return view;
 		}
 	}

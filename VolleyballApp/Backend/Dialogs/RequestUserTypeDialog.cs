@@ -17,9 +17,9 @@ namespace VolleyballApp {
 	class RequestUserTypeDialog : DialogFragment {
 		public int userId { get; set; }
 		public int teamId { get; set; }
-		public TeamDetailsFragment t { get; set; }
+		public TeamDetailsProfileFragment t { get; set; }
 
-		public RequestUserTypeDialog (int userId, TeamDetailsFragment t) {
+		public RequestUserTypeDialog (int userId, TeamDetailsProfileFragment t) {
 			this.userId = userId;
 			this.teamId = t.team.id;
 			this.t = t;

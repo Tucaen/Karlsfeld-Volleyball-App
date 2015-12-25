@@ -100,12 +100,12 @@ namespace VolleyballApp {
 		private void initalizeLinearLayout(LinearLayout listView, List<VBUser> list, string eventState, TextView textView, LayoutInflater inflater) {
 			List<VBUser> filteredList = getUserWithEventState(list, eventState);
 
-			List<VBUser> sortedList = filteredList.OrderBy(u => u.getTeamroleForTeam(1).position.Equals("Keine") || u.getTeamroleForTeam(1).position.Equals("")).
-				ThenBy(u => u.getTeamroleForTeam(1).position.Equals("Steller")).
-				ThenBy(u => u.getTeamroleForTeam(1).position.Equals("Mittelblocker")).
-				ThenBy(u => u.getTeamroleForTeam(1).position.Equals("Libero")).
-				ThenBy(u => u.getTeamroleForTeam(1).position.Equals("Diagonalangreifer")).
-				ThenBy(u => u.getTeamroleForTeam(1).position.Equals("Außenangreifer")).
+			List<VBUser> sortedList = filteredList.OrderBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Keine") || u.getTeamroleForTeam(_event.teamId).position.Equals("")).
+				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Steller")).
+				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Mittelblocker")).
+				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Libero")).
+				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Diagonalangreifer")).
+				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Außenangreifer")).
 				ThenBy(u => u.name). 
 				ToList();
 
@@ -114,7 +114,7 @@ namespace VolleyballApp {
 			foreach(VBUser user in sortedList) {
 				View row = inflater.Inflate(Resource.Layout.UserListView, null);
 				row.FindViewById<TextView>(Resource.Id.UserListViewName).Text = user.name;
-				VBTeamrole teamrole = user.getTeamroleForTeam(1);
+				VBTeamrole teamrole = user.getTeamroleForTeam(_event.teamId);
 				if(teamrole.position != null && !teamrole.position.Equals("") && !teamrole.position.Equals("Keine"))
 					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + teamrole.position + ")";
 				else
@@ -206,8 +206,9 @@ namespace VolleyballApp {
 			iud.Show(ViewController.getInstance().mainActivity.FragmentManager, "INVITE_USER_DIALOG");
 		}
 
-		private void onEdit() {
-			ViewController.getInstance().mainActivity.switchFragment(ViewController.EVENT_DETAILS_FRAGMENT, ViewController.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event));
+		private async void onEdit() {
+			List<VBTeam> listTeams = await DB_Communicator.getInstance().SelectTeams();
+			ViewController.getInstance().mainActivity.switchFragment(ViewController.EVENT_DETAILS_FRAGMENT, ViewController.EDIT_EVENT_FRAGMENT, new EditEventFragment(_event, listTeams));
 		}
 
 		private void onDelete() {
