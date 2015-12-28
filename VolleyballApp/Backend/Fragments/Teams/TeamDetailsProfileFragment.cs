@@ -241,7 +241,7 @@ namespace VolleyballApp {
 				t.teamrole = user.getTeamroleForTeam(r.teamId);
 				List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(r.teamId)));
 				this.t.listRequests = listRequests;
-				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
+				ViewController.getInstance().refreshFragment(TeamDetailsFragment.PROFILE); //TEAM_DETAILS_PROFILE_FRAGMENT muss refreshed werden
 			}
 		}
 	}

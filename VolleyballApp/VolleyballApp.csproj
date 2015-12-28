@@ -106,6 +106,7 @@
     <Compile Include="Backend\Fragments\Teams\TeamDetailsProfileFragment.cs" />
     <Compile Include="Backend\Fragments\Teams\TeamDetailsMemberFragment.cs" />
     <Compile Include="Backend\Activities\Adapter\SpinnerTeamAdapter.cs" />
+    <Compile Include="Backend\Fragments\Teams\EditTeamFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

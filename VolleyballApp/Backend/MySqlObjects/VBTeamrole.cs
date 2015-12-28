@@ -58,7 +58,7 @@ namespace VolleyballApp {
 		}
 
 		public override string ToString() {
-			return "UserType: " + userType + ", Role: " + role + ", Number: " + number + ", Position: " + position;
+			return "teamId: " + teamId + ", UserType: " + userType + ", Role: " + role + ", Number: " + number + ", Position: " + position;
 		}
 	}
 }

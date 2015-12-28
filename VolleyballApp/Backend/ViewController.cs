@@ -7,6 +7,7 @@ using Android.Widget;
 using Android.Content;
 using Android.Gms.Common;
 using Java.Lang;
+using Android.Views.InputMethods;
 
 namespace VolleyballApp {
 	public class ViewController {
@@ -17,11 +18,9 @@ namespace VolleyballApp {
 		public string token { get; set; }
 
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
-										ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment",
-										PROFILE_FRAGMENT="ProfileFragment", EDIT_EVENT_FRAGMENT = "EditEventFragment",
-										PAST_EVENTS_FRAGMENT="PastEventsFragment", TEAMS_FRAGMENT="TeamsFragment",
-										ADD_TEAM_FRAGMENT="AddTeamFragment", TEAM_DETAILS_FRAGMENT="TeamDetailsFragment";
-
+			ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment", PROFILE_FRAGMENT="ProfileFragment",
+			EDIT_EVENT_FRAGMENT = "EditEventFragment", PAST_EVENTS_FRAGMENT="PastEventsFragment", TEAMS_FRAGMENT="TeamsFragment",
+			ADD_TEAM_FRAGMENT="AddTeamFragment", TEAM_DETAILS_FRAGMENT="TeamDetailsFragment", EDIT_TEAM_FRAGMENT = "EditTeamFragment";
 
 		private ViewController() {
 		}
@@ -141,6 +140,11 @@ namespace VolleyballApp {
 		public string convertDateForDb(string date) {
 			string[] temp = date.Split('.');
 			return temp[2] + "-" + temp[1] + "-" + temp[0];
+		}
+
+		public void hideSoftKeyboard() {
+			InputMethodManager inputMethodManager = (InputMethodManager)  this.mainActivity.GetSystemService(Activity.InputMethodService);
+			inputMethodManager.HideSoftInputFromWindow(this.mainActivity.CurrentFocus.WindowToken, 0);
 		}
 
 		public bool IsPlayServicesAvailable () {

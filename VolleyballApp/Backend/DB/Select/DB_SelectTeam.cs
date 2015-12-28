@@ -13,7 +13,7 @@ namespace VolleyballApp {
 
 		public async Task<VBTeam> SelectTeam(int idTeam) {
 			string 	responseText = await dbCommunicator.makeWebRequest("service/team/load_teams.php?id=" + idTeam, type + ".SelectTeam");
-			return createTeamFromResponse(JsonValue.Parse(responseText));
+			return new VBTeam(JsonValue.Parse(responseText));
 		}
 		public async Task<List<VBTeam>> SelectTeams() {
 			string responseText = await dbCommunicator.makeWebRequest("service/team/load_teams.php", type + ".SelectTeamsForUser");
@@ -35,18 +35,10 @@ namespace VolleyballApp {
 			if(dbCommunicator.wasSuccesful(json)) {
 				foreach(JsonValue jv in json["data"]) {
 					JsonValue team = jv["Team"];
-					list.Add(createTeamFromResponse(team));
+					list.Add(new VBTeam(team));
 				}
 			}
 			return list;
-		}
-
-		private VBTeam createTeamFromResponse(JsonValue json) {
-			return new VBTeam(dbCommunicator.convertAndInitializeToInt(dbCommunicator.containsKey(json, "id", DB_Communicator.JSON_TYPE_INT)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "name", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "sport", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "location", DB_Communicator.JSON_TYPE_STRING)),
-				dbCommunicator.convertAndInitializeToString(dbCommunicator.containsKey(json, "description", DB_Communicator.JSON_TYPE_STRING)));
 		}
 		#endregion
 	}

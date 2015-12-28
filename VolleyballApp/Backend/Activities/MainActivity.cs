@@ -96,39 +96,15 @@ namespace VolleyballApp {
 					menu.AnimatedOpened = !menu.AnimatedOpened;
 				};
 
-				FindViewById(Resource.Id.menuProfile).Click += (sender, e) => {
-					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
-					switchFragment(activeFragment, ViewController.PROFILE_FRAGMENT, new ProfileFragment());
-					d.Dismiss();
-				};
+				FindViewById(Resource.Id.menuProfile).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PROFILE, this));
 
-				FindViewById<LinearLayout>(Resource.Id.menuTeam).Click += async (sender, e) => {
-					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
-					List<VBTeam> list = await DB_Communicator.getInstance().SelectTeams();
-					switchFragment(activeFragment, ViewController.TEAMS_FRAGMENT, new TeamsFragment(list));
-					d.Dismiss();
-				};
+				FindViewById<LinearLayout>(Resource.Id.menuTeam).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_TEAM, this));
 
-				FindViewById(Resource.Id.menuEventsUpcoming).Click += async (sender, e) => {
-					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
-					switchFragment(activeFragment, ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
-					d.Dismiss();
-				};
+				FindViewById(Resource.Id.menuEventsUpcoming).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_UPCOMING_EVENTS, this));
 
-				FindViewById(Resource.Id.menuEventsPast).Click += async (sender, e) => {
-					ProgressDialog d = base.createProgressDialog("Please Wait!", "Loading...");
-					List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Past);
-					switchFragment(activeFragment, ViewController.PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
-					d.Dismiss();
-				};
-
-				FindViewById(Resource.Id.menuLogout).Click += (sender, e) => {
-					ProgressDialog d = base.createProgressDialog("Please Wait!", "");
-					base.logout();
-					d.Dismiss();
-
-				};
+				FindViewById(Resource.Id.menuEventsPast).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PAST_EVENTS, this));
+							
+				FindViewById(Resource.Id.menuLogout).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_LOGOUT, this));
 				#endregion
 			}
 			dialog.Dismiss();
@@ -173,7 +149,7 @@ namespace VolleyballApp {
 				activeFragment = FragmentManager.GetBackStackEntryAt(FragmentManager.BackStackEntryCount - 1).Name;
 			else
 				activeFragment = null;
-			
+
 			FragmentManager.PopBackStackImmediate();
 		}
 
@@ -198,6 +174,72 @@ namespace VolleyballApp {
 
 		public Fragment FindFragmentByTag(string tag) {
 			return FragmentManager.FindFragmentByTag(tag);
+		}
+	
+		class SlideMenuClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
+			public const string ON_PROFILE = "onProfile", ON_TEAM = "onTeam", ON_UPCOMING_EVENTS = "onUpcomingEvents",
+								ON_PAST_EVENTS = "onPastEvents", ON_LOGOUT = "onLogout";
+			private string source;
+			private MainActivity t;
+
+			public SlideMenuClickListener(string source, MainActivity t) {
+				this.source = source;
+				this.t = t;
+			}
+
+			public void OnClick(View view) {
+				switch(this.source) {
+				case ON_PROFILE:
+					this.onProfile();
+					break;
+				case ON_TEAM:
+					this.onTeam();
+					break;
+				case ON_UPCOMING_EVENTS:
+					this.onUpcomingEvents();
+					break;
+				case ON_PAST_EVENTS:
+					this.onPastEvents();
+					break;
+				case ON_LOGOUT:
+					this.onLogout();
+					break;
+				}
+			}
+
+			private void onProfile() {
+				ProgressDialog d = t.createProgressDialog("Please Wait!", "");
+				t.switchFragment(t.activeFragment, ViewController.PROFILE_FRAGMENT, new ProfileFragment());
+				d.Dismiss();
+			}
+
+
+			private async void onTeam() {
+				ProgressDialog d = t.createProgressDialog("Please Wait!", "");
+				List<VBTeam> list = await DB_Communicator.getInstance().SelectTeams();
+				t.switchFragment(t.activeFragment, ViewController.TEAMS_FRAGMENT, new TeamsFragment(list));
+				d.Dismiss();
+			}
+
+			private async void onUpcomingEvents() {
+				ProgressDialog d = t.createProgressDialog("Please Wait!", "Loading...");
+				List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(VBUser.GetUserFromPreferences(), EventType.Upcoming);
+				t.switchFragment(t.activeFragment, ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
+				d.Dismiss();
+			}
+
+			private async void onPastEvents() {
+				ProgressDialog d = t.createProgressDialog("Please Wait!", "Loading...");
+				List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(VBUser.GetUserFromPreferences(), EventType.Past);
+				t.switchFragment(t.activeFragment, ViewController.PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
+				d.Dismiss();
+			}
+
+			private void onLogout() {
+				ProgressDialog d = t.createProgressDialog("Please Wait!", "");
+				t.logout();
+				d.Dismiss();
+			}
 		}
 	}
 }

@@ -68,7 +68,6 @@ namespace VolleyballApp {
 
 			ViewController.getInstance().mainActivity.switchFragment(
 													ViewController.TEAMS_FRAGMENT, ViewController.TEAM_DETAILS_FRAGMENT, frag);
-			Console.WriteLine("Clicked on Team");
 		}
 	}
 }

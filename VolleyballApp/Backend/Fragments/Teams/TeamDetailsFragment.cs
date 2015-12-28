@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace VolleyballApp {
 	public class TeamDetailsFragment : Fragment {
-		private const string MEMBER="teamDetailsMember", PROFILE="teamDetailsProfile";
+		public const string MEMBER="teamDetailsMember", PROFILE="teamDetailsProfile";
 
 		public VBTeam team { get; set; }
 		public List<VBRequest> listRequests { get; set; }
@@ -45,6 +45,22 @@ namespace VolleyballApp {
 			VBUser user = VBUser.GetUserFromPreferences();
 
 			View view = inflater.Inflate(Resource.Layout.TeamDetailsFragment, container, false);
+
+			#region toolbar
+			ImageView btnEdit = this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar);
+			ImageView btnDelete = this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar);
+
+			if(DB_Communicator.getInstance().isAtLeast(user.getTeamroleForTeam(this.team.id).getUserType(), UserType.Operator)) {
+				btnEdit.Visibility = ViewStates.Visible;
+				btnDelete.Visibility = ViewStates.Visible;
+
+				btnEdit.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_EDIT, this));
+				btnDelete.SetOnClickListener(new TeamDetailsClickListener(TeamDetailsClickListener.ON_DELETE, this));
+			} else {
+				btnEdit.Visibility = ViewStates.Gone;
+				btnDelete.Visibility = ViewStates.Gone;
+			}
+			#endregion
 
 			#region header
 			view.FindViewById<TextView>(Resource.Id.teamDetailsName).Text = team.name;
@@ -116,7 +132,6 @@ namespace VolleyballApp {
 			activeFragment = activeFragmentTag;
 			trans = FragmentManager.BeginTransaction();
 			trans.Add(Resource.Id.teamDetailsFragmentContainer, frag, activeFragmentTag);
-			trans.AddToBackStack(activeFragmentTag);
 			trans.CommitAllowingStateLoss();
 		}
 
@@ -132,11 +147,24 @@ namespace VolleyballApp {
 
 		private void markTabAsInactive(TextView inactiveTab) {
 			inactiveTab.SetBackgroundColor(Color.ParseColor("#000000"));
-			inactiveTab.SetTypeface(inactiveTab.Typeface, TypefaceStyle.Normal);
+			inactiveTab.PaintFlags = 0;
 		}
 
+		public static TeamDetailsFragment findTeamDetailsFragment() {
+			return ViewController.getInstance().mainActivity.FindFragmentByTag(ViewController.TEAM_DETAILS_FRAGMENT) as TeamDetailsFragment;
+		}
+
+		public override void OnDestroyView() {
+			base.OnDestroyView();
+			this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
+			this.Activity.FindViewById<ImageView>(Resource.Id.btnEditInToolbar).Visibility = ViewStates.Gone;
+			this.Activity.FindViewById<ImageView>(Resource.Id.btnDeleteInToolbar).Visibility = ViewStates.Gone;
+		}
+
+		#region clicklistener
 		class TeamDetailsClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
-			public const string ON_JOIN = "onJoin", ON_FOLLOW = "onFollow", ON_LEAVE = "onLeave";
+			public const string ON_JOIN = "onJoin", ON_FOLLOW = "onFollow", ON_LEAVE = "onLeave",
+								ON_EDIT = "onEdit", ON_DELETE = "onDelete";
 			private string source;
 			private TeamDetailsFragment t;
 			private VBUser user;
@@ -157,6 +185,12 @@ namespace VolleyballApp {
 					break;
 				case ON_LEAVE:
 					this.onLeave();
+					break;
+				case ON_EDIT:
+					this.onEdit();
+					break;
+				case ON_DELETE:
+					this.onDelete();
 					break;
 				}
 			}
@@ -188,6 +222,27 @@ namespace VolleyballApp {
 				this.refreshTeamDetailsFragment();
 			}
 
+			private void onEdit() {
+				ViewController.getInstance().mainActivity.
+					switchFragment(ViewController.TEAM_DETAILS_FRAGMENT, ViewController.EDIT_TEAM_FRAGMENT, new EditTeamFragment(t.team));
+			}
+
+			private async void onDelete() {
+				ViewController vc = ViewController.getInstance();
+
+				JsonValue json = JsonValue.Parse(await DB_Communicator.getInstance().deleteTeam(t.team.id));
+
+				vc.toastJson(null, json, ToastLength.Long, "");
+
+				//refresh team list
+				TeamsFragment tf = vc.mainActivity.FindFragmentByTag(ViewController.TEAMS_FRAGMENT) as TeamsFragment;
+				tf.listTeams = await DB_Communicator.getInstance().SelectTeams();
+
+				VBUser.GetUserFromPreferences().removeTeamrole(t.team.id);
+
+				vc.mainActivity.popBackstack();
+			}
+
 			/**
 			 * Updates the user with the teamrole in the response
 			 * Doesn't affect the view!
@@ -217,10 +272,7 @@ namespace VolleyballApp {
 			}
 
 			private void refreshTeamDetailsFragment() {
-				ViewController vc = ViewController.getInstance();
-				string tag = ViewController.TEAM_DETAILS_FRAGMENT;
-
-				TeamDetailsFragment frag = vc.mainActivity.FindFragmentByTag(tag) as TeamDetailsFragment;
+				TeamDetailsFragment frag = TeamDetailsFragment.findTeamDetailsFragment();
 				frag.teamrole = user.getTeamroleForTeam(t.team.id);
 
 				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
@@ -268,6 +320,7 @@ namespace VolleyballApp {
 				t.trans.Commit();
 			}
 		}
+		#endregion
 	}
 }
 

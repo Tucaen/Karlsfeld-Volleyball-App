@@ -177,6 +177,17 @@ namespace VolleyballApp {
 			string service = "service/team/load_teams.php?id=" + teamId + "&loadMember=true";
 			return await this.makeWebRequest(service, "RequestUserTypeDialog.loadMember");
 		}
+
+		public async Task<string> deleteTeam(int teamId) {
+			string service = "service/team/delete_team.php?id=" + teamId;
+			return await this.makeWebRequest(service, "RequestUserTypeDialog.deleteTeam");
+		}
+
+		public async Task<string> updateTeam(VBTeam team) {
+			string service = "service/team/update_team.php?id=" + team.id + "&name=" + team.name + "&sport=" + team.sport + 
+								"&location=" + team.location + "&description=" + team.description;
+			return await this.makeWebRequest(service, "RequestUserTypeDialog.updateTeam");
+		}
 		#endregion
 
 		#region general
