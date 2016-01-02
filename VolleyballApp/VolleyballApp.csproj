@@ -195,6 +195,8 @@
     <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
     <AndroidResource Include="Resources\layout\TeamDetailsProfileFragment.axml" />
     <AndroidResource Include="Resources\layout\TeamDetailsMemberFragment.axml" />
+    <AndroidResource Include="Resources\drawable\list_selector.xml" />
+    <AndroidResource Include="Resources\drawable\list_selector_bg.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />

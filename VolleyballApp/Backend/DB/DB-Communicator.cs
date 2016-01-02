@@ -94,14 +94,19 @@ namespace VolleyballApp {
 			return selectUser.createUserFromResponse(json, password);
 		}
 
+		public async Task<JsonValue> loadUninvtedUser(int eventId) {
+			string service = "service/event/load_uninvited_user.php?eventId=" + eventId;
+			return JsonValue.Parse(await this.makeWebRequest(service, "DB_Communicator.loadUninvtedUser"));
+		}
+
 		public async Task<string> createUserTypeRequest(int userId, int teamId, string userType) {
 			string service = "service/user/create_request.php?userId=" + userId + "&teamId=" + teamId + "&userType=" + userType;
-			return await this.makeWebRequest(service, "RequestUserTypeDialog.onRequest");
+			return await this.makeWebRequest(service, "DB_Communicator.createUserTypeRequest");
 		}
 
 		public async Task<string> loadUserTypeRequest(int teamId) {
 			string service = "service/user/load_requestedUserTypes.php?teamId=" + teamId;
-			return await this.makeWebRequest(service, "RequestUserTypeDialog.loadUserTypeRequest");
+			return await this.makeWebRequest(service, "DB_Communicator.loadUserTypeRequest");
 		}
 
 		public async Task<string> handleUserTypeRequest(VBRequest request, string answer) {

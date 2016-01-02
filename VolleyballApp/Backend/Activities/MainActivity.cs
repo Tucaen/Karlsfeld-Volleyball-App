@@ -73,20 +73,20 @@ namespace VolleyballApp {
 
 				if(activeFragment == null) {
 					switch(this.Intent.Action) {
-					case MyGcmListenerService.PUSH_EVENT_UPDATE:
-						//do same as for PUSH_INVITE
-					case MyGcmListenerService.PUSH_INVITE:
-						dialog.SetMessage("Load event details...");
-						VBEvent e = await ViewController.getInstance().refreshDataForEvent(ViewController.getInstance().pushEventId);
-						List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(ViewController.getInstance().pushEventId, "");
-						this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e, listUser));
-						break;
+						case MyGcmListenerService.PUSH_EVENT_UPDATE:
+							//do same as for PUSH_INVITE
+						case MyGcmListenerService.PUSH_INVITE:
+							dialog.SetMessage("Load event details...");
+							VBEvent e = await ViewController.getInstance().refreshDataForEvent(ViewController.getInstance().pushEventId);
+							List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(ViewController.getInstance().pushEventId, "");
+							this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e, listUser));
+							break;
 
-					default:
-						dialog.SetMessage("Load events...");
-						List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
-						this.initalizeFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
-						break;
+						default:
+							dialog.SetMessage("Load events...");
+							List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
+							this.initalizeFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
+							break;
 					}
 				}
 

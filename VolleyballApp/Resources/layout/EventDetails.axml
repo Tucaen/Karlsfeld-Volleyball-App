@@ -192,6 +192,11 @@
         <!-- end Eingeladen -->
         </LinearLayout>
     </ScrollView>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_margin="0dp" />
 <!-- start Buttons -->
     <LinearLayout
         android:orientation="horizontal"
@@ -201,7 +206,7 @@
         <Button
             android:text="Zusagen"
             android:background="@drawable/normalbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:id="@+id/btnEventZusagen"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
@@ -211,7 +216,7 @@
         <Button
             android:text="Absagen"
             android:background="@drawable/normalbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:id="@+id/btnEventAbsagen"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"

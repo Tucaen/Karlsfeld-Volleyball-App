@@ -8,6 +8,7 @@ using Android.Content;
 using Android.Gms.Common;
 using Java.Lang;
 using Android.Views.InputMethods;
+using System.Linq;
 
 namespace VolleyballApp {
 	public class ViewController {
@@ -167,6 +168,18 @@ namespace VolleyballApp {
 				Console.WriteLine(type + " - Google Play Services is available.");
 				return true;
 			}
+		}
+	
+		public List<VBUser> sortUserlistForTeam(List<VBUser> list, int teamId) {
+			List<VBUser> sortedList = list.OrderBy(u => u.getTeamroleForTeam(teamId).position.Equals("Keine") || u.getTeamroleForTeam(teamId).position.Equals("")).
+				ThenBy(u => u.getTeamroleForTeam(teamId).position.Equals("Steller")).
+				ThenBy(u => u.getTeamroleForTeam(teamId).position.Equals("Mittelblocker")).
+				ThenBy(u => u.getTeamroleForTeam(teamId).position.Equals("Libero")).
+				ThenBy(u => u.getTeamroleForTeam(teamId).position.Equals("Diagonalangreifer")).
+				ThenBy(u => u.getTeamroleForTeam(teamId).position.Equals("Außenangreifer")).
+				ThenBy(u => u.name). 
+				ToList();
+			return sortedList;
 		}
 	}
 }

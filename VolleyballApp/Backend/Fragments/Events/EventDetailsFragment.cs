@@ -15,9 +15,6 @@ using Java.Lang;
 
 namespace VolleyballApp {
 	public class EventDetailsFragment : Fragment {
-		MainActivity main;
-
-
 		VBUser user;
 		public VBEvent _event { set; get;}
 		public List<VBUser> listUser { get; set; }
@@ -29,7 +26,6 @@ namespace VolleyballApp {
 
 		public override void OnCreate(Bundle savedInstanceState) {
 			base.OnCreate(savedInstanceState);
-			main = (MainActivity)this.Activity;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,16 +96,7 @@ namespace VolleyballApp {
 		private void initalizeLinearLayout(LinearLayout listView, List<VBUser> list, string eventState, TextView textView, LayoutInflater inflater) {
 			List<VBUser> filteredList = getUserWithEventState(list, eventState);
 
-			List<VBUser> sortedList = filteredList.OrderBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Keine") || u.getTeamroleForTeam(_event.teamId).position.Equals("")).
-				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Steller")).
-				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Mittelblocker")).
-				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Libero")).
-				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Diagonalangreifer")).
-				ThenBy(u => u.getTeamroleForTeam(_event.teamId).position.Equals("Außenangreifer")).
-				ThenBy(u => u.name). 
-				ToList();
-
-//			List<VBUser> sortedList = filteredList.OrderBy(u => u.name).ToList();
+			List<VBUser> sortedList = ViewController.getInstance().sortUserlistForTeam(filteredList, _event.teamId);
 				
 			foreach(VBUser user in sortedList) {
 				View row = inflater.Inflate(Resource.Layout.UserListView, null);
@@ -199,7 +186,7 @@ namespace VolleyballApp {
 		}
 
 		private async void onInvite() {
-			JsonValue json = await DB_Communicator.getInstance().SelectAllUser();
+			JsonValue json = await DB_Communicator.getInstance().loadUninvtedUser(_event.idEvent);
 
 			InviteUserDialog iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
 
