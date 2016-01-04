@@ -68,7 +68,7 @@ namespace VolleyballApp {
 			DB_Communicator db = DB_Communicator.getInstance();
 			List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(d.teamId)));
 			d.t.listRequests = listRequests;
-			ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
+			ViewController.getInstance().refreshFragment(TeamDetailsFragment.PROFILE);
 		}
 
 		private string getRequest() {

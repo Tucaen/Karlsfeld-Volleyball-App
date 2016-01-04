@@ -45,9 +45,13 @@ namespace VolleyballApp {
 			#endregion
 
 			#region requests
+			LinearLayout requestListView = view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestList);
 			if(this.listRequests.Count > 0 && DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Admin)) {
 				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
-				this.initialzeListRequests(view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestList), this.listRequests, inflater);
+				this.initialzeListRequests(requestListView, this.listRequests, inflater);
+			} else if(this.getOwnRequests(listRequests).Count > 0) {
+				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
+				this.initialzeListRequests(requestListView, this.getOwnRequests(listRequests), inflater);
 			} else {
 				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Gone;
 			}
@@ -101,6 +105,17 @@ namespace VolleyballApp {
 			return view;
 		}
 
+		private List<VBRequest> getOwnRequests(List<VBRequest> listRequests) {
+			List<VBRequest> listOwn = new List<VBRequest>();
+			VBUser user = VBUser.GetUserFromPreferences();
+			foreach(VBRequest r in listRequests) {
+				if(r.userId == user.idUser) {
+					listOwn.Add(r);
+				}
+			}
+			return listOwn;
+		}
+
 		private void initialzeListRequests(LinearLayout listView, List<VBRequest> list, LayoutInflater inflater) {
 			foreach(VBRequest request in list) {
 				View row = inflater.Inflate(Resource.Layout.RequestListView, null);
@@ -109,6 +124,11 @@ namespace VolleyballApp {
 
 				ImageView btnAccept = row.FindViewById<ImageView>(Resource.Id.requestListViewBtnAccept);
 				ImageView btnDenie = row.FindViewById<ImageView>(Resource.Id.requestListViewBtnDenie);
+
+				if(!DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Admin)) {
+					btnAccept.Visibility = ViewStates.Gone;
+				}
+
 				btnAccept.SetOnClickListener(new RequestClickListener(RequestClickListener.ON_ACCEPT_REQUEST, request, this));
 				btnDenie.SetOnClickListener(new RequestClickListener(RequestClickListener.ON_DENIE_REQUEST, request, this));
 
@@ -234,14 +254,16 @@ namespace VolleyballApp {
 				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "handleRequest");
 
 				//refresh the user
-				VBUser user = new VBUser(json["data"]["User"]);
+				VBUser user = new VBUser(json["data"]["User"]); //always returns the current user
 				user.StoreUserInPreferences(ViewController.getInstance().mainActivity, user);
 
 				//refresh the view
 				t.teamrole = user.getTeamroleForTeam(r.teamId);
 				List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(r.teamId)));
 				this.t.listRequests = listRequests;
-				ViewController.getInstance().refreshFragment(TeamDetailsFragment.PROFILE); //TEAM_DETAILS_PROFILE_FRAGMENT muss refreshed werden
+				TeamDetailsFragment tdf = ViewController.getInstance().mainActivity.FindFragmentByTag(ViewController.TEAM_DETAILS_FRAGMENT) as TeamDetailsFragment;
+				tdf.listRequests = listRequests;
+				ViewController.getInstance().refreshFragment(TeamDetailsFragment.PROFILE);
 			}
 		}
 	}
