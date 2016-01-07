@@ -60,7 +60,7 @@ namespace VolleyballApp {
 			//initialize components
 			name.Text = _event.name;
 			location.Text = _event.location;
-			info.Text = _event.description;
+			info.Text = _event.description.Replace("\\n", "\n");
 			startDate.Text = _event.startDate.ToString("dd.MM.yyyy"); 	startTime.Text = _event.startDate.ToString("HH:mm");
 			endDate.Text = _event.endDate.ToString("dd.MM.yyyy");		endTime.Text = _event.endDate.ToString("HH:mm");
 			btnSave.Text = "Speichern";
@@ -83,6 +83,7 @@ namespace VolleyballApp {
 
 				Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
+				ViewController.getInstance().hideSoftKeyboard();
 				this.finish(json);
 			};
 

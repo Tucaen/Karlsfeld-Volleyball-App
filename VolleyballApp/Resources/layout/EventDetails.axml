@@ -44,20 +44,25 @@
         android:textSize="18dip"
         android:layout_marginLeft="5dp"
         android:id="@+id/eventTime" />
-    <LinearLayout
-        android:id="@+id/eventDetailsEventDescriptionLine"
-        android:orientation="horizontal"
+    <volleyballapp.WinScrollView
+        android:id="@+id/eventDetailsScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_margin="5dp">
-        <TextView
-            android:id="@+id/eventDetailsEventDescriptionValue"
-            android:layout_width="wrap_content"
-            android:textSize="15dp"
-            android:text="Zusätzliche Informationen für das Event. Zum Beispiel welche Spiele man hat oder wo Treffpunkt ist."
-            style="@style/text" />
-    </LinearLayout>
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/eventDetailsEventDescriptionLine"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_margin="5dp">
+            <TextView
+                android:id="@+id/eventDetailsEventDescriptionValue"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:text="Zusätzliche Informationen für das Event. Zum Beispiel welche Spiele man hat oder wo Treffpunkt ist."
+                style="@style/text" />
+        </LinearLayout>
+    </volleyballapp.WinScrollView>
 <!-- end Headline -->
     <View
         android:layout_width="fill_parent"

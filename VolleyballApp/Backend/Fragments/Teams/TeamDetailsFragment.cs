@@ -14,6 +14,7 @@ using System.Json;
 using Java.Lang;
 using Android.Graphics;
 using System.Threading.Tasks;
+using Android.Graphics.Drawables;
 
 namespace VolleyballApp {
 	public class TeamDetailsFragment : Fragment {
@@ -26,6 +27,8 @@ namespace VolleyballApp {
 		private List<VBUser> listMember { get; set; }
 		private TextView tabMember { get; set; }
 		private TextView tabProfile { get; set; }
+		private View tabMemberUnderline { get; set; }
+		private View tabProfileUnderline { get; set; }
 
 		private FragmentTransaction trans;
 		private string activeFragment;
@@ -75,6 +78,8 @@ namespace VolleyballApp {
 			#region tabs
 			tabMember = view.FindViewById<TextView>(Resource.Id.teamDetailsTabMember);
 			tabProfile = view.FindViewById<TextView>(Resource.Id.teamDetailsTabProfile);
+			tabMemberUnderline = view.FindViewById<View>(Resource.Id.teamDetailsTabMemberUnderline);
+			tabProfileUnderline = view.FindViewById<View>(Resource.Id.teamDetailsTabProfileUnderline);
 
 			tabMember.SetOnClickListener(new TabClickListener(TabClickListener.ON_TAB_MEMBER, this));
 			tabProfile.SetOnClickListener(new TabClickListener(TabClickListener.ON_TAB_PROFILE, this));
@@ -88,14 +93,14 @@ namespace VolleyballApp {
 			FrameLayout fragContainer = view.FindViewById<FrameLayout>(Resource.Id.teamDetailsFragmentContainer);
 
 			if(activeFragment == null) {
-				this.changeActiveTab(tabMember, tabProfile);
+				this.changeActiveTab(tabMember, tabMemberUnderline, tabProfile, tabProfileUnderline);
 				this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember));
 			} else {
 				if(activeFragment.Equals(TeamDetailsFragment.MEMBER)) {
-					this.changeActiveTab(tabMember, tabProfile);
+					this.changeActiveTab(tabMember, tabMemberUnderline, tabProfile, tabProfileUnderline);
 					this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember));
 				} else if(activeFragment.Equals(TeamDetailsFragment.PROFILE)) {
-					this.changeActiveTab(tabProfile, tabMember);
+					this.changeActiveTab(tabProfile, tabProfileUnderline, tabMember, tabMemberUnderline);
 					this.initalizeFragment(TeamDetailsFragment.PROFILE, new TeamDetailsProfileFragment(this.team, this.teamrole, this.listRequests));
 				}
 			}
@@ -135,19 +140,22 @@ namespace VolleyballApp {
 			trans.CommitAllowingStateLoss();
 		}
 
-		private void changeActiveTab(TextView activeTab, TextView inactiveTab) {
-			this.markTabAsActive(activeTab);
-			this.markTabAsInactive(inactiveTab);
+		private void changeActiveTab(TextView activeTab, View activeUnderline, TextView inactiveTab, View inactiveUnderline) {
+			this.markTabAsActive(activeTab, activeUnderline);
+			this.markTabAsInactive(inactiveTab, inactiveUnderline);
 		}
 
-		private void markTabAsActive(TextView activeTab) {
-			activeTab.SetBackgroundColor(Color.ParseColor("#333333"));
-			activeTab.PaintFlags = PaintFlags.UnderlineText;
+		private void markTabAsActive(TextView activeTab, View underline) {
+			activeTab.SetBackgroundColor(Color.ParseColor("#000000"));
+			underline.Visibility = ViewStates.Visible;
+			//			activeTab.PaintFlags = PaintFlags.UnderlineText;
 		}
 
-		private void markTabAsInactive(TextView inactiveTab) {
-			inactiveTab.SetBackgroundColor(Color.ParseColor("#000000"));
-			inactiveTab.PaintFlags = 0;
+		private void markTabAsInactive(TextView inactiveTab, View underline) {
+			inactiveTab.SetBackgroundColor(Color.ParseColor("#333333"));
+			underline.Visibility = ViewStates.Gone;
+
+//			inactiveTab.PaintFlags = 0;
 		}
 
 		public static TeamDetailsFragment findTeamDetailsFragment() {
@@ -293,16 +301,20 @@ namespace VolleyballApp {
 				switch(this.source) {
 				case ON_TAB_MEMBER:
 					if(!t.activeFragment.Equals(TeamDetailsFragment.MEMBER)) {
-						t.changeActiveTab(t.tabMember, t.tabProfile);
+						t.changeActiveTab(t.tabMember, t.tabMemberUnderline, t.tabProfile, t.tabProfileUnderline);
 						Fragment frag = new TeamDetailsMemberFragment(t.listMember);
 						this.switchFragment(t.activeFragment, TeamDetailsFragment.MEMBER, frag);
 					}
 					break;
 				case ON_TAB_PROFILE:
-					if(!t.activeFragment.Equals(TeamDetailsFragment.PROFILE)) {
-						t.changeActiveTab(t.tabProfile, t.tabMember);
-						Fragment frag = new TeamDetailsProfileFragment(t.team, t.teamrole, t.listRequests);
-						this.switchFragment(t.activeFragment, TeamDetailsFragment.PROFILE, frag);
+					try {
+						if(!t.activeFragment.Equals(TeamDetailsFragment.PROFILE)) {
+							t.changeActiveTab(t.tabProfile, t.tabProfileUnderline, t.tabMember, t.tabMemberUnderline);
+							Fragment frag = new TeamDetailsProfileFragment(t.team, t.teamrole, t.listRequests);
+							this.switchFragment(t.activeFragment, TeamDetailsFragment.PROFILE, frag);
+						}
+					} catch (System.Exception e) {
+						Toast.MakeText(ViewController.getInstance().mainActivity, "Error! " + e.Message, ToastLength.Long);
 					}
 					break;
 				}

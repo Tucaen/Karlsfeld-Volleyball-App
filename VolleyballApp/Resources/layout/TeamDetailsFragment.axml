@@ -53,38 +53,59 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/teamDetailsTabMember"
-            android:text="Mitglieger"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_weight="1"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:textSize="20dip"
-            style="@style/responsiveText" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/teamDetailsTabMember"
+                android:text="Mitglieger"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:textSize="20dip"
+                android:gravity="center"
+                style="@style/responsiveText" />
+            <View
+                android:id="@+id/teamDetailsTabMemberUnderline"
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:background="#ffc1c1c1"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
         <View
             android:layout_width="1dp"
             android:layout_height="fill_parent"
             android:background="#ffc1c1c1"
-            android:layout_margin="0dp" />
-        <TextView
-            android:id="@+id/teamDetailsTabProfile"
-            android:text="Profil"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_marginBottom="3dp" />
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_weight="1"
-            android:textColor="#FFFFFF"
-            android:gravity="center"
-            android:textSize="20dip"
-            style="@style/responsiveText" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/teamDetailsTabProfile"
+                android:text="Profil"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:textSize="20dip"
+                style="@style/responsiveText" />
+            <View
+                android:id="@+id/teamDetailsTabProfileUnderline"
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:background="#ffc1c1c1"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
     </LinearLayout>
 <!-- end Tabs -->
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#ffc1c1c1"
-        android:layout_margin="0dp" />
     <FrameLayout
         android:id="@+id/teamDetailsFragmentContainer"
         android:layout_width="fill_parent"

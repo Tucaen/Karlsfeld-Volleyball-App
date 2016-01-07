@@ -18,6 +18,7 @@ namespace VolleyballApp {
 		VBUser user;
 		public VBEvent _event { set; get;}
 		public List<VBUser> listUser { get; set; }
+		public Button btnAccept, btnDenie;
 
 		public EventDetailsFragment(VBEvent _event, List<VBUser> listUser) {
 			this._event = _event;
@@ -40,7 +41,7 @@ namespace VolleyballApp {
 
 			if(_event.description != null && !_event.description.Equals("")) {
 				view.FindViewById<LinearLayout>(Resource.Id.eventDetailsEventDescriptionLine).Visibility = ViewStates.Visible;
-				view.FindViewById<TextView>(Resource.Id.eventDetailsEventDescriptionValue).Text = _event.description;
+				view.FindViewById<TextView>(Resource.Id.eventDetailsEventDescriptionValue).Text = _event.description.Replace("\\n", "\n");
 			}
 
 			ImageView btnInvite = this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar);
@@ -72,18 +73,29 @@ namespace VolleyballApp {
 			initalizeLinearLayout(view.FindViewById<LinearLayout>(Resource.Id.EventDetails_ListUser_Eingeladen), listUser,
 				DB_Communicator.State.Invited, view.FindViewById<TextView>(Resource.Id.EventDetails_Count_Eingeladen), inflater);
 
-			view.FindViewById<Button>(Resource.Id.btnEventZusagen).
-			SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_ANSWER_INVITE, _event, "G"));
+			#region buttons
+			btnAccept = view.FindViewById<Button>(Resource.Id.btnEventZusagen);
+			btnAccept.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_ANSWER_INVITE, this, "G"));
 
-			view.FindViewById<Button>(Resource.Id.btnEventAbsagen).
-			SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_ANSWER_INVITE, _event, "D"));
+			btnDenie = view.FindViewById<Button>(Resource.Id.btnEventAbsagen);
+			btnDenie.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_ANSWER_INVITE, this, "D"));
+
+			if(getEventStateOfLoggedInUser().Equals(VBUser.ACCEPTED)) {
+				btnAccept.Enabled = false;
+				btnDenie.Enabled = true;
+			}
+			if(getEventStateOfLoggedInUser().Equals(VBUser.DENIED)) {
+				btnAccept.Enabled = true;
+				btnDenie.Enabled = false;
+			}
+			#endregion
 
 			#region toolbar
-			btnInvite.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_INVITE, _event));
+			btnInvite.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_INVITE, this));
 
-			btnEdit.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_EDIT, _event));
+			btnEdit.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_EDIT, this));
 
-			btnDelete.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_DELETE, _event));
+			btnDelete.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_DELETE, this));
 			#endregion
 
 			return view;
@@ -131,6 +143,14 @@ namespace VolleyballApp {
 			return null;
 		}
 
+		private string getEventStateOfLoggedInUser() {
+			foreach(VBUser u in listUser) {
+				if(u.idUser == user.idUser)
+					return u.getEventState();
+			}
+			return "";
+		}
+
 		public override void OnDestroyView() {
 			base.OnDestroyView();
 			this.Activity.FindViewById<ImageView>(Resource.Id.btnAddInToolbar).Visibility = ViewStates.Gone;
@@ -144,12 +164,14 @@ namespace VolleyballApp {
 		private string source;
 		private VBEvent _event;
 		private string answer;
+		private EventDetailsFragment edf;
 
-		public EventDetailsClickListener(string source, VBEvent _event) : this(source, _event, ""){}
+		public EventDetailsClickListener(string source, EventDetailsFragment edf) : this(source, edf, ""){}
 
-		public EventDetailsClickListener(string source, VBEvent _event, string answer) {
+		public EventDetailsClickListener(string source, EventDetailsFragment edf, string answer) {
 			this.source = source;
-			this._event = _event;
+			this.edf = edf;
+			this._event = edf._event;
 			this.answer = answer;
 		}
 
@@ -170,11 +192,21 @@ namespace VolleyballApp {
 			}
 		}
 
-		private async void answerEventIvitation(string state) {
-			JsonValue json = await DB_Communicator.getInstance().updateEventState(_event.idEvent, state);
+		private async void answerEventIvitation(string answer) {
+			JsonValue json = await DB_Communicator.getInstance().updateEventState(_event.idEvent, answer);
 
+			//Display error message, if there was a problem with the DB
 			if(!DB_Communicator.getInstance().wasSuccesful(json)) {
 				Toast.MakeText(ViewController.getInstance().mainActivity, json["message"].ToString(), ToastLength.Long).Show();
+			} else {
+				if(answer.Equals("G")) {
+					this.edf.btnAccept.Enabled = false;
+					this.edf.btnDenie.Enabled = true;
+				}
+				if(answer.Equals("D")) {
+					this.edf.btnAccept.Enabled = true;
+					this.edf.btnDenie.Enabled = false;
+				}
 			}
 
 			//refresh the view

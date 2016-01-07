@@ -38,6 +38,8 @@
                 android:textColorHint="#6699FF"
                 android:layout_marginTop="10dp"
                 android:maxLength="250"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
                 style="@style/editText" />
         <!-- end Descripition -->
         <!-- start startDate -->

@@ -95,17 +95,6 @@ namespace VolleyballApp {
 			VBUser vbuser = new VBUser(json);
 			vbuser.password = password;
 
-//			if(json.ContainsKey("teamroles")) {
-//				if(json["teamroles"] is JsonObject) {
-//					JsonValue teamrole = json["teamroles"]["TeamRole"];
-//					vbuser.listTeamRole.Add(new VBTeamrole(teamrole));
-//				} else {
-//					foreach(JsonValue teamrole in json["teamroles"]) {
-//						vbuser.listTeamRole.Add(new VBTeamrole(teamrole["TeamRole"]));
-//					}
-//				} 
-//			}
-
 			return vbuser;
 		}
 	}

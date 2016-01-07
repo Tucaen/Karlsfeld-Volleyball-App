@@ -36,11 +36,15 @@ namespace VolleyballApp {
 		}
 
 		protected override void OnResume() {
-			base.OnResume();
-			NetworkInfo activeConnection = ((ConnectivityManager) GetSystemService(ConnectivityService)).ActiveNetworkInfo;
-			bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
-			DB_Communicator.getInstance().IsOnline = isOnline;
-			startApp();
+			try {
+				base.OnResume();
+				NetworkInfo activeConnection = ((ConnectivityManager) GetSystemService(ConnectivityService)).ActiveNetworkInfo;
+				bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
+				DB_Communicator.getInstance().IsOnline = isOnline;
+				startApp();
+			} catch (System.Exception e) {
+				Toast.MakeText(this, "Error while trying to resume the app! " + e.Message, ToastLength.Long);
+			}
 		}
 
 		private async void startApp() {

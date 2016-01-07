@@ -19,6 +19,7 @@ namespace VolleyballApp {
 		public List<VBTeamrole> listTeamRole { get; set; }
 		public static Context context { get; set; }
 		private static int count;
+		public const string ACCEPTED = "Zugesagt", DENIED = "Abgesagt", INVITED = "Eingeladen";
 
 		public VBUser() {}
 
@@ -91,16 +92,16 @@ namespace VolleyballApp {
 		public void setEventState(string eventState) {
 			switch(eventState) {
 			case "G":
-				this.eventState = "Zugesagt";
+				this.eventState = ACCEPTED;
 				break;
 			case "M":
 				this.eventState = "Vielleicht";
 				break;
 			case "D":
-				this.eventState = "Abgesagt";
+				this.eventState = DENIED;
 				break;
 			default:
-				this.eventState = "Eingeladen";
+				this.eventState = INVITED;
 				break;
 			}
 		}
@@ -180,7 +181,7 @@ namespace VolleyballApp {
 		}
 
 		public override String ToString() {
-			return "Id: " + idUser + ", Name: " + name + ", Email: " + email + ", State: " + state + ", Teamrole: " + listTeamRole;
+			return "Id: " + idUser + ", Name: " + name + ", Email: " + email + ", State: " + state + ", eventState " + this.getEventState();
 		}
 	}
 }

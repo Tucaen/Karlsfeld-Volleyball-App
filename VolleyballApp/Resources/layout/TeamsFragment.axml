@@ -8,14 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_margin="4dp"
         android:orientation="vertical">
         <ListView
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical"
             android:id="@+id/teamsFragmentListTeams"
             style="@style/listView" />
     <!-- start NoTeams -->
@@ -35,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:visibility="gone"
-        android:layout_margin="4dp"
         android:gravity="center|bottom"
         android:orientation="vertical">
         <View

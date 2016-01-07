@@ -59,9 +59,12 @@
   </style>
 
   <style name="listView" parent="@android:style/Widget.ListView">
+  	<item name="android:layout_width">match_parent</item>
+  	<item name="android:layout_height">wrap_content</item>
     <item name="android:listSelector">@drawable/list_selector</item>
     <item name="android:dividerHeight">1dp</item>
     <item name="android:background">#222</item>
     <item name="android:divider">@android:color/holo_blue_bright</item>
+    <item name="android:scrollbars">vertical</item>
   </style>
 </resources>
