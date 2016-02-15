@@ -63,12 +63,15 @@ namespace VolleyballApp {
 			DB_Communicator db = DB_Communicator.getInstance();
 			List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(team.id)));
 			List<VBUser> listMember = db.createMemberList(JsonValue.Parse(await db.loadMember(team.id)));
-			List<VBUser> sortedListMember = ViewController.getInstance().sortUserlistForTeam(listMember, team.id);
 
-			TeamDetailsFragment frag = new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id), listRequests, sortedListMember);
-
-			ViewController.getInstance().mainActivity.switchFragment(
-													ViewController.TEAMS_FRAGMENT, ViewController.TEAM_DETAILS_FRAGMENT, frag);
+			if(listMember != null && listRequests != null) {
+				List<VBUser> sortedListMember = ViewController.getInstance().sortUserlistForTeam(listMember, team.id);
+				
+				TeamDetailsFragment frag = new TeamDetailsFragment(team, user.getTeamroleForTeam(team.id), listRequests, sortedListMember);
+				
+				ViewController.getInstance().mainActivity.switchFragment(
+					ViewController.TEAMS_FRAGMENT, ViewController.TEAM_DETAILS_FRAGMENT, frag);
+			}
 		}
 	}
 }

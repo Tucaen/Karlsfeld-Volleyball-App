@@ -17,21 +17,20 @@ namespace VolleyballApp {
 	class InviteUserDialog : DialogFragment {
 		private VBEvent _event;
 		public bool isShown { get; private set; }
-		private List<VBUser> listUser;
+		private List<VBUser> listUserToInvite;
 
-		public InviteUserDialog (Bundle bundle, VBEvent _event, List<VBUser> listUser) {
+		public InviteUserDialog (Bundle bundle, VBEvent _event, List<VBUser> listUserToInvite) {
 			this.Arguments = bundle;
 			this._event = _event;
-			this.listUser = listUser;
+			this.listUserToInvite = listUserToInvite;
 			this.SetStyle(DialogFragmentStyle.Normal, 4);
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.Inflate(Resource.Layout.InviteUserDialog, container, false);
 
-//			List<MySqlUser> listUser = MySqlUser.GetListUserFromPreferences();
 			ListView listView = view.FindViewById<ListView>(Resource.Id.InviteUserDialog_ListUser);
-			listView.Adapter = new InviteUserDialogListAdapter(this, listUser);
+			listView.Adapter = new InviteUserDialogListAdapter(this, listUserToInvite);
 
 			view.FindViewById<Button>(Resource.Id.InviteUserDialog_btnEinladen).Click += async delegate {
 				if((listView.Adapter as InviteUserDialogListAdapter).listUserToInvite.Count > 0) {
@@ -39,8 +38,16 @@ namespace VolleyballApp {
 					JsonValue json = await DB_Communicator.getInstance().inviteUserToEvent(_event.idEvent, toInvite);
 					
 					Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
-					
+
+					//refresh event data | e.g time, location, name
 					await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+
+					//refresh list of inveted users
+					List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(_event.idEvent, "");
+					EventDetailsFragment frag = FragmentManager.FindFragmentByTag(ViewController.EVENT_DETAILS_FRAGMENT) as EventDetailsFragment;
+					frag.listUser = listUser;
+
+					//refresh view
 					ViewController.getInstance().refreshFragment(ViewController.EVENT_DETAILS_FRAGMENT);
 					
 					this.Dismiss();
@@ -106,7 +113,7 @@ namespace VolleyballApp {
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.InviteUserDialogListView, null);
 			
 			TextView username = view.FindViewById<TextView>(Resource.Id.InviteUserDialogUserName);
-			username.Text = item.name;
+			username.Text = item.getNameForUI();
 
 			CheckBox checkBox = view.FindViewById<CheckBox>(Resource.Id.InviteUserDialogCheckbox);
 

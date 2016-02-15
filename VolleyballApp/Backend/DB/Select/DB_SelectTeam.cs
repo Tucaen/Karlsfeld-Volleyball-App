@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Json;
+using Android.Widget;
 
 namespace VolleyballApp {
 	public class DB_SelectTeam : DB_Select {
@@ -13,10 +14,21 @@ namespace VolleyballApp {
 
 		public async Task<VBTeam> SelectTeam(int idTeam) {
 			string 	responseText = await dbCommunicator.makeWebRequest("service/team/load_teams.php?id=" + idTeam, type + ".SelectTeam");
-			return new VBTeam(JsonValue.Parse(responseText));
+
+			JsonValue json = JsonValue.Parse(responseText);
+			if(!dbCommunicator.wasSuccesful(json)) {
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "There was an error while loading the team!");
+			}
+
+			return new VBTeam(json);
 		}
 		public async Task<List<VBTeam>> SelectTeams() {
 			string responseText = await dbCommunicator.makeWebRequest("service/team/load_teams.php", type + ".SelectTeamsForUser");
+
+			JsonValue json = JsonValue.Parse(responseText);
+			if(!dbCommunicator.wasSuccesful(json)) {
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "There was an error while loading the teams!");
+			}
 
 			return createTeamListFromResponse(responseText);
 		}

@@ -119,6 +119,19 @@ namespace VolleyballApp {
 			return new VBTeamrole(teamId, UserType.None.ToString(), "", 0, "Keine");
 		}
 
+		/* If the name isn't set, the email will be returned.*/
+		public string getNameForUI() {
+			if (this.name == null || this.name.Equals(""))  {
+				if(this.email.Equals("")) {
+					return "Unknown User";
+				} else {
+					return this.email;
+				}
+			} else {
+				return this.name;
+			}
+		}
+
 		#region preferences
 		public void StoreUserInPreferences(Context context, VBUser user) {
 			VBUser.context = context;

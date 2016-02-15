@@ -27,7 +27,9 @@ namespace VolleyballApp {
 
 				DB_Communicator db = DB_Communicator.getInstance();
 
+				ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Loading...");
 				JsonValue json = await db.register(email.Text, password.Text);
+				dialog.Dismiss();
 
 				if(db.wasSuccesful(json)) {
 					Toast.MakeText(this, "Registered successfully! Trying to log in...", ToastLength.Long).Show();

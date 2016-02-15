@@ -34,8 +34,11 @@ namespace VolleyballApp {
 
 			View view = inflater.Inflate(Resource.Layout.EventDetails, container, false);
 
+			string eventState = (getLoggedInUser(user.idUser, listUser) != null) 
+								? "(" + getLoggedInUser(user.idUser, listUser).getEventState() + ")" : "";
+
 			view.FindViewById<TextView>(Resource.Id.eventTitle).Text = _event.name;
-			view.FindViewById<TextView>(Resource.Id.eventState).Text = "(" + getLoggedInUser(user.idUser, listUser).getEventState() + ")";
+			view.FindViewById<TextView>(Resource.Id.eventState).Text = eventState;
 			view.FindViewById<TextView>(Resource.Id.eventLocation).Text = _event.location;
 			view.FindViewById<TextView>(Resource.Id.eventTime).Text = _event.convertDateForLayout(_event);
 
@@ -112,7 +115,7 @@ namespace VolleyballApp {
 				
 			foreach(VBUser user in sortedList) {
 				View row = inflater.Inflate(Resource.Layout.UserListView, null);
-				row.FindViewById<TextView>(Resource.Id.UserListViewName).Text = user.name;
+				row.FindViewById<TextView>(Resource.Id.UserListViewName).Text = user.getNameForUI();
 				VBTeamrole teamrole = user.getTeamroleForTeam(_event.teamId);
 				if(teamrole.position != null && !teamrole.position.Equals("") && !teamrole.position.Equals("Keine"))
 					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "(" + teamrole.position + ")";

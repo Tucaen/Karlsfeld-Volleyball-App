@@ -36,47 +36,35 @@ namespace VolleyballApp {
 		}
 
 		protected override void OnResume() {
-			try {
-				base.OnResume();
-				NetworkInfo activeConnection = ((ConnectivityManager) GetSystemService(ConnectivityService)).ActiveNetworkInfo;
-				bool isOnline = (activeConnection != null) && activeConnection.IsConnected;
-				DB_Communicator.getInstance().IsOnline = isOnline;
-				startApp();
-			} catch (System.Exception e) {
-				Toast.MakeText(this, "Error while trying to resume the app! " + e.Message, ToastLength.Long);
-			}
+			base.OnResume();
+			startApp();
 		}
 
 		private async void startApp() {
-			ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Checking login data...");
-			ViewController.getInstance().mainActivity = this;
-
-			VBUser.context = this;
-			VBUser user = VBUser.GetUserFromPreferences();
-			if(user == null) {
-				Intent i = new Intent(this, typeof(LogIn));
-				i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
-				StartActivity(i);
-			} else {
-				//log in, if the session timed out
-				if(DB_Communicator.getInstance().cookieContainer.Count == 0) {
+			try {
+				ProgressDialog dialog = base.createProgressDialog("Please Wait!", "Checking login data...");
+				ViewController.getInstance().mainActivity = this;
+				
+				VBUser.context = this;
+				VBUser user = VBUser.GetUserFromPreferences();
+				if(user == null) {
+					Intent i = new Intent(this, typeof(LogIn));
+					i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
+					StartActivity(i);
+				} else {
+					//log in, if the session timed out
 					dialog.SetMessage("Log in...");
-					if(!await base.login(user.email, user.password)) {
-						Intent i = new Intent(this, typeof(LogIn));
-						i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
-						StartActivity(i);
+					await DB_Communicator.getInstance().refreshLogin();
+					
+					//set up push-notifications
+					dialog.SetMessage("Check services...");
+					if (ViewController.getInstance().IsPlayServicesAvailable ()) {
+						var intent = new Intent (this, typeof (RegistrationIntentService));
+						StartService (intent);
 					}
-				}
-
-				//set up push-notifications
-				dialog.SetMessage("Check services...");
-				if (ViewController.getInstance().IsPlayServicesAvailable ()) {
-					var intent = new Intent (this, typeof (RegistrationIntentService));
-					StartService (intent);
-				}
-
-				if(activeFragment == null) {
-					switch(this.Intent.Action) {
+					
+					if(activeFragment == null) {
+						switch(this.Intent.Action) {
 						case MyGcmListenerService.PUSH_EVENT_UPDATE:
 							//do same as for PUSH_INVITE
 						case MyGcmListenerService.PUSH_INVITE:
@@ -85,33 +73,36 @@ namespace VolleyballApp {
 							List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(ViewController.getInstance().pushEventId, "");
 							this.initalizeFragment(ViewController.EVENT_DETAILS_FRAGMENT, new EventDetailsFragment(e, listUser));
 							break;
-
+							
 						default:
 							dialog.SetMessage("Load events...");
 							List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(user, EventType.Upcoming);
 							this.initalizeFragment(ViewController.UPCOMING_EVENTS_FRAGMENT, new EventsFragment(listEvents));
 							break;
+						}
 					}
+					
+					#region Slide Menu
+					menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
+					FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
+						menu.AnimatedOpened = !menu.AnimatedOpened;
+					};
+					
+					FindViewById(Resource.Id.menuProfile).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PROFILE, this));
+					
+					FindViewById<LinearLayout>(Resource.Id.menuTeam).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_TEAM, this));
+					
+					FindViewById(Resource.Id.menuEventsUpcoming).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_UPCOMING_EVENTS, this));
+					
+					FindViewById(Resource.Id.menuEventsPast).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PAST_EVENTS, this));
+					
+					FindViewById(Resource.Id.menuLogout).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_LOGOUT, this));
+					#endregion
 				}
-
-				#region Slide Menu
-				menu = FindViewById<FlyOutContainer> (Resource.Id.FlyOutContainer);
-				FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
-					menu.AnimatedOpened = !menu.AnimatedOpened;
-				};
-
-				FindViewById(Resource.Id.menuProfile).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PROFILE, this));
-
-				FindViewById<LinearLayout>(Resource.Id.menuTeam).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_TEAM, this));
-
-				FindViewById(Resource.Id.menuEventsUpcoming).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_UPCOMING_EVENTS, this));
-
-				FindViewById(Resource.Id.menuEventsPast).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PAST_EVENTS, this));
-							
-				FindViewById(Resource.Id.menuLogout).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_LOGOUT, this));
-				#endregion
+				dialog.Dismiss();
+			} catch (System.Exception e) {
+				Toast.MakeText(this, "Error while trying to resume the app! " + e.Message, ToastLength.Long);
 			}
-			dialog.Dismiss();
 		}
 
 		private void initalizeFragment(string activeFragmentTag, Fragment frag) {

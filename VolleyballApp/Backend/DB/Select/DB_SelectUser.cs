@@ -47,6 +47,11 @@ namespace VolleyballApp {
 		public async Task<List<VBUser>> SelectUserForEvent(int idEvent, string state) {
 			string responseText = await dbCommunicator.makeWebRequest("service/event/load_event.php?id=" + idEvent + "&loadAttendences=true", "DB_SelectUser.SelectUserForEvent");
 
+			JsonValue json = JsonValue.Parse(responseText);
+			if(!dbCommunicator.wasSuccesful(json)) {
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "There was an error while loading the event!");
+			}
+
 			return createUserAttendanceListFromResponse(responseText);
 		}
 

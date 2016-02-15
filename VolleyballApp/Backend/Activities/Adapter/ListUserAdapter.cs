@@ -30,7 +30,7 @@ namespace VolleyballApp {
 			if (view == null) // no view to re-use, create new
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.UserListView, null);
 			
-			view.FindViewById<TextView>(Resource.Id.UserListViewName).Text = item.name;
+			view.FindViewById<TextView>(Resource.Id.UserListViewName).Text = item.getNameForUI();
 
 			if(item.listTeamRole != null && item.listTeamRole.Count > 0 && item.listTeamRole[0].position != null && 
 				!item.listTeamRole[0].position.Equals("") && !item.listTeamRole[0].position.Equals("Keine")) {

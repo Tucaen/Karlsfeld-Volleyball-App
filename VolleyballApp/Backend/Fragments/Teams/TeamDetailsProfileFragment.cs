@@ -46,12 +46,19 @@ namespace VolleyballApp {
 
 			#region requests
 			LinearLayout requestListView = view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestList);
-			if(this.listRequests.Count > 0 && DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Admin)) {
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
-				this.initialzeListRequests(requestListView, this.listRequests, inflater);
-			} else if(this.getOwnRequests(listRequests).Count > 0) {
-				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
-				this.initialzeListRequests(requestListView, this.getOwnRequests(listRequests), inflater);
+
+			if(this.listRequests != null) {
+				//see all requests if you're admin of the team
+				if(this.listRequests.Count > 0 && DB_Communicator.getInstance().isAtLeast(teamrole.getUserType(), UserType.Admin)) {
+					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
+					this.initialzeListRequests(requestListView, this.listRequests, inflater);
+					
+					//see your own reqeust if there is any
+				} else if(this.getOwnRequests(listRequests).Count > 0) {
+					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
+					this.initialzeListRequests(requestListView, this.getOwnRequests(listRequests), inflater);
+				}
+			//see nothing
 			} else {
 				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Gone;
 			}

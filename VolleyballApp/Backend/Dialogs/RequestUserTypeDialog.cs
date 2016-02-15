@@ -64,11 +64,13 @@ namespace VolleyballApp {
 			ViewController.getInstance().toastJson(null, JsonValue.Parse(response), ToastLength.Long, "Request was send");
 			d.Dismiss();
 
-			//refresh the view
-			DB_Communicator db = DB_Communicator.getInstance();
-			List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(d.teamId)));
-			d.t.listRequests = listRequests;
-			ViewController.getInstance().refreshFragment(TeamDetailsFragment.PROFILE);
+			if(DB_Communicator.getInstance().wasSuccesful(JsonValue.Parse(response))) {
+				//refresh the view
+				DB_Communicator db = DB_Communicator.getInstance();
+				List<VBRequest> listRequests = db.createReqeuestList(JsonValue.Parse(await db.loadUserTypeRequest(d.teamId)));
+				d.t.listRequests = listRequests;
+				ViewController.getInstance().refreshFragment(TeamDetailsFragment.PROFILE);
+			}
 		}
 
 		private string getRequest() {

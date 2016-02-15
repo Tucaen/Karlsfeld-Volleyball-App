@@ -121,10 +121,6 @@ namespace VolleyballApp {
 		}
 
 		public async Task<VBEvent> refreshDataForEvent(int idEvent) {
-			//macht keinen sinn mehr UserList wird nicht mher in den Preferences gespeichert, sondern direkt an EventDetailsFragment übergeben
-//			List<MySqlUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(idEvent, "");
-//			MySqlUser.StoreUserListInPreferences(mainActivity.Intent, listUser);
-
 			List<VBEvent> listEvents = await this.refreshEvents();
 			foreach(VBEvent e in listEvents) {
 				if(e.idEvent == idEvent) {

@@ -1,14 +1,17 @@
 ﻿using System;
-using System.IO;
-using System.Net;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.IO;
 using System.Threading.Tasks;
-using Java.Security.Cert;
 using Android.App;
-using Javax.Net.Ssl;
+using Android.Net;
 using Java.Security;
+using Java.Security.Cert;
+using Javax.Net.Ssl;
 using System.Json;
+using System.Net;
+using System.Net.Http;
+using Android.Content;
+using Android.Widget;
 
 
 namespace VolleyballApp {
@@ -18,7 +21,6 @@ namespace VolleyballApp {
 		public bool debug { get; set; }
 		public CookieContainer cookieContainer { get; set; }
 		static string host = "https://psymax.onthewifi.com:10815/";
-		public bool IsOnline {get; set;}
 //		static string localhost = "http://10.0.3.2/";
 
 		public static class State {
@@ -196,6 +198,27 @@ namespace VolleyballApp {
 		#endregion
 
 		#region general
+		public bool isOnline() {
+			MainActivity mainActivity = ViewController.getInstance().mainActivity;
+			NetworkInfo activeConnection = ((ConnectivityManager) mainActivity.GetSystemService(MainActivity.ConnectivityService)).ActiveNetworkInfo;
+			return (activeConnection != null) && activeConnection.IsConnected;
+		}
+
+		public async Task<bool> refreshLogin() {
+			if(this.cookieContainer.Count == 0) {
+				VBUser user = VBUser.GetUserFromPreferences();
+				if(user == null || !await ViewController.getInstance().mainActivity.login(user.email, user.password)) {
+					Toast.MakeText(ViewController.getInstance().mainActivity, "You need to be logged in!", ToastLength.Long);
+
+					//start login-activity
+					Intent i = new Intent(ViewController.getInstance().mainActivity, typeof(LogIn));
+					i.AddFlags(ActivityFlags.NoHistory).AddFlags(ActivityFlags.ClearTop);
+					ViewController.getInstance().mainActivity.StartActivity(i);
+				}
+			}
+			return true;
+		}
+
 		/**
 		 * Returns true if the mySQL-Statement was succesfully invoked else false.
 		 **/
@@ -237,10 +260,13 @@ namespace VolleyballApp {
 		public async Task<string> makeWebRequest(string phpService, string type) {
 			string responseText = "";
 
-			if(!IsOnline) {
+			if(!this.isOnline()) {
 				responseText = "{\"state\":\"error\",\"message\":\"You are not connected to the internet!.\"}";
 			} else {
-				Uri uri = new Uri(host + phpService);
+				if(!phpService.Contains("login.php"))
+					await this.refreshLogin();
+
+				System.Uri uri = new System.Uri(host + phpService);
 				if(debug) 
 					Console.WriteLine(type + " - uri: " + uri);
 				
@@ -303,6 +329,8 @@ namespace VolleyballApp {
 					listRequests.Add(new VBRequest(request["UserTypeRequest"]));
 				}
 				return listRequests;
+			} else {
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "There was an error while loading the team data!");
 			}
 			return null;
 		}
@@ -314,6 +342,8 @@ namespace VolleyballApp {
 					list.Add(new VBUser(user["User"]));
 				}
 				return list;
+			} else {
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "There was an error while loading the team data!");
 			}
 			return null;
 		}
