@@ -53,13 +53,17 @@ namespace VolleyballApp {
 					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
 					this.initialzeListRequests(requestListView, this.listRequests, inflater);
 					
-					//see your own reqeust if there is any
+				//see your own reqeust if there is any
 				} else if(this.getOwnRequests(listRequests).Count > 0) {
 					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Visible;
 					this.initialzeListRequests(requestListView, this.getOwnRequests(listRequests), inflater);
+
+				//see nothing
+				} else if(this.listRequests.Count == 0) {
+					view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Gone;
 				}
-			//see nothing
 			} else {
+				//see nothing
 				view.FindViewById<LinearLayout>(Resource.Id.teamDetailsRequestsLayout).Visibility = ViewStates.Gone;
 			}
 			#endregion
@@ -201,7 +205,6 @@ namespace VolleyballApp {
 			private void onRequestRank() {
 				RequestUserTypeDialog d = new RequestUserTypeDialog(user.idUser, t);
 				d.Show(ViewController.getInstance().mainActivity.FragmentManager, "REQUEST_USERTYPE_DIALOG");
-
 			}
 
 			private void updateTeamrole(string response) {

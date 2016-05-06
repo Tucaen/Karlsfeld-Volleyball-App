@@ -30,7 +30,7 @@ namespace VolleyballApp {
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			view = inflater.Inflate(Resource.Layout.EventsFragment, container, false);
-			if(listEvents.Count == 0) {
+			if(listEvents == null || listEvents.Count == 0) {
 				//display text that there are currently no events and hide list with events
 				view.FindViewById(Resource.Id.listEvents).Visibility = ViewStates.Gone;
 			} else {

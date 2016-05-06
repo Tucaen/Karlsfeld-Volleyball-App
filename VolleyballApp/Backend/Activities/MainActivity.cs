@@ -87,6 +87,9 @@ namespace VolleyballApp {
 					FindViewById (Resource.Id.MenuButton).Click += (sender, e) => {
 						menu.AnimatedOpened = !menu.AnimatedOpened;
 					};
+
+					//set version number
+					FindViewById<TextView>(Resource.Id.menuVersionText).Text = "Version " + PackageManager.GetPackageInfo(PackageName, 0).VersionName;
 					
 					FindViewById(Resource.Id.menuProfile).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PROFILE, this));
 					
@@ -95,7 +98,9 @@ namespace VolleyballApp {
 					FindViewById(Resource.Id.menuEventsUpcoming).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_UPCOMING_EVENTS, this));
 					
 					FindViewById(Resource.Id.menuEventsPast).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_PAST_EVENTS, this));
-					
+
+					FindViewById(Resource.Id.menuStats).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_STATISTIC, this));
+
 					FindViewById(Resource.Id.menuLogout).SetOnClickListener(new SlideMenuClickListener(SlideMenuClickListener.ON_LOGOUT, this));
 					#endregion
 				}
@@ -130,7 +135,7 @@ namespace VolleyballApp {
 			trans = FragmentManager.BeginTransaction();
 			Fragment oldFragment = FragmentManager.FindFragmentByTag(oldFragmentTag);
 
-			if(addToBackStack && oldFragment != null) //des is null obwohls nicht null sein sollte, weil EventFragemnt dse oldFragment nicht akutalliesiert
+			if(addToBackStack && oldFragment != null)
 				trans.AddToBackStack(oldFragmentTag);
 
 			if(oldFragment != null)
@@ -173,7 +178,7 @@ namespace VolleyballApp {
 	
 		class SlideMenuClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
 			public const string ON_PROFILE = "onProfile", ON_TEAM = "onTeam", ON_UPCOMING_EVENTS = "onUpcomingEvents",
-								ON_PAST_EVENTS = "onPastEvents", ON_LOGOUT = "onLogout";
+								ON_PAST_EVENTS = "onPastEvents", ON_LOGOUT = "onLogout", ON_STATISTIC = "onStatistic";
 			private string source;
 			private MainActivity t;
 
@@ -195,6 +200,9 @@ namespace VolleyballApp {
 					break;
 				case ON_PAST_EVENTS:
 					this.onPastEvents();
+					break;
+				case ON_STATISTIC:
+					this.onStats();
 					break;
 				case ON_LOGOUT:
 					this.onLogout();
@@ -227,6 +235,12 @@ namespace VolleyballApp {
 				ProgressDialog d = t.createProgressDialog("Please Wait!", "Loading...");
 				List<VBEvent> listEvents = await ViewController.getInstance().loadEvents(VBUser.GetUserFromPreferences(), EventType.Past);
 				t.switchFragment(t.activeFragment, ViewController.PAST_EVENTS_FRAGMENT, new EventsFragment(listEvents));
+				d.Dismiss();
+			}
+
+			private async void onStats() {
+				ProgressDialog d = t.createProgressDialog("Please Wait!", "");
+				t.switchFragment(t.activeFragment, ViewController.STATISTIC_FRAGMENT, new StatisticFragment());
 				d.Dismiss();
 			}
 

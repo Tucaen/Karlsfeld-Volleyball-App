@@ -295,8 +295,8 @@ namespace VolleyballApp {
 		 * Determines if the user has the necessary permission
 		 * Admin->Operator->Coremember->Member->Fan
 		 */
-		public bool isAtLeast(UserType ut, UserType userType) {
-			switch(userType) {
+		public bool isAtLeast(UserType ut, UserType necessaryUT) {
+			switch(necessaryUT) {
 			case UserType.Admin:
 				if(ut.Equals(UserType.Admin))
 					return true;

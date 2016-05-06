@@ -21,7 +21,8 @@ namespace VolleyballApp {
 		public static readonly string UPCOMING_EVENTS_FRAGMENT = "UpcomingEventsFragment", EVENT_DETAILS_FRAGMENT = "EventDetailsFragment",
 			ADD_EVENT_FRAGMENT="AddEventFragment", NO_EVENTS_FOUND_FRAGMENT = "NoEventsFoundFragment", PROFILE_FRAGMENT="ProfileFragment",
 			EDIT_EVENT_FRAGMENT = "EditEventFragment", PAST_EVENTS_FRAGMENT="PastEventsFragment", TEAMS_FRAGMENT="TeamsFragment",
-			ADD_TEAM_FRAGMENT="AddTeamFragment", TEAM_DETAILS_FRAGMENT="TeamDetailsFragment", EDIT_TEAM_FRAGMENT = "EditTeamFragment";
+			ADD_TEAM_FRAGMENT="AddTeamFragment", TEAM_DETAILS_FRAGMENT="TeamDetailsFragment", EDIT_TEAM_FRAGMENT = "EditTeamFragment",
+			STATISTIC_FRAGMENT="StatisticFragment", STATISTIC_DETAILS_FRAGMENT="StatisticDetailsFragment";
 
 		private ViewController() {
 		}

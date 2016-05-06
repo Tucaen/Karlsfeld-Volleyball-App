@@ -30,7 +30,12 @@ namespace VolleyballApp {
 			View view = inflater.Inflate(Resource.Layout.InviteUserDialog, container, false);
 
 			ListView listView = view.FindViewById<ListView>(Resource.Id.InviteUserDialog_ListUser);
-			listView.Adapter = new InviteUserDialogListAdapter(this, listUserToInvite);
+			if(listUserToInvite.Count > 0){
+				listView.Adapter = new InviteUserDialogListAdapter(this, listUserToInvite);
+			} else {
+				view.FindViewById<TextView>(Resource.Id.InviteUserDialog_NoUser).Visibility = ViewStates.Visible;
+				view.FindViewById<Button>(Resource.Id.InviteUserDialog_btnEinladen).Enabled = false;
+			}
 
 			view.FindViewById<Button>(Resource.Id.InviteUserDialog_btnEinladen).Click += async delegate {
 				if((listView.Adapter as InviteUserDialogListAdapter).listUserToInvite.Count > 0) {
@@ -39,8 +44,8 @@ namespace VolleyballApp {
 					
 					Toast.MakeText(this.Activity, json["message"].ToString(), ToastLength.Long).Show();
 
-					//refresh event data | e.g time, location, name
-					await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
+					//refresh event data | e.g time, location, name [ändert sich nicht, wenn neue Leute eingeladen werden]
+//					await ViewController.getInstance().refreshDataForEvent(_event.idEvent);
 
 					//refresh list of inveted users
 					List<VBUser> listUser = await DB_Communicator.getInstance().SelectUserForEvent(_event.idEvent, "");

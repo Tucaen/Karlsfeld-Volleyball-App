@@ -169,6 +169,39 @@
             style="@style/text" />
     </LinearLayout>
 <!-- end events vergangen-->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffc1c1c1"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp" />
+<!-- start stats-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:id="@+id/menuStats"
+        android:layout_margin="8dp"
+        style="@style/responsiveText">
+    <!--
+        <ImageView
+            android:src="@android:drawable/ic_lock_power_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView1" />
+        -->
+        <TextView
+            android:text="Statistik"
+            android:layout_width="wrap_content"
+            android:id="@+id/menuStatsText"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textSize="20dp"
+            style="@style/text" />
+    </LinearLayout>
+<!-- end stats-->
 <!-- end events -->
     <View
         android:layout_width="fill_parent"
@@ -195,6 +228,7 @@
             android:text="Logout"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/menuLogoutText"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
@@ -202,4 +236,14 @@
             style="@style/text" />
     </LinearLayout>
 <!-- end logout -->
+    <TextView
+        android:text="Version 0.0.0"
+        android:textColor="#ffc1c1c1"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:id="@+id/menuVersionText"
+        android:textSize="14dp"
+        style="@style/text"
+        android:gravity="center|bottom" />
 </LinearLayout>

@@ -36,7 +36,11 @@ namespace VolleyballApp
 
 			if (view == null) // no view to re-use, create new
 				view = context.Activity.LayoutInflater.Inflate(Resource.Layout.EventListView, null);
-			
+
+			LinearLayout header = view.FindViewById<LinearLayout>(Resource.Id.eventListHeader);
+			if(item.name.Length >= 20)
+				header.Orientation = Orientation.Vertical;
+				
 			view.FindViewById<TextView>(Resource.Id.TitleText1).Text = item.name;
 			view.FindViewById<TextView>(Resource.Id.TitleText2).Text = "(" + item.state + ")";
 

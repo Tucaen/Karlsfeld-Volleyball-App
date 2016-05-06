@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000"
+    android:paddingTop="5dp"
+    android:paddingLeft="10dp">
+<!-- start Header -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:text="Saison "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="30dip"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/statisticDetailsSaisonValue"
+            android:text="2015/16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="30dip"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:text="vom "
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="22dip" />
+        <TextView
+            android:id="@+id/statisticDetailsFrom"
+            android:text="01.05.2015"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="22dip" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+        <TextView
+            android:text="bis "
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="22dip" />
+        <TextView
+            android:id="@+id/statisticDetailsTill"
+            android:text="28.02.2016"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="22dip" />
+    </LinearLayout>
+<!-- end Header -->
+<!-- start Trainingstats -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:id="@+id/statisticDetailsTrainingTitle"
+            android:text="Trainingsbeteiligung "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="25dip"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/statisticDetailsTrainingTitleProzentualValue"
+            android:text="(80%)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="25dip" />
+    </LinearLayout>
+<!-- start Count Trainings -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/statisticDetailsCountTrainingsLable"
+            android:text="Anzahl Trainigs: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+        <TextView
+            android:id="@+id/statisticDetailsCountTrainingsValue"
+            android:text="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+    </LinearLayout>
+<!-- end Count Trainings -->
+<!-- start Count Participated Trainings -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/statisticDetailsCountParticipatedTrainingsLable"
+            android:text="teilgenommen an: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+        <TextView
+            android:id="@+id/statisticDetailsCountParticipatedTrainingsValue"
+            android:text="8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+    </LinearLayout>
+<!-- end Count Participated Trainings -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:id="@+id/statisticDetailsMatchdayTitle"
+            android:text="Spieltagsbeteiligung "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="25dip"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/statisticDetailsMatchdayTitleProzentualValue"
+            android:text="(66%)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="25dip" />
+    </LinearLayout>
+<!-- start Count Matchdays -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/statisticDetailsCountMatchdaysLable"
+            android:text="Anzahl Spieltage: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+        <TextView
+            android:id="@+id/statisticDetailsCountMatchdaysValue"
+            android:text="12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+    </LinearLayout>
+<!-- end Count Matchdays -->
+<!-- start Count Participated Matchdays -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/statisticDetailsCountParticipatedMatchdaysLable"
+            android:text="teilgenommen an: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+        <TextView
+            android:id="@+id/statisticDetailsCountParticipatedMatchdaysValue"
+            android:text="9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip" />
+    </LinearLayout>
+<!-- end Count Participated Matchdays -->
+</LinearLayout>

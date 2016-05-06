@@ -13,7 +13,6 @@
             android:id="@+id/listEvents"
             style="@style/listView" />
     <!-- start NoEvents -->
-    <!-- end NoEvents -->
         <TextView
             android:id="@+id/noEvents"
             android:layout_width="fill_parent"
@@ -22,6 +21,7 @@
             android:layout_weight="1"
             style="@style/text"
             android:layout_height="wrap_content" />
+    <!-- end NoEvents -->
     </LinearLayout>
     <LinearLayout
         android:id="@+id/eventsFragmentBtnAddLine"

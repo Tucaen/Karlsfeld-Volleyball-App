@@ -5,16 +5,20 @@
     android:layout_height="fill_parent"
     android:layout_margin="10dp"
     android:background="#000000">
-    <TextView
-        android:text="Einladen"
-        android:layout_width="match_parent"
-        style="@style/text" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_margin="4dp"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/InviteUserDialog_NoUser"
+            android:text="Alle User sind bereits eingeladen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            style="@style/text" />
         <ListView
             android:minWidth="25px"
             android:minHeight="25px"
@@ -34,7 +38,7 @@
         <Button
             android:text="Einladen"
             android:background="@drawable/normalbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:id="@+id/InviteUserDialog_btnEinladen"
             android:layout_margin="5dp"
             android:gravity="center"
@@ -43,7 +47,7 @@
         <Button
             android:text="Abbrechen"
             android:background="@drawable/normalbutton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:id="@+id/InviteUserDialog_btnAbbrechen"
             android:layout_margin="5dp"
             android:gravity="center"

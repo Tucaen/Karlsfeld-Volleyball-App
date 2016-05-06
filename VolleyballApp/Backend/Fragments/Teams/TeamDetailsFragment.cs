@@ -94,11 +94,11 @@ namespace VolleyballApp {
 
 			if(activeFragment == null) {
 				this.changeActiveTab(tabMember, tabMemberUnderline, tabProfile, tabProfileUnderline);
-				this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember));
+				this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember, this.team.id));
 			} else {
 				if(activeFragment.Equals(TeamDetailsFragment.MEMBER)) {
 					this.changeActiveTab(tabMember, tabMemberUnderline, tabProfile, tabProfileUnderline);
-					this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember));
+					this.initalizeFragment(TeamDetailsFragment.MEMBER, new TeamDetailsMemberFragment(this.listMember, this.team.id));
 				} else if(activeFragment.Equals(TeamDetailsFragment.PROFILE)) {
 					this.changeActiveTab(tabProfile, tabProfileUnderline, tabMember, tabMemberUnderline);
 					this.initalizeFragment(TeamDetailsFragment.PROFILE, new TeamDetailsProfileFragment(this.team, this.teamrole, this.listRequests));
@@ -148,18 +148,33 @@ namespace VolleyballApp {
 		private void markTabAsActive(TextView activeTab, View underline) {
 			activeTab.SetBackgroundColor(Color.ParseColor("#000000"));
 			underline.Visibility = ViewStates.Visible;
-			//			activeTab.PaintFlags = PaintFlags.UnderlineText;
 		}
 
 		private void markTabAsInactive(TextView inactiveTab, View underline) {
 			inactiveTab.SetBackgroundColor(Color.ParseColor("#333333"));
 			underline.Visibility = ViewStates.Gone;
-
-//			inactiveTab.PaintFlags = 0;
 		}
 
 		public static TeamDetailsFragment findTeamDetailsFragment() {
 			return ViewController.getInstance().mainActivity.FindFragmentByTag(ViewController.TEAM_DETAILS_FRAGMENT) as TeamDetailsFragment;
+		}
+
+		public async Task<List<VBUser>> updateListMember() {
+			DB_Communicator db = DB_Communicator.getInstance();
+			List<VBUser> listMember = db.createMemberList(JsonValue.Parse(await db.loadMember(this.team.id)));
+			if(listMember != null) {
+				List<VBUser> sortedListMember = ViewController.getInstance().sortUserlistForTeam(listMember, team.id);
+				this.listMember = sortedListMember;
+			} else {
+				this.listMember = listMember;
+			}
+			return listMember;
+		}
+
+		public void refreshTeamDetailsFragment() {
+			this.teamrole = VBUser.GetUserFromPreferences().getTeamroleForTeam(this.team.id);
+
+			ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
 		}
 
 		public override void OnDestroyView() {
@@ -207,8 +222,8 @@ namespace VolleyballApp {
 				string response = await DB_Communicator.getInstance().makeWebRequest("service/team/join_team.php?id=" + teamId + "&type=M",
 					"TeamDetailsFragment.onJoin");
 				this.updateTeamrole(response);
-				await this.updateListMember();
-				this.refreshTeamDetailsFragment();
+				await t.updateListMember();
+				t.refreshTeamDetailsFragment();
 			}
 
 			private async void onFollow(int teamId) {
@@ -216,8 +231,8 @@ namespace VolleyballApp {
 					"TeamDetailsFragment.onFollow");
 
 				this.updateTeamrole(response);
-				await this.updateListMember();
-				this.refreshTeamDetailsFragment();
+				await t.updateListMember();
+				t.refreshTeamDetailsFragment();
 			}
 
 			private async void onLeave() {
@@ -226,8 +241,8 @@ namespace VolleyballApp {
 					"TeamDetailsFragment.onLeave");
 
 				user.removeTeamrole(t.teamrole.teamId);
-				await this.updateListMember();
-				this.refreshTeamDetailsFragment();
+				await t.updateListMember();
+				t.refreshTeamDetailsFragment();
 			}
 
 			private void onEdit() {
@@ -235,20 +250,30 @@ namespace VolleyballApp {
 					switchFragment(ViewController.TEAM_DETAILS_FRAGMENT, ViewController.EDIT_TEAM_FRAGMENT, new EditTeamFragment(t.team));
 			}
 
-			private async void onDelete() {
+			private void onDelete() {
 				ViewController vc = ViewController.getInstance();
 
-				JsonValue json = JsonValue.Parse(await DB_Communicator.getInstance().deleteTeam(t.team.id));
+				AlertDialog.Builder builder = new AlertDialog.Builder(ViewController.getInstance().mainActivity);
+				builder.SetTitle("Team löschen!")
+					.SetMessage("Sind sie sicher?")
+					.SetIcon(Android.Resource.Drawable.IcDialogAlert)
+					.SetNegativeButton("Ja", async (sender, e) => { //left button
+						JsonValue json = JsonValue.Parse(await DB_Communicator.getInstance().deleteTeam(t.team.id));
 
-				vc.toastJson(null, json, ToastLength.Long, "");
+						vc.toastJson(null, json, ToastLength.Long, "");
 
-				//refresh team list
-				TeamsFragment tf = vc.mainActivity.FindFragmentByTag(ViewController.TEAMS_FRAGMENT) as TeamsFragment;
-				tf.listTeams = await DB_Communicator.getInstance().SelectTeams();
+						//refresh team list
+						TeamsFragment tf = vc.mainActivity.FindFragmentByTag(ViewController.TEAMS_FRAGMENT) as TeamsFragment;
+						tf.listTeams = await DB_Communicator.getInstance().SelectTeams();
 
-				VBUser.GetUserFromPreferences().removeTeamrole(t.team.id);
+						VBUser.GetUserFromPreferences().removeTeamrole(t.team.id);
 
-				vc.mainActivity.popBackstack();
+						builder.Dispose();
+						vc.mainActivity.popBackstack();
+					})
+					.SetPositiveButton("Abbrechen", (sender, e) => { //right button
+					})
+					.Show();
 			}
 
 			/**
@@ -272,19 +297,19 @@ namespace VolleyballApp {
 				}
 			}
 
-			private async Task<List<VBUser>> updateListMember() {
-				DB_Communicator db = DB_Communicator.getInstance();
-				List<VBUser> listMember = db.createMemberList(JsonValue.Parse(await db.loadMember(t.team.id)));
-				t.listMember = listMember;
-				return listMember;
-			}
+//			private async Task<List<VBUser>> updateListMember() {
+//				DB_Communicator db = DB_Communicator.getInstance();
+//				List<VBUser> listMember = db.createMemberList(JsonValue.Parse(await db.loadMember(t.team.id)));
+//				t.listMember = listMember;
+//				return listMember;
+//			}
 
-			private void refreshTeamDetailsFragment() {
-				TeamDetailsFragment frag = TeamDetailsFragment.findTeamDetailsFragment();
-				frag.teamrole = user.getTeamroleForTeam(t.team.id);
-
-				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
-			}
+//			private void refreshTeamDetailsFragment() {
+//				TeamDetailsFragment frag = TeamDetailsFragment.findTeamDetailsFragment();
+//				frag.teamrole = user.getTeamroleForTeam(t.team.id);
+//
+//				ViewController.getInstance().refreshFragment(ViewController.TEAM_DETAILS_FRAGMENT);
+//			}
 		}
 	
 		class TabClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
@@ -302,7 +327,7 @@ namespace VolleyballApp {
 				case ON_TAB_MEMBER:
 					if(!t.activeFragment.Equals(TeamDetailsFragment.MEMBER)) {
 						t.changeActiveTab(t.tabMember, t.tabMemberUnderline, t.tabProfile, t.tabProfileUnderline);
-						Fragment frag = new TeamDetailsMemberFragment(t.listMember);
+						Fragment frag = new TeamDetailsMemberFragment(t.listMember, t.team.id);
 						this.switchFragment(t.activeFragment, TeamDetailsFragment.MEMBER, frag);
 					}
 					break;

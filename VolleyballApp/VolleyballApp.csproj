@@ -64,17 +64,6 @@
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Backend\Activities\AbstractActivity.cs" />
-    <Compile Include="Backend\Activities\Adapter\ListEventsAdapter.cs" />
-    <Compile Include="Backend\Activities\Adapter\ListUserAdapter.cs" />
-    <Compile Include="Backend\Activities\FillDataActivity.cs" />
-    <Compile Include="Backend\Activities\FlyOutContainer.cs" />
-    <Compile Include="Backend\Activities\LogInActivity.cs" />
-    <Compile Include="Backend\Activities\MainActivity.cs" />
-    <Compile Include="Backend\Activities\PushNotifications\GcmListenerService.cs" />
-    <Compile Include="Backend\Activities\PushNotifications\InstanceIdListenerService.cs" />
-    <Compile Include="Backend\Activities\PushNotifications\RegistrationIntentService.cs" />
-    <Compile Include="Backend\Activities\RegistrationActivity.cs" />
     <Compile Include="Backend\Fragments\Events\AddEventFragment.cs" />
     <Compile Include="Backend\Fragments\Events\EventDetailsFragment.cs" />
     <Compile Include="Backend\Fragments\Events\EventsFragment.cs" />
@@ -97,7 +86,6 @@
     <Compile Include="Backend\MySqlObjects\VBTeamrole.cs" />
     <Compile Include="Backend\MySqlObjects\VBObject.cs" />
     <Compile Include="Backend\MySqlObjects\VBTeam.cs" />
-    <Compile Include="Backend\Activities\Adapter\ListTeamsAdapter.cs" />
     <Compile Include="Backend\Fragments\Teams\TeamsFragment.cs" />
     <Compile Include="Backend\Fragments\Teams\AddTeamFragment.cs" />
     <Compile Include="Backend\Fragments\Teams\TeamDetailsFragment.cs" />
@@ -105,9 +93,26 @@
     <Compile Include="Backend\MySqlObjects\VBRequest.cs" />
     <Compile Include="Backend\Fragments\Teams\TeamDetailsProfileFragment.cs" />
     <Compile Include="Backend\Fragments\Teams\TeamDetailsMemberFragment.cs" />
-    <Compile Include="Backend\Activities\Adapter\SpinnerTeamAdapter.cs" />
     <Compile Include="Backend\Fragments\Teams\EditTeamFragment.cs" />
     <Compile Include="Backend\WinScrollView.cs" />
+    <Compile Include="Backend\Activities\AbstractActivity.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListEventsAdapter.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListTeamsAdapter.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListUserAdapter.cs" />
+    <Compile Include="Backend\Activities\Adapter\SpinnerTeamAdapter.cs" />
+    <Compile Include="Backend\Activities\FillDataActivity.cs" />
+    <Compile Include="Backend\Activities\FlyOutContainer.cs" />
+    <Compile Include="Backend\Activities\LogInActivity.cs" />
+    <Compile Include="Backend\Activities\MainActivity.cs" />
+    <Compile Include="Backend\Activities\PushNotifications\GcmListenerService.cs" />
+    <Compile Include="Backend\Activities\PushNotifications\InstanceIdListenerService.cs" />
+    <Compile Include="Backend\Activities\PushNotifications\RegistrationIntentService.cs" />
+    <Compile Include="Backend\Activities\RegistrationActivity.cs" />
+    <Compile Include="Backend\Dialogs\UserDetailsDialog.cs" />
+    <Compile Include="Backend\Fragments\StatisticFragment.cs" />
+    <Compile Include="Backend\Activities\Adapter\ListStatisticAdapter.cs" />
+    <Compile Include="Backend\MySqlObjects\VBStatistic.cs" />
+    <Compile Include="Backend\Fragments\StatisticDetailsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -198,6 +203,10 @@
     <AndroidResource Include="Resources\layout\TeamDetailsMemberFragment.axml" />
     <AndroidResource Include="Resources\drawable\list_selector.xml" />
     <AndroidResource Include="Resources\drawable\list_selector_bg.xml" />
+    <AndroidResource Include="Resources\layout\UserDetailsDialog.axml" />
+    <AndroidResource Include="Resources\layout\StatisticListView.axml" />
+    <AndroidResource Include="Resources\layout\StatisticDetails.axml" />
+    <AndroidResource Include="Resources\layout\StatisticFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="php\" />
@@ -207,6 +216,7 @@
     <Folder Include="Resources\drawable\" />
     <Folder Include="Backend\DB\Delete\" />
     <Folder Include="Backend\Fragments\Teams\" />
+    <Folder Include="Backend\Activities\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

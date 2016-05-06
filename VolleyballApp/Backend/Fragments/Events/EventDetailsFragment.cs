@@ -123,7 +123,9 @@ namespace VolleyballApp {
 					row.FindViewById<TextView>(Resource.Id.UserListViewPosition).Text = "";
 
 				listView.AddView(row);
+				row.SetOnClickListener(new EventDetailsClickListener(EventDetailsClickListener.ON_USER_DETAILS, this, user));
 			}
+
 
 			textView.Text = filteredList.Count.ToString();
 		}
@@ -163,11 +165,13 @@ namespace VolleyballApp {
 	}
 
 	class EventDetailsClickListener : Java.Lang.Object, Android.Views.View.IOnClickListener {
-		public const string ON_ANSWER_INVITE = "onAnswerInvite", ON_INVITE = "onInvite", ON_EDIT = "onEdit", ON_DELETE = "onDelete";
+		public const string ON_ANSWER_INVITE = "onAnswerInvite", ON_INVITE = "onInvite", ON_EDIT = "onEdit", ON_DELETE = "onDelete", 
+			ON_USER_DETAILS="onUserDetails";
 		private string source;
 		private VBEvent _event;
 		private string answer;
 		private EventDetailsFragment edf;
+		private VBUser clickedUser;
 
 		public EventDetailsClickListener(string source, EventDetailsFragment edf) : this(source, edf, ""){}
 
@@ -176,6 +180,13 @@ namespace VolleyballApp {
 			this.edf = edf;
 			this._event = edf._event;
 			this.answer = answer;
+		}
+
+		public EventDetailsClickListener(string source, EventDetailsFragment edf, VBUser clickedUser) {
+			this.source = source;
+			this.edf = edf;
+			this._event = edf._event;
+			this.clickedUser = clickedUser;
 		}
 
 		public void OnClick(View v) {
@@ -191,6 +202,9 @@ namespace VolleyballApp {
 				break;
 			case ON_DELETE:
 				onDelete();
+				break;
+			case ON_USER_DETAILS:
+				onUserDetails();
 				break;
 			}
 		}
@@ -223,9 +237,12 @@ namespace VolleyballApp {
 		private async void onInvite() {
 			JsonValue json = await DB_Communicator.getInstance().loadUninvtedUser(_event.idEvent);
 
-			InviteUserDialog iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
-
-			iud.Show(ViewController.getInstance().mainActivity.FragmentManager, "INVITE_USER_DIALOG");
+			if(DB_Communicator.getInstance().wasSuccesful(json)) {
+				InviteUserDialog iud = new InviteUserDialog(null, _event, DB_Communicator.getInstance().createUserFromResponse(json));
+				iud.Show(ViewController.getInstance().mainActivity.FragmentManager, "INVITE_USER_DIALOG");
+			} else {
+				ViewController.getInstance().toastJson(null, json, ToastLength.Long, "There was an error loading users who could be invited!");
+			}
 		}
 
 		private async void onEdit() {
@@ -248,6 +265,11 @@ namespace VolleyballApp {
 				.SetPositiveButton("Abbrechen", (sender, e) => { //right button
 				})
 				.Show();
+		}
+
+		private void onUserDetails() {
+			UserDetailsDialog d = new UserDetailsDialog(this.clickedUser, this._event.teamId, this._event, UserDetailsType.Event);
+			d.Show(ViewController.getInstance().mainActivity.FragmentManager, "USER_DETAILS_DIALOG");
 		}
 	}
 }

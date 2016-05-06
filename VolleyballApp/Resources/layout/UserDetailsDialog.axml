@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/UserDetailsDialog_Name"
+        android:layout_marginLeft="10dp"
+        android:text="Name"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/text" />
+    <TextView
+        android:id="@+id/UserDetailsDialog_Role"
+        android:layout_marginLeft="10dp"
+        android:text="Role"
+        android:visibility="gone"
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/text" />
+    <LinearLayout
+        android:id="@+id/UserDetailsDialog_UserTypeLine"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/UserDetailsDialog_UserTypeLable"
+            android:text="UserType: "
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text" />
+        <TextView
+            android:id="@+id/UserDetailsDialog_UserTypeValue"
+            android:text="Member"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/UserDetailsDialog_NumberLine"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/UserDetailsDialog_NumberLable"
+            android:text="Number: "
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text" />
+        <TextView
+            android:id="@+id/UserDetailsDialog_NumberValue"
+            android:text="13"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/UserDetailsDialog_PositionLine"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/UserDetailsDialog_PositionLable"
+            android:text="Position: "
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text" />
+        <TextView
+            android:id="@+id/UserDetailsDialog_PositionValue"
+            android:text="Mittelblocker"
+            android:textColor="#000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/UserDetailsDialog_BtnRemoveLine"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/UserDetailsDialog_BtnRemove"
+            android:text="Entfernen"
+            android:background="@drawable/normalbutton"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            style="@style/button" />
+    </LinearLayout>
+</LinearLayout>
